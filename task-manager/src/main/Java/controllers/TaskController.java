@@ -8,18 +8,22 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class TaskController implements Serializable {
-    private HashMap<Integer, TaskModel> journal;
+    private HashMap<Integer, TaskModel> journal = new HashMap<Integer, TaskModel>();
     public TaskController(){
     }
     public TaskController(HashMap<Integer, TaskModel> journal) {
         this.journal = journal;
     }
     public void add (TaskModel newTask){
-        Integer[] arr = (Integer[]) journal.keySet().toArray();
-        Integer newId = arr[arr.length - 1] + 1;
+        Object[] arr = journal.keySet().toArray();
+        Integer newId;
+        if(arr.length > 0)
+           newId = (Integer)arr[arr.length - 1] + 1;
+        else
+            newId = 0;
         journal.put(newId,newTask);
     }
-    public void delete (Integer id) throws IndexOutOfBoundsException{
+    public void delete (Integer id) {
             journal.remove(id);
     }
     public void editDate (Integer id, Date newDate) {
@@ -36,7 +40,7 @@ public class TaskController implements Serializable {
         DataOutputStream dataOut = new DataOutputStream(output);
         dataOut.writeUTF(journal.size() + "\n");
         for(Map.Entry<Integer, TaskModel> item : journal.entrySet()){
-            dataOut.writeUTF("ID: " + item.getKey() + "\n" + item.toString());
+            dataOut.writeUTF(item.toString() + "\n");
         }
         dataOut.flush();
         output.flush();
