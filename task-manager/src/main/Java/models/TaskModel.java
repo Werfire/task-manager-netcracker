@@ -81,7 +81,6 @@ public class TaskModel {
         this.statusId = statusId;
     }
 
-
     @Override
     public boolean equals(Object object) {
         if (this == object) return true;
