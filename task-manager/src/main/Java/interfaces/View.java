@@ -1,9 +1,9 @@
 package interfaces;
 
-import models.TaskModel;
+import models.Task;
 
 import java.util.HashMap;
 
 public interface View {
-    void render(HashMap<Integer, TaskModel> model);
+    void render(HashMap<Integer, Task> model);
 }

@@ -3,7 +3,7 @@ package models;
 import java.util.Date;
 import java.util.Objects;
 
-public class TaskModel {
+public class Task {
     private int id;
     private String name;
     private String description;
@@ -12,7 +12,7 @@ public class TaskModel {
     private int authorId;
     private int statusId;
 
-    public TaskModel(int idTask, String nameTask, String description, Date creationDate, Date dueDate, int authorId, int statusId) {
+    public Task(int idTask, String nameTask, String description, Date creationDate, Date dueDate, int authorId, int statusId) {
         this.id = idTask;
         this.name = nameTask;
         this.description = description;
@@ -21,7 +21,7 @@ public class TaskModel {
         this.authorId = authorId;
         this.statusId = statusId;
     }
-    public TaskModel(){
+    public Task(){
 
     }
     public int getId() {
@@ -85,7 +85,7 @@ public class TaskModel {
     public boolean equals(Object object) {
         if (this == object) return true;
         if (object == null || getClass() != object.getClass()) return false;
-        TaskModel task = (TaskModel) object;
+        Task task = (Task) object;
         return id == task.id &&
                 authorId == task.authorId &&
                 statusId == task.statusId &&
@@ -102,7 +102,8 @@ public class TaskModel {
 
     @Override
     public String toString() {
-        return (id + "\t" + name + "\t" + description + "\t" + creationDate.toString() + "\t" + dueDate.toString() + "\t" + authorId + "\t" + statusId + "\n");
+        return (id + "\t" + name + "\t" + description + "\t" + creationDate.toString() + "\t" +
+                dueDate.toString() + "\t" + authorId + "\t" + statusId + "\n");
     }
 }
 
