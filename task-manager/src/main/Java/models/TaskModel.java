@@ -22,7 +22,7 @@ public class TaskModel {
         journal.remove(id);
     }
     public int size() {
-        return lastId + 1;
+        return journal.size();
     }
 
 }

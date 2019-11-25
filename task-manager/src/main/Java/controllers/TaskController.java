@@ -32,31 +32,17 @@ public class TaskController implements Serializable {
     }
     public void write() throws IOException {
         OutputStream output = new FileOutputStream("database.txt");
-        DataOutputStream dataOut = new DataOutputStream(output);
-        dataOut.writeUTF(model.size() + "\n");
-        for(int i = 0; i < model.size(); i++){
-            dataOut.writeUTF(model.getTask(i).toString() + "\n");
-        }
+        ObjectOutputStream dataOut = new ObjectOutputStream(output);
+        dataOut.writeObject(model);
         dataOut.flush();
         output.flush();
         output.close();
     }
-    /*public void read(InputStream input) throws IOException{
-        DataInputStream dataIn = new DataInputStream(input);
-        int length = dataIn.readInt();
-        model = new HashMap<>(length);
-        for (int i = 0; i < length ; i++) {
-            int id = dataIn.readInt();
-            String name = dataIn.readUTF();
-            String description = dataIn.readUTF();
-//            Date creationDate = dataIn.readUTF();// TODO HOW DO THIS???
-//            Date dueDate = dataIn.readUTF();
-            int authorId = dataIn.readInt();
-            int statusId = dataIn.readInt();
-//            TaskModel curTask = new TaskModel(id,name,description,);//TODO complete
-//            add(curTask);
-        }
-    }*/
+    public void read() throws IOException, ClassNotFoundException {
+        FileInputStream input = new FileInputStream("database.txt");
+        ObjectInputStream dataIn = new ObjectInputStream(input);
+        model = (TaskModel) dataIn.readObject();
+    }
 
 
 }
