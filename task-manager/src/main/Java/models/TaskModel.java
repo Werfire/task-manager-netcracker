@@ -1,108 +1,28 @@
 package models;
 
-import java.util.Date;
-import java.util.Objects;
-
-
+import java.util.HashMap;
 
 public class TaskModel {
-    private int id;
-    private String name;
-    private String description;
-    private Date creationDate;
-    private Date dueDate;
-    private int authorId;
-    private int statusId;
+    private HashMap<Integer, Task> journal = new HashMap<>();
+    private int lastId = -1;
 
-    public TaskModel(int idTask, String nameTask, String description, Date creationDate, Date dueDate, int authorId, int statusId) {
-        this.id = idTask;
-        this.name = nameTask;
-        this.description = description;
-        this.creationDate = creationDate;
-        this.dueDate = dueDate;
-        this.authorId = authorId;
-        this.statusId = statusId;
-    }
-    public TaskModel(){
-
-    }
-    public int getId() {
-        return id;
+    public TaskModel() {}
+    public TaskModel(TaskModel model) {
+        this.journal = new HashMap<>(model.journal);
+        this.lastId = model.lastId;
     }
 
-
-    public String getName() {
-        return name;
+    public void addTask(Task task) {
+        journal.put(++lastId, task);
+    }
+    public Task getTask(Integer id) {
+        return journal.get(id);
+    }
+    public void deleteTask(Integer id) {
+        journal.remove(id);
+    }
+    public int size() {
+        return journal.size();
     }
 
-
-
-    public String getDescription() {
-        return description;
-    }
-
-
-    public Date getCreationDate() {
-        return creationDate;
-    }
-
-
-    public Date getDueDate() {
-        return dueDate;
-    }
-
-
-    public int getAuthorId() {
-        return authorId;
-    }
-
-    public int getStatusId() {
-        return statusId;
-    }
-
-
-    @Override
-    public boolean equals(Object object) {
-        if (this == object) return true;
-        if (object == null || getClass() != object.getClass()) return false;
-        TaskModel task = (TaskModel) object;
-        return id == task.id &&
-                authorId == task.authorId &&
-                statusId == task.statusId &&
-                Objects.equals(name, task.name) &&
-                Objects.equals(description, task.description) &&
-                Objects.equals(creationDate, task.creationDate) &&
-                Objects.equals(dueDate, task.dueDate);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, name, description, creationDate, dueDate, authorId, statusId);
-    }
-
-    @Override
-    public String toString() {
-        return (id + "\t" + name + "\t" + description + "\t" + creationDate.toString() + "\t" + dueDate.toString() + "\t" + authorId + "\t" + statusId + "\n");
-    }
-}
-
-class Status {
-   private Integer id;
-   private String name;
-
-   public Integer getId() {
-       return id;
-   }
-
-   public void setId(Integer id) {
-       this.id = id;
-   }
-
-   public String getName() {
-       return name;
-   }
-
-   public void setName(String name) {
-       this.name = name;
-   }
 }
