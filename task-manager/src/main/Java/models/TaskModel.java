@@ -3,6 +3,7 @@ package models;
 import java.util.Date;
 import java.util.Objects;
 
+
 public class TaskModel {
     private int id;
     private String name;
@@ -28,58 +29,34 @@ public class TaskModel {
         return id;
     }
 
-    public void setId(int id) {
-        this.id = id;
-    }
 
     public String getName() {
         return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 
     public String getDescription() {
         return description;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
-    }
 
     public Date getCreationDate() {
         return creationDate;
     }
 
-    public void setCreationDate(Date creationDate) {
-        this.creationDate = creationDate;
-        this.creationDate.setTime(creationDate.getTime());
-    }
 
     public Date getDueDate() {
         return dueDate;
     }
-    public void setDueDate(Date dueDate) {
-        this.dueDate = dueDate;
-        this.dueDate.setTime(dueDate.getTime());
-    }
+
 
     public int getAuthorId() {
         return authorId;
-    }
-
-    public void setAuthorId(int authorId) {
-        this.authorId = authorId;
     }
 
     public int getStatusId() {
         return statusId;
     }
 
-    public void setStatusId(int statusId) {
-        this.statusId = statusId;
-    }
 
     @Override
     public boolean equals(Object object) {
