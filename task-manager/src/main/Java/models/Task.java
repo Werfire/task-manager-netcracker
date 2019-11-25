@@ -3,6 +3,7 @@ package models;
 import com.google.common.base.MoreObjects;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.Objects;
 import static com.google.common.base.Objects.*;
@@ -10,12 +11,13 @@ public class Task implements Serializable {
     private int id;
     private String name;
     private String description;
-    private Date creationDate;
-    private Date dueDate;
+    private LocalDateTime creationDate;
+    private LocalDateTime dueDate;
     private int authorId;
     private int statusId;
 
-    public Task(int idTask, String nameTask, String description, Date creationDate, Date dueDate, int authorId, int statusId) {
+    public Task(int idTask, String nameTask, String description, LocalDateTime creationDate, LocalDateTime dueDate,
+                int authorId, int statusId) {
         this.id = idTask;
         this.name = nameTask;
         this.description = description;
@@ -37,11 +39,11 @@ public class Task implements Serializable {
         return description;
     }
 
-    public Date getCreationDate() {
+    public LocalDateTime getCreationDate() {
         return creationDate;
     }
 
-    public Date getDueDate() {
+    public LocalDateTime getDueDate() {
         return dueDate;
     }
 
