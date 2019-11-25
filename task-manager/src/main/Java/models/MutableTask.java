@@ -3,7 +3,7 @@ package models;
 import java.util.Date;
 import java.util.Objects;
 
-public class Task {
+public class MutableTask extends Task {
     private int id;
     private String name;
     private String description;
@@ -12,7 +12,7 @@ public class Task {
     private int authorId;
     private int statusId;
 
-    public Task(int idTask, String nameTask, String description, Date creationDate, Date dueDate, int authorId, int statusId) {
+    public MutableTask(int idTask, String nameTask, String description, Date creationDate, Date dueDate, int authorId, int statusId) {
         this.id = idTask;
         this.name = nameTask;
         this.description = description;
@@ -21,40 +21,71 @@ public class Task {
         this.authorId = authorId;
         this.statusId = statusId;
     }
-    public Task(){}
+
+    public MutableTask(){}
+
     public int getId() {
         return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getName() {
         return name;
     }
 
+    public void setName(String name) {
+        this.name = name;
+    }
+
     public String getDescription() {
         return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public Date getCreationDate() {
         return creationDate;
     }
 
+    public void setCreationDate(Date creationDate) {
+        this.creationDate = creationDate;
+        this.creationDate.setTime(creationDate.getTime());
+    }
+
     public Date getDueDate() {
         return dueDate;
+    }
+    public void setDueDate(Date dueDate) {
+        this.dueDate = dueDate;
+        this.dueDate.setTime(dueDate.getTime());
     }
 
     public int getAuthorId() {
         return authorId;
     }
 
+    public void setAuthorId(int authorId) {
+        this.authorId = authorId;
+    }
+
     public int getStatusId() {
         return statusId;
+    }
+
+    public void setStatusId(int statusId) {
+        this.statusId = statusId;
     }
 
     @Override
     public boolean equals(Object object) {
         if (this == object) return true;
         if (object == null || getClass() != object.getClass()) return false;
-        Task task = (Task) object;
+        MutableTask task = (MutableTask) object;
         return id == task.id &&
                 authorId == task.authorId &&
                 statusId == task.statusId &&

@@ -1,14 +1,13 @@
 package controllers;
 
+import models.MutableTask;
 import models.Task;
 import models.TaskModel;
 
 import java.io.*;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
 
-public class TaskController implements Serializable {
+public class TaskController {
     private TaskModel model = new TaskModel();
     public TaskController(){
     }
@@ -22,12 +21,11 @@ public class TaskController implements Serializable {
             model.deleteTask(id);
     }
     public void editDate (Integer id, Date newDate) {
-        Task curTask = model.getTask(id);
+        MutableTask curTask = (MutableTask)model.getTask(id);
         curTask.setDueDate(newDate);
-
     }
     public void editDescription (Integer id, String des){
-        Task curTask = model.getTask(id);
+        MutableTask curTask = (MutableTask)model.getTask(id);
         curTask.setDescription(des);
     }
     public void write() throws IOException {

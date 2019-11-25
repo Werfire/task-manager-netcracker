@@ -1,8 +1,9 @@
 package models;
 
+import java.io.Serializable;
 import java.util.HashMap;
 
-public class TaskModel {
+public class TaskModel implements Serializable {
     private HashMap<Integer, Task> journal = new HashMap<>();
     private int lastId = -1;
 
