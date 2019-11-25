@@ -1,5 +1,6 @@
 package controllers;
 
+import models.Task;
 import models.TaskModel;
 
 import java.io.*;
@@ -8,46 +9,54 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class TaskController implements Serializable {
-    private HashMap journal = new HashMap<Integer, TaskModel>();
+    private TaskModel model = new TaskModel();
     public TaskController(){
     }
-    public TaskController(HashMap<Integer, TaskModel> journal) {
-        this.journal = journal;
+    public TaskController(TaskModel model) {
+        this.model = new TaskModel(model);
     }
-    public void add (TaskModel newTask){
-        Object[] arr = journal.keySet().toArray();
-        Integer newId;
-        if(arr.length > 0)
-           newId = (Integer)arr[arr.length - 1] + 1;
-        else
-            newId = 0;
-        journal.put(newId,newTask);
+    public void add (Task newTask){
+        model.addTask(newTask);
     }
     public void delete (Integer id) {
-            journal.remove(id);
+            model.deleteTask(id);
     }
     public void editDate (Integer id, Date newDate) {
-        TaskModel curTask = (TaskModel) journal.get(id);
-//        curTask.setDueDate(newDate);
+        Task curTask = model.getTask(id);
+        curTask.setDueDate(newDate);
 
     }
     public void editDescription (Integer id, String des){
-        TaskModel curTask = (TaskModel) journal.get(id);
-//        curTask.setDescription(des);
+        Task curTask = model.getTask(id);
+        curTask.setDescription(des);
     }
     public void write() throws IOException {
         OutputStream output = new FileOutputStream("database.txt");
-        ObjectOutputStream dataOut = new ObjectOutputStream(output);
-        dataOut.writeObject(journal);
+        DataOutputStream dataOut = new DataOutputStream(output);
+        dataOut.writeUTF(model.size() + "\n");
+        for(int i = 0; i < model.size(); i++){
+            dataOut.writeUTF(model.getTask(i).toString() + "\n");
+        }
         dataOut.flush();
         output.flush();
         output.close();
     }
-    public void read() throws IOException, ClassNotFoundException {
-        FileInputStream input = new FileInputStream("database.txt");
-        ObjectInputStream dataIn = new ObjectInputStream(input);
-        journal = (HashMap) dataIn.readObject();
-    }
+    /*public void read(InputStream input) throws IOException{
+        DataInputStream dataIn = new DataInputStream(input);
+        int length = dataIn.readInt();
+        model = new HashMap<>(length);
+        for (int i = 0; i < length ; i++) {
+            int id = dataIn.readInt();
+            String name = dataIn.readUTF();
+            String description = dataIn.readUTF();
+//            Date creationDate = dataIn.readUTF();// TODO HOW DO THIS???
+//            Date dueDate = dataIn.readUTF();
+            int authorId = dataIn.readInt();
+            int statusId = dataIn.readInt();
+//            TaskModel curTask = new TaskModel(id,name,description,);//TODO complete
+//            add(curTask);
+        }
+    }*/
 
 
 }
