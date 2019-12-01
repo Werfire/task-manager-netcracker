@@ -5,9 +5,11 @@ import com.google.common.base.MoreObjects;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.Objects;
+import java.util.UUID;
+
 import static com.google.common.base.Objects.*;
 public class Task implements Serializable {
-    private int id;
+    private UUID id;
     private String name;
     private String description;
     private Date creationDate;
@@ -15,7 +17,7 @@ public class Task implements Serializable {
     private int authorId;
     private int statusId;
 
-    public Task(int idTask, String nameTask, String description, Date creationDate, Date dueDate, int authorId, int statusId) {
+    public Task(UUID idTask, String nameTask, String description, Date creationDate, Date dueDate, int authorId, int statusId) {
         this.id = idTask;
         this.name = nameTask;
         this.description = description;
@@ -24,8 +26,10 @@ public class Task implements Serializable {
         this.authorId = authorId;
         this.statusId = statusId;
     }
-    public Task(){}
-    public int getId() {
+    public Task(){
+        id = UUID.randomUUID();
+    }
+    public UUID getId() {
         return id;
     }
 
@@ -60,7 +64,7 @@ public class Task implements Serializable {
 
     @Override
     public boolean equals(Object obj) {
-       if(obj == null || getClass() != obj.getClass())
+       if(equal(obj,null) || getClass() != obj.getClass())
            return false;
        Task other = (Task) obj;
        return Objects.equals(id,other.id) && Objects.equals(name,other.name) && Objects.equals(description,other.description)
