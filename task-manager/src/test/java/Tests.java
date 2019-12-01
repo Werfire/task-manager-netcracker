@@ -4,6 +4,7 @@ import models.TaskModel;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.Month;
 import java.util.Set;
@@ -12,7 +13,7 @@ import java.util.UUID;
 public class Tests {
 
     @Test
-    public void testModelSerialization() throws Exception {
+    public void testModelSerialization() {
         TaskController controller = new TaskController();
         controller.add(new Task(UUID.randomUUID(), "Лаба", "Доделать шестую лабу.",
                 LocalDateTime.of(2019, Month.NOVEMBER, 25, 18, 45),
@@ -27,8 +28,8 @@ public class Tests {
         TaskModel modelBefore = controller.getModel();
         controller.read();
         Assertions.assertEquals(controller.getModel(), modelBefore);
-        //Set<UUID> keys = controller.getModel().getJournal().keySet();
-        //System.out.println(controller.get);
+        //System.out.println(controller.get(controller.getId(0)).getAuthorId());
+        //System.out.println(controller.get(controller.getId(2)).getName());
     }
 
 }

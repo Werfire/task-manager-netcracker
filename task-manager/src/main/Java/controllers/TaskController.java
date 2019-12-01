@@ -26,6 +26,10 @@ public class TaskController {
         model.addTask(newTask);
     }
 
+    public UUID getId(int index) {
+        return model.getId(index);
+    }
+
     public Task get(UUID id) {
         return model.getTask(id);
     }

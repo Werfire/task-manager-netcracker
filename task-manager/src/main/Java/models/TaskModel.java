@@ -7,7 +7,7 @@ import java.util.HashMap;
 import java.util.UUID;
 
 public class TaskModel implements Serializable {
-    private static HashMap<UUID, Task> journal = new HashMap<>();
+    private HashMap<UUID, Task> journal = new HashMap<>();
     private ArrayList<UUID> idList = new ArrayList<>();
 
     public TaskModel() {}
@@ -21,9 +21,11 @@ public class TaskModel implements Serializable {
         idList.add(task.getId());
         journal.put(task.getId(), task);
     }
+
     public Task getTask(UUID id) {
         return journal.get(id);
     }
+
     public void deleteTask(UUID id) {
         idList.remove(id);
         journal.remove(id);
@@ -31,9 +33,11 @@ public class TaskModel implements Serializable {
     public HashMap<UUID, Task> getJournal() {
         return journal;
     }
+
     public UUID getId(int index) {
         return idList.get(index);
     }
+
     public int size() {
         return journal.size();
     }
