@@ -1,10 +1,12 @@
 package models;
 
+import javax.annotation.Nonnull;
 import java.io.Serializable;
 import java.util.HashMap;
+import java.util.UUID;
 
 public class TaskModel implements Serializable {
-    private HashMap<Integer, Task> journal = new HashMap<>();
+    private HashMap<UUID, Task> journal = new HashMap<>();
     private int lastId = -1;
 
     public TaskModel() {}
@@ -14,13 +16,13 @@ public class TaskModel implements Serializable {
         this.lastId = model.lastId;
     }
 
-    public void addTask(Task task) {
-        journal.put(++lastId, task);
+    public void addTask(@Nonnull Task task) {
+        journal.put(task.getId(), task);
     }
-    public Task getTask(Integer id) {
+    public Task getTask(UUID id) {
         return journal.get(id);
     }
-    public void deleteTask(Integer id) { journal.remove(id); }
+    public void deleteTask(UUID id) { journal.remove(id); }
     public int size() {
         return journal.size();
     }

@@ -1,9 +1,10 @@
 package models;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 public class MutableTask extends Task {
-    private int id;
+    private UUID id;
     private String name;
     private String description;
     private LocalDateTime creationDate;
@@ -11,8 +12,8 @@ public class MutableTask extends Task {
     private int authorId;
     private int statusId;
 
-    public MutableTask(int idTask, String nameTask, String description, LocalDateTime creationDate,
-                       LocalDateTime dueDate, int authorId, int statusId) {
+    private MutableTask(UUID idTask, String nameTask, String description, LocalDateTime creationDate,
+                        LocalDateTime dueDate, int authorId, int statusId) {
         this.id = idTask;
         this.name = nameTask;
         this.description = description;
@@ -22,9 +23,11 @@ public class MutableTask extends Task {
         this.statusId = statusId;
     }
 
-    public MutableTask(){}
+    public MutableTask(){
 
-    public void setId(int id) {
+    }
+
+    public void setId(UUID id) {
         this.id = id;
     }
 
