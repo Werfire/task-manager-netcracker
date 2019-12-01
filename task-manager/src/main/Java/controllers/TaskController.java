@@ -26,6 +26,10 @@ public class TaskController {
         model.addTask(newTask);
     }
 
+    public Task get(UUID id) {
+        return model.getTask(id);
+    }
+
     public void delete (UUID id) {
             model.deleteTask(id);
     }
