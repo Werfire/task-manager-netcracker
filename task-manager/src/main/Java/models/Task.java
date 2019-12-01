@@ -4,7 +4,6 @@ import com.google.common.base.MoreObjects;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
-import java.util.Date;
 import java.util.Objects;
 import java.util.UUID;
 
