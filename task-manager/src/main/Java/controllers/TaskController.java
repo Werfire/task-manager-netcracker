@@ -3,19 +3,31 @@ package controllers;
 import models.MutableTask;
 import models.Task;
 import models.TaskModel;
+import views.Notification;
 
 import javax.annotation.Nonnull;
+import javax.swing.*;
 import java.io.*;
 import java.time.LocalDateTime;
-import java.util.UUID;
+import java.time.ZoneId;
+import java.util.*;
+import java.util.Timer;
 
 public class TaskController {
-    private TaskModel model = new TaskModel();
+    @Nonnull private TaskModel model = new TaskModel();
+    @Nonnull ArrayList<Timer> timers = new ArrayList<>();
+    @Nonnull JFrame frame;
 
-    public TaskController(){ }
+    public TaskController(@Nonnull JFrame frame){
+        this.frame = frame;
+    }
 
-    public TaskController(TaskModel model) {
+    public TaskController(@Nonnull JFrame frame, @Nonnull TaskModel model) {
+        this.frame = frame;
         this.model = new TaskModel(model);
+        for(HashMap.Entry<UUID, Task> entry : model.getJournal().entrySet()) {
+            scheduleNotifications(entry.getValue());
+        }
     }
 
     public TaskModel getModel() {
@@ -24,6 +36,7 @@ public class TaskController {
 
     public void add (@Nonnull Task newTask){
         model.addTask(newTask);
+        scheduleNotifications(newTask);
     }
 
     public UUID getId(int index) {
@@ -49,7 +62,7 @@ public class TaskController {
     }
 
     public void write() {
-        try( OutputStream output = new FileOutputStream("database.txt")) {
+        try(OutputStream output = new FileOutputStream("database.txt")) {
             ObjectOutputStream dataOut = new ObjectOutputStream(output);
             dataOut.writeObject(model);
             dataOut.flush();
@@ -61,7 +74,7 @@ public class TaskController {
     }
 
     public void read() {
-        try ( FileInputStream input = new FileInputStream("database.txt")) {
+        try (FileInputStream input = new FileInputStream("database.txt")) {
             ObjectInputStream dataIn = new ObjectInputStream(input);
             model = (TaskModel) dataIn.readObject();
         }
@@ -71,10 +84,36 @@ public class TaskController {
         catch (ClassNotFoundException e){
             System.err.println("Unsupported class.");
         }
-
-
     }
 
+    private void scheduleNotifications(Task task) {
+        if(LocalDateTime.now().compareTo(task.getDueDate().minusMinutes(1)) < 0) {
+            Timer timer = new Timer();
+            timers.add(timer);
+            timer.schedule(new TimerTask() {
+                @Override
+                public void run() {
+                    new Notification(frame, task, true);
+                    timers.remove(timer);
+                }
+            }, Date.from(task.getDueDate().minusMinutes(1)
+                    .atZone(ZoneId.systemDefault())
+                    .toInstant()));
+        }
 
+        if(LocalDateTime.now().compareTo(task.getDueDate()) < 0) {
+            Timer timer = new Timer();
+            timers.add(timer);
+            timer.schedule(new TimerTask() {
+                @Override
+                public void run() {
+                    new Notification(frame, task, false);
+                    timers.remove(timer);
+                }
+            }, Date.from(task.getDueDate()
+                    .atZone(ZoneId.systemDefault())
+                    .toInstant()));
+        }
+    }
 }
 

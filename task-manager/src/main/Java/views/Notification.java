@@ -1,4 +1,4 @@
-/*package views;
+package views;
 
 import javax.swing.*;
 import java.awt.*;
@@ -12,28 +12,35 @@ import models.TaskModel;
 import java.util.Date;
 import org.checkerframework.checker.nullness.qual.NonNull;
 
-public class Notification extends TaskModel {
-    private static HashMap<UUID,Task> curModel = getJournal();
-    public static void createGUI()
-    {
-        LocalDateTime dateNow = LocalDateTime.now();
-        for(HashMap.Entry<UUID, Task> entry : curModel.entrySet()){
-            if(entry.getValue().getDueDate().isEqual(dateNow)){
-                JFrame frame = new JFrame("N O T F I C A T I O N");
-                frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-                frame.setLocation(100,300);
-                JLabel label = new JLabel( );
-                frame.getContentPane().add(label);
-                frame.setPreferredSize(new Dimension(300, 100));
-                frame.pack();
-                frame.setVisible(true);
-            }
-        }
+public class Notification extends JDialog {
+    public Notification(JFrame frame, Task task, boolean premessage) {
+        super(frame, String.format("NOTFICATION (%s)", LocalDateTime.now().toString()), true);
+        Container pane = getContentPane();
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        setPreferredSize(new Dimension(450, 120));
+        setResizable(false);
+        setLayout(new BoxLayout(pane, BoxLayout.Y_AXIS));
 
+        String message;
+        if(premessage)
+            message = String.format("After 1 minute, the deadline for the \"%s\" task will come.", task.getName());
+        else
+            message = String.format("The execution time for the \"%s\" task has come to an end.", task.getName());
+        JLabel label = new JLabel(message);
+        label.setAlignmentX(Component.CENTER_ALIGNMENT);
+        pane.add(new Box.Filler(new Dimension(0, 0),
+                new Dimension(0, 20), new Dimension(0, 20)));
+        pane.add(label);
+
+        JButton btnOk = new JButton("OK");
+        btnOk.addActionListener(e -> dispose());
+        btnOk.setAlignmentX(Component.CENTER_ALIGNMENT);
+        pane.add(new Box.Filler(new Dimension(0, 0),
+                new Dimension(0, 10), new Dimension(0, 10)));
+        pane.add(btnOk);
+
+        pack();
+        setLocationRelativeTo(null);
+        setVisible(true);
     }
-    public static void main(String[] args)
-    {
-        JFrame.setDefaultLookAndFeelDecorated(true);
-        javax.swing.SwingUtilities.invokeLater(() -> createGUI());
-    }
-}*/
+}
