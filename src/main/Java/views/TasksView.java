@@ -18,7 +18,7 @@ public class TasksView extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setResizable(false); // нельзя менять размеры окна
 
-        addTaskButton.addActionListener(new ActionListener() {     // нажатие кнопки
+        addTaskButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
 
