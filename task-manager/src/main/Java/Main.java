@@ -20,6 +20,5 @@ public class Main {
         controller.add(new Task(UUID.randomUUID(), "Лаба", "Доделать шестую лабу.",
                 LocalDateTime.of(2019, Month.NOVEMBER, 25, 18, 45),
                 LocalDateTime.now().plusSeconds(70), 47, 2));
-        // git dummy
     }
 }

@@ -14,7 +14,7 @@ import org.checkerframework.checker.nullness.qual.NonNull;
 
 public class Notification extends JDialog {
     public Notification(JFrame frame, Task task, boolean premessage) {
-        super(frame, String.format("NOTFICATION (%s)", LocalDateTime.now().toString()), true);
+        super(frame, String.format("NOTIFICATION (%s)", LocalDateTime.now().toString()), true);
         Container pane = getContentPane();
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setPreferredSize(new Dimension(450, 120));
