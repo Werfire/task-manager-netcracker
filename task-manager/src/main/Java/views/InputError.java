@@ -2,24 +2,24 @@ package views;
 
 import javax.swing.*;
 import java.awt.*;
-import java.time.LocalDateTime;
-import models.Task;
 
-public class Notification extends JDialog {
-    public Notification(JFrame frame, Task task, boolean premessage) {
-        super(frame, String.format("Notification (%s)", LocalDateTime.now().toString()), true);
+public class InputError extends JDialog {
+    private static final String[] errors = new String[] {
+            "Task's name must be unique and 1 to 23 characters long.",
+            "Task's description must not be longer than 128 characters.",
+            "Due date's input format is incorrect (e.g. \"2019 31.12 12:30\").",
+            "Due date is already in the past."
+    };
+
+    public InputError(JFrame frame, InputErrorType errorType) {
+        super(frame, "Input error", true);
         Container pane = getContentPane();
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setPreferredSize(new Dimension(450, 120));
         setResizable(false);
         setLayout(new BoxLayout(pane, BoxLayout.Y_AXIS));
 
-        String message;
-        if(premessage)
-            message = String.format("After 1 minute, the deadline for the \"%s\" task will come.", task.getName());
-        else
-            message = String.format("The execution time for the \"%s\" task has come to an end.", task.getName());
-        JLabel label = new JLabel(message);
+        JLabel label = new JLabel(errors[errorType.getErrNumber()]);
         label.setAlignmentX(Component.CENTER_ALIGNMENT);
         pane.add(new Box.Filler(new Dimension(0, 0),
                 new Dimension(0, 20), new Dimension(0, 20)));
@@ -37,3 +37,4 @@ public class Notification extends JDialog {
         setVisible(true);
     }
 }
+
