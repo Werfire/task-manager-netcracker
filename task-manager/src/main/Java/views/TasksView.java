@@ -1,8 +1,5 @@
 package views;
 import javax.swing.*;
-import javax.swing.plaf.metal.MetalBorders;
-import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableModel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
