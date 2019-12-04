@@ -6,30 +6,33 @@ import java.awt.event.ActionListener;
 public class TasksView extends JFrame {
 
     private JPanel mainPanel;
-    private JTextField taskNameField;
-    private JTextField dueDateField;
-    private JTable tasksTable;
-    private JButton addTaskButton;
+    private JTable table1;
+    private JButton completeButton;
+    private JButton deleteButton;
+    private JButton addButton;
+    private JButton editButton;
+    private JButton DELETEButton;
+    private JButton ADDButton;
+    private JButton EDITButton;
+    private JButton COMPLETEButton;
+
 
     public TasksView() {
         add(mainPanel);
         setTitle("Task Manager");
-        setSize( 550, 320);
+        setSize( 800, 500);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setResizable(false);
+        setResizable(false); // нельзя менять размеры окна
 
-        //TableModel tableModel =
-        //        new DefaultTableModel(new Object[][] {{"Задача", "Сделать задачу.", "2019 12.12 12:00"}},
-        //                new String[] {"Name", "Description", "Due date"});
-        //tasksTable.setModel(tableModel);
-
-        addTaskButton.addActionListener(new ActionListener() {
+        addButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
 
             }
         });
+    }
 
-        setLocationRelativeTo(null);
+    private void createUIComponents() {
+        // TODO: place custom component creation code here
     }
 }
