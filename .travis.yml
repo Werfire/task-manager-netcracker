@@ -1,4 +1,4 @@
 language: java
 jdk: oraclejdk12
-script: mvn -B package -f task-manager
+script: mvn -B package
 

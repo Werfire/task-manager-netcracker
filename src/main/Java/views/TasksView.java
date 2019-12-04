@@ -6,16 +6,11 @@ import java.awt.event.ActionListener;
 public class TasksView extends JFrame {
 
     private JPanel mainPanel;
-    private JTable table1;
+    private JTable tasksTable;
     private JButton completeButton;
     private JButton deleteButton;
     private JButton addButton;
     private JButton editButton;
-    private JButton DELETEButton;
-    private JButton ADDButton;
-    private JButton EDITButton;
-    private JButton COMPLETEButton;
-
 
     public TasksView() {
         add(mainPanel);
@@ -30,9 +25,7 @@ public class TasksView extends JFrame {
 
             }
         });
-    }
 
-    private void createUIComponents() {
-        // TODO: place custom component creation code here
+        setLocationRelativeTo(null);
     }
 }
