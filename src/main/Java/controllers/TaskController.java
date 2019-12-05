@@ -73,10 +73,11 @@ public class TaskController {
         }
     }
 
-    public void read() {
+    public TaskModel read() {
         try (FileInputStream input = new FileInputStream("database.txt")) {
             ObjectInputStream dataIn = new ObjectInputStream(input);
             model = (TaskModel) dataIn.readObject();
+
         }
         catch (IOException e){
             e.printStackTrace();
@@ -84,6 +85,7 @@ public class TaskController {
         catch (ClassNotFoundException e){
             System.err.println("Unsupported class.");
         }
+        return model;
     }
 
     private void scheduleNotifications(Task task) {
