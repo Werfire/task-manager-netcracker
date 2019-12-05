@@ -2,13 +2,16 @@ package views;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
 import java.time.LocalDateTime;
 import models.Task;
 
 public class Notification extends JDialog {
     public Notification(JFrame frame, Task task, boolean premessage) {
         super(frame, String.format("Notification (%s)", LocalDateTime.now().toString()), true);
-        Container pane = getContentPane();
+        JPanel pane = (JPanel)getContentPane();
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setPreferredSize(new Dimension(450, 120));
         setResizable(false);
@@ -31,6 +34,12 @@ public class Notification extends JDialog {
         pane.add(new Box.Filler(new Dimension(0, 0),
                 new Dimension(0, 10), new Dimension(0, 10)));
         pane.add(btnOk);
+
+        pane.registerKeyboardAction(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                dispose();
+            }
+        }, KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
 
         pack();
         setLocationRelativeTo(null);
