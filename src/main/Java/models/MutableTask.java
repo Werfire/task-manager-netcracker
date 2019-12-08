@@ -4,16 +4,10 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 
 public class MutableTask extends Task {
-    private UUID id;
-    private String name;
-    private String description;
-    private LocalDateTime creationDate;
-    private LocalDateTime dueDate;
-    private int authorId;
-    private int statusId;
+
 
     private MutableTask(UUID idTask, String nameTask, String description, LocalDateTime creationDate,
-                        LocalDateTime dueDate, int authorId, int statusId) {
+                        LocalDateTime dueDate, UUID authorId, int statusId) {
         this.id = idTask;
         this.name = nameTask;
         this.description = description;
@@ -47,7 +41,7 @@ public class MutableTask extends Task {
         this.creationDate = LocalDateTime.of(dueDate.toLocalDate(), dueDate.toLocalTime());
     }
 
-    public void setAuthorId(int authorId) {
+    public void setAuthorId(UUID authorId) {
         this.authorId = authorId;
     }
 

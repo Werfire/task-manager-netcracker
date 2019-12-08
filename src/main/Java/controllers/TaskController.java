@@ -12,7 +12,8 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.*;
 import java.util.Timer;
-
+import views.InputError;
+import views.InputErrorType;
 public class TaskController {
     @Nonnull private TaskModel model = new TaskModel();
     @Nonnull ArrayList<Timer> timers = new ArrayList<>();
@@ -74,7 +75,7 @@ public class TaskController {
     }
 
     public TaskModel read() {
-        try (FileInputStream input = new FileInputStream("database.txt")) {
+        try (FileInputStream input = new FileInputStream("C:\\Users\\dmitry\\Desktop\\MANAGER\\task-manager\\database.txt")) {
             ObjectInputStream dataIn = new ObjectInputStream(input);
             model = (TaskModel) dataIn.readObject();
 

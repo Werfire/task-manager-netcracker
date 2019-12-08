@@ -11,7 +11,9 @@ public class InputError extends JDialog {
             "Task's name must be unique and 1 to 24 characters long.",
             "Task's description must not be longer than 256 characters.",
             "Due date's input format is incorrect (e.g. \"2019 31.12 12:30\").",
-            "Due date is already in the past."
+            "Due date is already in the past.",
+            "Something was wrong with writing/reading of file.",
+            "This type of data is not supported."
     };
 
     public InputError(JFrame frame, InputErrorType errorType) {

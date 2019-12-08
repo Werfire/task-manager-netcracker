@@ -4,20 +4,19 @@ import com.google.common.base.MoreObjects;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
-import java.util.Date;
 import java.util.Objects;
 import java.util.UUID;
 
 public class Task implements Serializable {
-    private UUID id;
-    private String name;
-    private String description;
-    private LocalDateTime creationDate;
-    private LocalDateTime dueDate;
-    private int authorId;
-    private int statusId;
+    UUID id;
+    String name;
+    String description;
+    LocalDateTime creationDate;
+    LocalDateTime dueDate;
+    UUID authorId;
+    int statusId;
 
-    public Task(UUID idTask, String nameTask, String description, LocalDateTime creationDate, LocalDateTime dueDate, int authorId, int statusId) {
+    public Task(UUID idTask, String nameTask, String description, LocalDateTime creationDate, LocalDateTime dueDate, UUID authorId, int statusId) {
         this.id = idTask;
         this.name = nameTask;
         this.description = description;
@@ -48,7 +47,7 @@ public class Task implements Serializable {
         return dueDate;
     }
 
-    public int getAuthorId() {
+    public UUID getAuthorId() {
         return authorId;
     }
 

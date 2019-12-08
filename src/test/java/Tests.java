@@ -18,13 +18,13 @@ public class Tests {
         TaskController controller = new TaskController(new JFrame());
         controller.add(new Task(UUID.randomUUID(), "Лаба", "Доделать шестую лабу.",
                 LocalDateTime.of(2019, Month.NOVEMBER, 25, 18, 45),
-                LocalDateTime.of(2019, Month.DECEMBER, 16, 10, 0), 47, 2));
+                LocalDateTime.of(2019, Month.DECEMBER, 16, 10, 0), UUID.randomUUID(), 2));
         controller.add(new Task(UUID.randomUUID(), "Магазин", "Купить молоко и хлеб.",
                 LocalDateTime.of(2019, Month.NOVEMBER, 27, 7, 38),
-                LocalDateTime.of(2019, Month.NOVEMBER, 27, 18, 0), 25, 6));
+                LocalDateTime.of(2019, Month.NOVEMBER, 27, 18, 0), UUID.randomUUID(), 6));
         controller.add(new Task(UUID.randomUUID(), "День рождения", "Купить подарок Ивану.",
                 LocalDateTime.of(2019, Month.DECEMBER, 1, 14, 5),
-                LocalDateTime.of(2019, Month.DECEMBER, 3, 22, 30), 8, 14));
+                LocalDateTime.of(2019, Month.DECEMBER, 3, 22, 30), UUID.randomUUID(), 14));
         controller.write();
         TaskModel modelBefore = controller.getModel();
         controller.read();
