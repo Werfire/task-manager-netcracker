@@ -44,6 +44,7 @@ public class TasksController {
         model.deleteTask(id);
     }
 
+    // TODO Fix downcasting for editing methods
     public void editDate (UUID id, LocalDateTime newDate) {
         MutableTask curTask = (MutableTask)model.getTask(id);
         curTask.setDueDate(newDate);
@@ -52,6 +53,11 @@ public class TasksController {
     public void editDescription (UUID id, String des){
         MutableTask curTask = (MutableTask)model.getTask(id);
         curTask.setDescription(des);
+    }
+
+    public void changeStatus(UUID id, int statusId) {
+        MutableTask curTask = (MutableTask)model.getTask(id);
+        curTask.setStatusId(statusId);
     }
 
     public void write() {

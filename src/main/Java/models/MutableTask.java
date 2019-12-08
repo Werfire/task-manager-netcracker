@@ -4,8 +4,6 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 
 public class MutableTask extends Task {
-
-
     private MutableTask(UUID idTask, String nameTask, String description, LocalDateTime creationDate,
                         LocalDateTime dueDate, UUID authorId, int statusId) {
         this.id = idTask;
