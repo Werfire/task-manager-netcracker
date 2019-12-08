@@ -1,6 +1,6 @@
 package models;
 
-public enum Levels {
+public enum AccessLevel {
     ADMIN,
     USER,
     GUEST

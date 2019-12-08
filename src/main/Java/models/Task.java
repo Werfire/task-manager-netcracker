@@ -55,6 +55,10 @@ public class Task implements Serializable {
         return statusId;
     }
 
+    public String[] toStringArray() {
+        return new String[] {name, dueDate.toString(), description, authorId.toString(), String.valueOf(statusId)};
+    }
+
     @Override
     public int hashCode() {
         return Objects.hash(id,name,description,creationDate,dueDate,authorId,statusId);

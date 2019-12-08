@@ -6,11 +6,15 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
 import models.Task;
 
 public class Notification extends JDialog {
     public Notification(JFrame frame, Task task, boolean premessage) {
-        super(frame, String.format("Notification (%s)", LocalDateTime.now().toString()), true);
+        super(frame, true);
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy dd.MM HH:mm");
+        setTitle(String.format("Notification (%s)", LocalDateTime.now().format(formatter)));
         JPanel pane = (JPanel)getContentPane();
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setPreferredSize(new Dimension(450, 120));

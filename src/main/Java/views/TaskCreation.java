@@ -1,11 +1,17 @@
 package views;
 
-import controllers.TaskController;
+import controllers.TasksController;
+import models.Task;
 
 import javax.swing.*;
-import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.event.*;
+import java.sql.Date;
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
+import java.util.UUID;
 
 public class TaskCreation extends JDialog {
     private JPanel contentPane;
@@ -15,8 +21,13 @@ public class TaskCreation extends JDialog {
     private JTextArea descriptionArea;
     private JTextField nameField;
 
-    public TaskCreation(JFrame frame) {
+    private JFrame frame;
+    private TasksController controller;
+
+    public TaskCreation(JFrame frame, TasksController controller) {
         super(frame, "Task creation", true);
+        this.frame = frame;
+        this.controller = controller;
         setContentPane(contentPane);
         setSize(new Dimension(500, 350));
         setResizable(false);
@@ -54,14 +65,34 @@ public class TaskCreation extends JDialog {
     }
 
     private void onOK() {
-        if(nameField.getText().length() == 0 || nameField.getText().length() > 24)
-            new InputError((JFrame)getParent(), InputErrorType.NAME_LENGTH);
-        else if(descriptionArea.getText().length() > 256)
-            new InputError((JFrame)getParent(), InputErrorType.DESCRIPTION_LENGTH);
-        // TODO Due date checks
-        else {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy dd.MM HH:mm");
+        LocalDateTime dueDate = LocalDateTime.now();
 
-            dispose();
+        if(nameField.getText().length() == 0 || nameField.getText().length() > 24)
+            new ErrorDialog((JFrame)getParent(), ErrorType.NAME_LENGTH);
+        else if(descriptionArea.getText().length() > 256)
+            new ErrorDialog((JFrame)getParent(), ErrorType.DESCRIPTION_LENGTH);
+        else {
+            boolean dateError = false;
+            try {
+                dueDate = LocalDateTime.parse(dateField.getText(), formatter);
+            }
+            catch (DateTimeParseException e) {
+                dateError = true;
+                new ErrorDialog(frame, ErrorType.DATE_FORMAT);
+            }
+
+            if(!dateError && LocalDateTime.now().compareTo(dueDate) >= 0) {
+                dateError = true;
+                new ErrorDialog(frame, ErrorType.DATE_ALREADY_PAST);
+            }
+
+            if(!dateError) {
+                controller.add(new Task(UUID.randomUUID(), nameField.getText(), descriptionArea.getText(),
+                        LocalDateTime.now(), LocalDateTime.parse(dateField.getText(), formatter),
+                        UUID.randomUUID(), 0));
+                dispose();
+            }
         }
     }
 

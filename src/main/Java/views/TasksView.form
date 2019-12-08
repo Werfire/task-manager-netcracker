@@ -10,7 +10,7 @@
       <font name="Brush Script MT" size="14" style="1"/>
     </border>
     <children>
-      <component id="8b8ec" class="javax.swing.JTable" binding="journal">
+      <component id="8b8ec" class="javax.swing.JTable" binding="tasksTable">
         <constraints>
           <grid row="2" column="2" row-span="7" col-span="1" vsize-policy="6" hsize-policy="6" anchor="0" fill="3" indent="0" use-parent-layout="false">
             <minimum-size width="200" height="150"/>

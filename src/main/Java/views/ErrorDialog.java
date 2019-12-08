@@ -6,18 +6,22 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 
-public class InputError extends JDialog {
+public class ErrorDialog extends JDialog {
     private static final String[] errors = new String[] {
             "Task's name must be unique and 1 to 24 characters long.",
             "Task's description must not be longer than 256 characters.",
             "Due date's input format is incorrect (e.g. \"2019 31.12 12:30\").",
             "Due date is already in the past.",
-            "Something was wrong with writing/reading of file.",
+            "Something went wrong with writing/reading of file.",
             "This type of data is not supported."
     };
 
-    public InputError(JFrame frame, InputErrorType errorType) {
-        super(frame, "Input error", true);
+    public ErrorDialog(JFrame frame, ErrorType errorType) {
+        super(frame,true);
+        if(errorType.getErrNumber() <= 3)
+            setTitle("User input error");
+        else if(errorType.getErrNumber() <= 5)
+            setTitle("File reading error");
         JPanel pane = (JPanel)getContentPane();
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setPreferredSize(new Dimension(450, 120));
