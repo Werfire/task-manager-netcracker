@@ -13,7 +13,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 public class NotificationsScheduler {
-    public static ArrayList<Timer> timers = new ArrayList<>();
+    private static ArrayList<Timer> timers = new ArrayList<>();
 
     public static void resetTimers() {
         for(Timer timer : timers)
