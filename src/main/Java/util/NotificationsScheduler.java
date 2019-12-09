@@ -15,6 +15,12 @@ import java.util.TimerTask;
 public class NotificationsScheduler {
     public static ArrayList<Timer> timers = new ArrayList<>();
 
+    public static void resetTimers() {
+        for(Timer timer : timers)
+            timer.cancel();
+        timers.clear();
+    }
+
     public static void scheduleNotifications(JFrame frame, Task task) {
         if(LocalDateTime.now().compareTo(task.getDueDate().minusMinutes(1)) < 0) {
             Timer timer = new Timer();

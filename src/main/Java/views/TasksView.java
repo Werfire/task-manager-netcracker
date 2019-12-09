@@ -104,6 +104,7 @@ public class TasksView extends JFrame implements TasksObserver {
     @Override
     public void update(HashMap<UUID, Task> journal) {
         tasks = new ArrayList<>();
+        NotificationsScheduler.resetTimers();
         DefaultTableModel tableModel = new DefaultTableModel(new Object[][]{}, columns);
         for(HashMap.Entry<UUID, Task> entry : journal.entrySet()) {
             tasks.add(entry.getValue());
