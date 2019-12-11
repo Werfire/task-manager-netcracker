@@ -6,8 +6,6 @@ import models.Task;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
-import java.sql.Date;
-import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
@@ -68,8 +66,10 @@ public class TaskCreation extends JDialog {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy dd.MM HH:mm");
         LocalDateTime dueDate = LocalDateTime.now();
 
-        if(nameField.getText().length() == 0 || nameField.getText().length() > 24)
-            new ErrorDialog((JFrame)getParent(), ErrorType.NAME_LENGTH);
+        if(nameField.getText().length() == 0 || nameField.getText().length() > 24 ||
+                controller.getModel().getJournal().entrySet().stream().anyMatch(task ->
+                        task.getValue().getName().toLowerCase().equals(nameField.getText().toLowerCase())))
+            new ErrorDialog((JFrame)getParent(), ErrorType.NAME_UNIQUENESS_OR_LENGTH);
         else if(descriptionArea.getText().length() > 256)
             new ErrorDialog((JFrame)getParent(), ErrorType.DESCRIPTION_LENGTH);
         else {

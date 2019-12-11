@@ -1,7 +1,7 @@
 package views;
 
 public enum ErrorType {
-    NAME_LENGTH(0),
+    NAME_UNIQUENESS_OR_LENGTH(0),
     DESCRIPTION_LENGTH(1),
     DATE_FORMAT(2),
     DATE_ALREADY_PAST(3),
