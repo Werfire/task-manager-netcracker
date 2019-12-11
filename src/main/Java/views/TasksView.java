@@ -4,9 +4,7 @@ import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.event.TableModelListener;
-import javax.swing.plaf.metal.MetalButtonUI;
 import javax.swing.table.DefaultTableModel;
-import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.*;
@@ -30,7 +28,7 @@ public class TasksView extends JFrame implements TasksObserver {
     private JPanel journal;
     private JLabel title;
 
-    private List<Task> tasks = new ArrayList<>();
+    private List<UUID> tasksIDs = new ArrayList<>();
     private Set<TableModelListener> listeners = new HashSet<>();
     private String[] columns = {"Name", "DueDate", "Description", "Author", "StatusID"};
     private int selectedColumn;
@@ -55,13 +53,13 @@ public class TasksView extends JFrame implements TasksObserver {
         completeButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                //controller.changeStatus(tasks.get(tasksTable.convertRowIndexToModel(selectedRow)).getId(), 1);
+                //controller.changeStatus(tasks.get(tasksTable.convertRowIndexToModel(selectedRow)), 1);
             }
         });
         deleteButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                controller.delete(tasks.get(tasksTable.convertRowIndexToModel(selectedRow)).getId());
+                controller.delete(tasksIDs.get(tasksTable.convertRowIndexToModel(selectedRow)));
             }
         });
         deleteButton.setEnabled(false);
@@ -123,11 +121,11 @@ public class TasksView extends JFrame implements TasksObserver {
 
     @Override
     public void update(HashMap<UUID, Task> journal) {
-        tasks = new ArrayList<>();
+        tasksIDs = new ArrayList<>();
         NotificationsScheduler.resetTimers();
         DefaultTableModel tableModel = new DefaultTableModel(new Object[][]{}, columns);
         for(HashMap.Entry<UUID, Task> entry : journal.entrySet()) {
-            tasks.add(entry.getValue());
+            tasksIDs.add(entry.getValue().getId());
             tableModel.addRow(entry.getValue().toStringArray());
             NotificationsScheduler.scheduleNotifications(this, entry.getValue());
         }
