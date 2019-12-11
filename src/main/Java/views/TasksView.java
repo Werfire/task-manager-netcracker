@@ -27,6 +27,8 @@ public class TasksView extends JFrame implements TasksObserver {
     private JButton deleteButton;
     private JScrollPane scrollPane;
     private JPanel buttons;
+    private JPanel journal;
+    private JLabel title;
 
     private List<Task> tasks = new ArrayList<>();
     private Set<TableModelListener> listeners = new HashSet<>();
@@ -37,11 +39,10 @@ public class TasksView extends JFrame implements TasksObserver {
     public TasksView(TasksController controller) {
         add(mainPanel);
         setTitle("Task Manager");
-        setSize( 700, 500);
+        setSize( 600, 400);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setResizable(true);
         setLocationRelativeTo(null);
-
         controller.mainFrame = this;
         controller.getModel().addObserver(this);
 
@@ -86,16 +87,35 @@ public class TasksView extends JFrame implements TasksObserver {
         });
         scrollPane = new JScrollPane(tasksTable, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
                 JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-        getContentPane().setLayout(new BoxLayout(getContentPane(),BoxLayout.LINE_AXIS));
+//        getContentPane().setLayout(new GridLayout(1,2,0,0));
+        getContentPane().setLayout(new BoxLayout(getContentPane(),BoxLayout.X_AXIS));
+//        GroupLayout layout = new GroupLayout(getContentPane());
+//        getContentPane().setLayout(layout);
+//        layout.setAutoCreateGaps(true);
+//        layout.setAutoCreateContainerGaps(true);
+//        layout.setHorizontalGroup(layout.createSequentialGroup()
+//                .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+//                        .addComponent(addButton)
+//                        .addComponent(completeButton)
+//                        .addComponent(deleteButton))
+//                 .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+//                        .addComponent(title)
+//                        .addComponent(scrollPane))
+//                );
+//        layout.linkSize(SwingConstants.HORIZONTAL, addButton, completeButton,deleteButton);
+        mainPanel.setLayout(new BoxLayout(mainPanel,BoxLayout.X_AXIS));
+        journal.setLayout(new BoxLayout(journal,BoxLayout.Y_AXIS));
+        journal.add(title);
+        journal.add(scrollPane);
         buttons.setLayout(new BoxLayout(buttons,BoxLayout.Y_AXIS));
         buttons.add(addButton);
         buttons.add(Box.createVerticalGlue());
         buttons.add(completeButton);
         buttons.add(Box.createVerticalGlue());
         buttons.add(deleteButton);
-        getContentPane().add(scrollPane);
         getContentPane().add(buttons);
-//      pack();
+        getContentPane().add(journal);
+//        pack();
 
         controller.read();
         update(controller.getModel().getJournal());
@@ -113,5 +133,6 @@ public class TasksView extends JFrame implements TasksObserver {
         }
         tasksTable.setModel(tableModel);
     }
+
 }
 
