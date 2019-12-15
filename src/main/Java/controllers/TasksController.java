@@ -31,12 +31,12 @@ public class TasksController {
         return model;
     }
 
-    public void add (@Nonnull Task newTask){
+    public void add (@Nonnull MutableTask newTask){
         model.addTask(newTask);
     }
 
     @Nonnull
-    public Task get(UUID id) {
+    public MutableTask get(UUID id) {
         return model.getTask(id);
     }
 
@@ -44,20 +44,24 @@ public class TasksController {
         model.deleteTask(id);
     }
 
-    // TODO Fix downcasting for editing methods
-    public void editDate (UUID id, LocalDateTime newDate) {
-        MutableTask curTask = (MutableTask)model.getTask(id);
-        curTask.setDueDate(newDate);
+    public void editName(UUID id, String name) {
+        model.getTask(id).setName(name);
+        model.notifyObservers();
+    }
+
+    public void editDueDate(UUID id, LocalDateTime newDate) {
+        model.getTask(id).setDueDate(newDate);
+        model.notifyObservers();
     }
 
     public void editDescription (UUID id, String des){
-        MutableTask curTask = (MutableTask)model.getTask(id);
-        curTask.setDescription(des);
+        model.getTask(id).setDescription(des);
+        model.notifyObservers();
     }
 
     public void changeStatus(UUID id, int statusId) {
-        MutableTask curTask = (MutableTask)model.getTask(id);
-        curTask.setStatusId(statusId);
+        model.getTask(id).setStatusId(statusId);
+        model.notifyObservers();
     }
 
     public void write() {

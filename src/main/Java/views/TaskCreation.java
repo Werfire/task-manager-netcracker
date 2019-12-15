@@ -1,6 +1,7 @@
 package views;
 
 import controllers.TasksController;
+import models.MutableTask;
 import models.Task;
 
 import javax.swing.*;
@@ -69,9 +70,9 @@ public class TaskCreation extends JDialog {
         if(nameField.getText().length() == 0 || nameField.getText().length() > 24 ||
                 controller.getModel().getJournal().entrySet().stream().anyMatch(task ->
                         task.getValue().getName().toLowerCase().equals(nameField.getText().toLowerCase())))
-            new ErrorDialog((JFrame)getParent(), ErrorType.NAME_UNIQUENESS_OR_LENGTH);
+            new ErrorDialog(frame, ErrorType.NAME_UNIQUENESS_OR_LENGTH);
         else if(descriptionArea.getText().length() > 256)
-            new ErrorDialog((JFrame)getParent(), ErrorType.DESCRIPTION_LENGTH);
+            new ErrorDialog(frame, ErrorType.DESCRIPTION_LENGTH);
         else {
             boolean dateError = false;
             try {
@@ -88,7 +89,7 @@ public class TaskCreation extends JDialog {
             }
 
             if(!dateError) {
-                controller.add(new Task(UUID.randomUUID(), nameField.getText(), descriptionArea.getText(),
+                controller.add(new MutableTask(UUID.randomUUID(), nameField.getText(), descriptionArea.getText(),
                         LocalDateTime.now(), LocalDateTime.parse(dateField.getText(), formatter),
                         UUID.randomUUID(), 0));
                 dispose();

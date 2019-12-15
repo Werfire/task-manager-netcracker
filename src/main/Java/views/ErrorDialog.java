@@ -13,7 +13,12 @@ public class ErrorDialog extends JDialog {
             "Due date's input format is incorrect (e.g. \"2019 31.12 12:30\").",
             "Due date is already in the past.",
             "Something went wrong with writing/reading of file.",
-            "This type of data is not supported."
+            "This type of data is not supported.",
+            "Wrong username or password.",
+            "This username already taken.",
+            "Username must be 3 to 12 characters long.",
+            "Password must be 4 to 18 characters long.",
+            "Different password in \"Confirm password\" field."
     };
 
     public ErrorDialog(JFrame frame, ErrorType errorType) {
@@ -22,6 +27,12 @@ public class ErrorDialog extends JDialog {
             setTitle("User input error");
         else if(errorType.getErrNumber() <= 5)
             setTitle("File reading error");
+        else if(errorType.getErrNumber() <= 6)
+            setTitle("Login error");
+        else if(errorType.getErrNumber() <= 10)
+            setTitle("Registration error");
+        else
+            setTitle("Error");
         JPanel pane = (JPanel)getContentPane();
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setPreferredSize(new Dimension(450, 120));

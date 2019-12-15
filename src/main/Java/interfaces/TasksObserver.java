@@ -1,10 +1,10 @@
 package interfaces;
 
-import models.Task;
+import models.MutableTask;
 
 import java.util.HashMap;
 import java.util.UUID;
 
 public interface TasksObserver {
-    void update(HashMap<UUID, Task> journal);
+    void update(HashMap<UUID, MutableTask> journal);
 }

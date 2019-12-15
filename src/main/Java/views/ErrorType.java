@@ -6,7 +6,12 @@ public enum ErrorType {
     DATE_FORMAT(2),
     DATE_ALREADY_PAST(3),
     IO_EXCEPTION(4),
-    CLASS_NOT_FOUND_EXCEPTION(5);
+    CLASS_NOT_FOUND_EXCEPTION(5),
+    WRONG_LOGIN_INPUT(6),
+    USERNAME_ALREADY_TAKEN(7),
+    USERNAME_LENGTH(8),
+    PASSWORD_LENGTH(9),
+    PASSWORD_CONFIRMATION(10);
 
     private final int errNumber;
     private ErrorType(int errNumber) {
@@ -16,3 +21,4 @@ public enum ErrorType {
         return errNumber;
     }
 }
+

@@ -4,6 +4,7 @@ import com.google.common.base.MoreObjects;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -25,6 +26,7 @@ public class Task implements Serializable {
         this.authorId = authorId;
         this.statusId = statusId;
     }
+
     public Task(){}
 
     public UUID getId() {
@@ -56,7 +58,8 @@ public class Task implements Serializable {
     }
 
     public String[] toStringArray() {
-        return new String[] {name, dueDate.toString(), description, authorId.toString(), String.valueOf(statusId)};
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy dd.MM HH:mm");
+        return new String[] {name, dueDate.format(formatter), description, authorId.toString(), String.valueOf(statusId)};
     }
 
     @Override
@@ -87,28 +90,4 @@ public class Task implements Serializable {
                 .add("statusId", statusId)
                 .toString();
     }
-//    @Override
-//    public boolean equals(Object object) {
-//        if (this == object) return true;
-//        if (object == null || getClass() != object.getClass()) return false;
-//        Task task = (Task) object;
-//        return id == task.id &&
-//                authorId == task.authorId &&
-//                statusId == task.statusId &&
-//                Objects.equals(name, task.name) &&
-//                Objects.equals(description, task.description) &&
-//                Objects.equals(creationDate, task.creationDate) &&
-//                Objects.equals(dueDate, task.dueDate);
-//    }
-//
-//    @Override
-//    public int hashCode() {
-//        return Objects.hash(id, name, description, creationDate, dueDate, authorId, statusId);
-//    }
-//
-//    @Override
-//    public String toString() {
-//        return (id + "\t" + name + "\t" + description + "\t" + creationDate.toString() + "\t" +
-//                dueDate.toString() + "\t" + authorId + "\t" + statusId + "\n");
-//    }
 }

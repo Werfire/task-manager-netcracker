@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.UUID;
 
 public class TasksModel implements Serializable, TasksObservable {
-    private HashMap<UUID, Task> journal = new HashMap<>();
+    private HashMap<UUID, MutableTask> journal = new HashMap<>();
     // This field must be preserved in serialization-deserialization cycle
     public List<TasksObserver> observers = new ArrayList<>();
 
@@ -21,12 +21,12 @@ public class TasksModel implements Serializable, TasksObservable {
         this.journal = new HashMap<>(model.journal);
     }
 
-    public void addTask(@Nonnull Task task) {
+    public void addTask(@Nonnull MutableTask task) {
         journal.put(task.getId(), task);
         notifyObservers();
     }
 
-    public Task getTask(UUID id) {
+    public MutableTask getTask(UUID id) {
         return journal.get(id);
     }
 
@@ -34,7 +34,7 @@ public class TasksModel implements Serializable, TasksObservable {
         journal.remove(id);
         notifyObservers();
     }
-    public HashMap<UUID, Task> getJournal() {
+    public HashMap<UUID, MutableTask> getJournal() {
         return journal;
     }
 
