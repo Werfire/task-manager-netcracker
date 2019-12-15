@@ -36,8 +36,6 @@ public class TasksView extends JFrame implements TasksObserver {
 
     private TasksController controller;
     private List<UUID> tasksIDs = new ArrayList<>();
-    private Set<TableModelListener> listeners = new HashSet<>();
-    private String[] columns = {"Name", "DueDate", "Description", "Author", "StatusID"};////////////////////////////
     private int selectedColumn;
     private int selectedRow;
 
