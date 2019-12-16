@@ -27,11 +27,11 @@ public class TaskCreation extends JDialog {
         super(frame, "Task creation", true);
         this.frame = frame;
         this.controller = controller;
-        setContentPane(contentPane);
         setSize(new Dimension(500, 350));
         setResizable(false);
         setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
         getRootPane().setDefaultButton(buttonAdd);
+        setContentPane(contentPane);
 
         descriptionArea.setBorder(UIManager.getBorder("TextField.border"));
 
