@@ -26,7 +26,7 @@ public class ErrorDialog extends JDialog {
         if(errorType.getErrNumber() <= 3)
             setTitle("User input error");
         else if(errorType.getErrNumber() <= 5)
-            setTitle("File reading error");
+            setTitle("File IO error");
         else if(errorType.getErrNumber() <= 6)
             setTitle("Login error");
         else if(errorType.getErrNumber() <= 10)

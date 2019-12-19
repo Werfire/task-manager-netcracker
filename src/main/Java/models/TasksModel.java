@@ -12,8 +12,7 @@ import java.util.UUID;
 
 public class TasksModel implements Serializable, TasksObservable {
     private HashMap<UUID, MutableTask> journal = new HashMap<>();
-    // This field must be preserved in serialization-deserialization cycle
-    public List<TasksObserver> observers = new ArrayList<>();
+    public transient List<TasksObserver> observers = new ArrayList<>();
 
     public TasksModel() {}
 
