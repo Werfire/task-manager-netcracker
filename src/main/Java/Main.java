@@ -11,7 +11,7 @@ public class Main {
         JDialog.setDefaultLookAndFeelDecorated(true);
 
         TasksController controller = new TasksController();
-        TasksView tasksView = new TasksView(controller);
+        //TasksView tasksView = new TasksView(controller);
         LoginView log = new LoginView(controller);
 
         Runtime.getRuntime().addShutdownHook(new Thread(new Runnable() {

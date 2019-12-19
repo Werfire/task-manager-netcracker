@@ -1,6 +1,7 @@
 package views;
 
 import controllers.TasksController;
+import models.User;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -110,7 +111,7 @@ public class LoginView extends JFrame {
         else if(password.length() > 24 || password.length() == 0)
             new ErrorDialog((JFrame)getParent(), ErrorType.PASSWORD_LENGTH);
         else {
-                TasksView view = new TasksView(controller);
+                TasksView view = new TasksView(controller, new User(UUID.randomUUID(), "User", "qwerty"));
                 view.setVisible(true);
         }
     }

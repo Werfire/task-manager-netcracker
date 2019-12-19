@@ -107,8 +107,8 @@ public class Registration extends JFrame {
                         new ErrorDialog(new JFrame(),ErrorType.USERNAME_ALREADY_TAKEN);
                     else
                         users.put(UUID.fromString(lastUser),lastUser);
-                    TasksView view = new TasksView(controller);
-                    view.setVisible(true);
+                    //TasksView view = new TasksView(controller);
+                    //view.setVisible(true);
                 }
             }
         }

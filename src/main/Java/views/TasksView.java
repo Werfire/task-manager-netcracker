@@ -20,6 +20,7 @@ import java.util.List;
 import interfaces.TasksObserver;
 import models.MutableTask;
 import models.TasksTableModel;
+import models.User;
 import util.NotificationsScheduler;
 import models.Task;
 import controllers.TasksController;
@@ -39,10 +40,11 @@ public class TasksView extends JFrame implements TasksObserver {
 
     private TasksController controller;
     private List<UUID> tasksIDs = new ArrayList<>();
+    private User user;
     private int selectedColumn;
     private int selectedRow;
 
-    public TasksView(TasksController _controller) {
+    public TasksView(TasksController _controller, User user) {
         add(mainPanel);
         setTitle("Task Manager");
         setSize( 600, 400);
@@ -132,6 +134,8 @@ public class TasksView extends JFrame implements TasksObserver {
         NotificationsScheduler.resetTimers();
         TasksTableModel tableModel = new TasksTableModel();
         for(HashMap.Entry<UUID, MutableTask> entry : journal.entrySet()) {
+            if(!entry.getValue().getAuthorId().equals(user.getId()))
+                continue;
             tasksIDs.add(entry.getValue().getId());
             tableModel.addRow(entry.getValue().toStringArray());
             NotificationsScheduler.scheduleNotifications(this, entry.getValue());
