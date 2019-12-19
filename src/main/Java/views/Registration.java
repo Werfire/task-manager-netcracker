@@ -19,17 +19,20 @@ public class Registration extends JFrame {
         private JTextField loginField = new JTextField();
         private JTextField confirm = new JTextField();
         private UsersModel usersModel;
+        UsersController uscon;
+        TasksController tascon;
         private JFrame frame = new JFrame("Registration");
-        public Registration(LoginView view) throws ClassNotFoundException, UnsupportedLookAndFeelException, InstantiationException, IllegalAccessException, IOException {
+        public Registration(LoginView view, UsersController usersController,TasksController tasksController) throws ClassNotFoundException, UnsupportedLookAndFeelException, InstantiationException, IllegalAccessException, IOException {
             super();
+            uscon = usersController;
+            tascon = tasksController;
             UIManager.setLookAndFeel("javax.swing.plaf.nimbus.NimbusLookAndFeel");
             JLabel hello = new JLabel("Input your login and password: " );
             frame.setVisible(true);
             setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
             frame.setSize(450, 120);
             frame.setResizable(false);
-            UsersController usersController = new UsersController();
-            usersModel = usersController.getModel();
+            usersModel = uscon.getModel();
             Box box1 = Box.createHorizontalBox();
             JLabel username = new JLabel("Username: ");
             loginField = new JTextField(24);
@@ -56,7 +59,11 @@ public class Registration extends JFrame {
             logIn.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    onOK(view);
+                    try {
+                        onOK(view);
+                    } catch (ClassNotFoundException | UnsupportedLookAndFeelException | InstantiationException | IOException | IllegalAccessException ex) {
+                        ex.printStackTrace();
+                    }
                 }
             });
             JButton cancel = new JButton("Cancel");
@@ -94,7 +101,7 @@ public class Registration extends JFrame {
             frame.setVisible(false);
             dispose();
         }
-        private void onOK(LoginView view) {
+        private void onOK(LoginView view) throws ClassNotFoundException, UnsupportedLookAndFeelException, InstantiationException, IOException, IllegalAccessException {
             this.login = loginField.getText();
             this.password = passwordField.getText();
            User newUser = new User(UUID.randomUUID(),login,password);
@@ -116,8 +123,10 @@ public class Registration extends JFrame {
                     new ErrorDialog(new JFrame(),ErrorType.USERNAME_ALREADY_TAKEN);
                 else{
                     usersModel.addUser(newUser);
+                    uscon.write();
                     frame.setVisible(false);
-                    view.setVisible(true);
+                    LoginView newView = new LoginView(uscon,tascon);
+
                 }
             }
         }

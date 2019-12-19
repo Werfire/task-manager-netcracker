@@ -72,10 +72,10 @@ public class LoginView extends JFrame {
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     try {
-                        Registration regView = new Registration(LoginView.this);
+                        Registration regView = new Registration(LoginView.this,usersController,tasksController);
                         setVisible(false);
                         frame.setVisible(false);
-                    } catch (ClassNotFoundException | UnsupportedLookAndFeelException | InstantiationException | IllegalAccessException ex) {
+                    } catch (ClassNotFoundException | UnsupportedLookAndFeelException | InstantiationException | IllegalAccessException | IOException ex) {
                         new ErrorDialog((JFrame)getParent(),ErrorType.SOME_SYSTEM_ERROR);                    }
                 }
             });

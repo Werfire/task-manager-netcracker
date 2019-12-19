@@ -3,6 +3,8 @@ package controllers;
 import models.TasksModel;
 import models.UsersModel;
 import org.checkerframework.checker.nullness.qual.NonNull;
+import views.ErrorDialog;
+import views.ErrorType;
 
 import javax.annotation.Nonnull;
 import javax.swing.*;
@@ -32,8 +34,18 @@ public class UsersController implements Serializable {
 
     public void read() throws IOException, ClassNotFoundException {
         FileInputStream in = new FileInputStream("C:\\Users\\dmitry\\Desktop\\MANAGER\\task-manager\\users.txt");
+        try {
         ObjectInputStream input = new ObjectInputStream(in);
         model = new UsersModel((UsersModel) input.readObject());
+        input.close();
+        }
+        catch (EOFException e){
+            new ErrorDialog(new JFrame(), ErrorType.SOME_SYSTEM_ERROR);
+            model = new UsersModel();
+        }
+        catch (IOException e){
+            new ErrorDialog(new JFrame(),ErrorType.IO_EXCEPTION);
+        }
         in.close();
     }
     public void write() throws IOException {
