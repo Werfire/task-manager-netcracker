@@ -56,6 +56,7 @@ public class TasksView extends JFrame implements TasksObserver {
         this.tasksController = tasksController;
         tasksController.mainFrame = this;
         tasksController.getModel().addObserver(this);
+        this.user = user;
 
         addWindowListener(new WindowAdapter() {
             public void windowClosing(WindowEvent e) {
