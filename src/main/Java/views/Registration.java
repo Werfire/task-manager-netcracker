@@ -1,10 +1,13 @@
 package views;
 
 import controllers.TasksController;
-
+import models.User;
+import models.UsersModel;
+import controllers.UsersController;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.UUID;
 
@@ -12,22 +15,21 @@ public class Registration extends JFrame {
 
         private String login;
         private String password;
-        private String lastUser;
         private JTextField passwordField = new JTextField();
         private JTextField loginField = new JTextField();
         private JTextField confirm = new JTextField();
-        private HashMap<UUID,String> users;
+        private UsersModel usersModel;
         private JFrame frame = new JFrame("Registration");
-
-        public Registration(LoginView view) throws ClassNotFoundException, UnsupportedLookAndFeelException, InstantiationException, IllegalAccessException {
+        public Registration(LoginView view) throws ClassNotFoundException, UnsupportedLookAndFeelException, InstantiationException, IllegalAccessException, IOException {
             super();
             UIManager.setLookAndFeel("javax.swing.plaf.nimbus.NimbusLookAndFeel");
             JLabel hello = new JLabel("Input your login and password: " );
             frame.setVisible(true);
             setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
             frame.setSize(450, 120);
-
             frame.setResizable(false);
+            UsersController usersController = new UsersController();
+            usersModel = usersController.getModel();
             Box box1 = Box.createHorizontalBox();
             JLabel username = new JLabel("Username: ");
             loginField = new JTextField(24);
@@ -95,8 +97,7 @@ public class Registration extends JFrame {
         private void onOK(LoginView view) {
             this.login = loginField.getText();
             this.password = passwordField.getText();
-            lastUser = login + " " + password;
-            System.out.println("Login: " + login + "\tPassword: " + this.password);
+           User newUser = new User(UUID.randomUUID(),login,password);
             if(login.length() == 0 || login.length() > 24)
                 new ErrorDialog(new JFrame(), ErrorType.WRONG_LOGIN_INPUT);
             else if(password.length() > 24 || password.length() == 0)
@@ -104,26 +105,22 @@ public class Registration extends JFrame {
             else if (!password.equals(confirm.getText()))
                 new ErrorDialog(new JFrame(),ErrorType.PASSWORD_CONFIRMATION);
             else {
-                for(String call : users.values()){
-                    if(lastUser.equals(call))
-                        new ErrorDialog(new JFrame(),ErrorType.USERNAME_ALREADY_TAKEN);
-                    else
-                        users.put(UUID.fromString(lastUser),lastUser);
+                boolean flag = false;
+                for(User us : usersModel.getUsers().values()){
+                    if(newUser.getUsername().equals(us.getUsername()))
+                        flag = true;
+                    else if(newUser.getId().equals(us.getId()))
+                        newUser.setId(UUID.randomUUID());
+                }
+                if (flag)
+                    new ErrorDialog(new JFrame(),ErrorType.USERNAME_ALREADY_TAKEN);
+                else{
+                    usersModel.addUser(newUser);
+                    frame.setVisible(false);
                     view.setVisible(true);
                 }
             }
         }
-//    public String[] read(){
-//        try (FileInputStream input = new FileInputStream("database.txt")) {
-//            ObjectInputStream dataIn = new ObjectInputStream(input);
-//
-////            users.values() = (Collection<String>) dataIn.readObject();
-//
-////            } catch (IOException | ClassNotFoundException e) {
-//            e.printStackTrace();
-//        }
-//    }
-
     }
 
 

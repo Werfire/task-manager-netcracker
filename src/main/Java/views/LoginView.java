@@ -13,7 +13,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.UUID;
 
-import static org.graalvm.compiler.options.OptionType.User;
+
 
 public class LoginView extends JFrame {
         private String login;
@@ -75,7 +75,7 @@ public class LoginView extends JFrame {
                         Registration regView = new Registration(LoginView.this);
                         setVisible(false);
                         frame.setVisible(false);
-                    } catch (ClassNotFoundException | UnsupportedLookAndFeelException | InstantiationException | IllegalAccessException ex) {
+                    } catch (ClassNotFoundException | UnsupportedLookAndFeelException | InstantiationException | IllegalAccessException | IOException ex) {
                         new ErrorDialog((JFrame)getParent(),ErrorType.SOME_SYSTEM_ERROR);                    }
                 }
             });
@@ -129,7 +129,7 @@ public class LoginView extends JFrame {
         }
     }
 //    public String[] read(){
-//        try (FileInputStream input = new FileInputStream("database.txt")) {
+//        try (FileInputStream input = new FileInputStream("tasks.txt")) {
 //            ObjectInputStream dataIn = new ObjectInputStream(input);
 //
 ////            users.values() = (Collection<String>) dataIn.readObject();
