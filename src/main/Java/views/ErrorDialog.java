@@ -18,7 +18,9 @@ public class ErrorDialog extends JDialog {
             "This username already taken.",
             "Username must be 3 to 12 characters long.",
             "Password must be 4 to 18 characters long.",
-            "Different password in \"Confirm password\" field."
+            "Different password in \"Confirm password\" field.",
+            "Some system error."
+
     };
 
     public ErrorDialog(JFrame frame, ErrorType errorType) {

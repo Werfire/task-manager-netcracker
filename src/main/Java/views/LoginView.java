@@ -1,31 +1,22 @@
 package views;
 
-import interfaces.TasksObserver;
-import models.Task;
 import controllers.TasksController;
-import models.TasksModel;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.*;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.util.Collection;
+import java.io.File;
 import java.util.HashMap;
-import java.util.List;
 import java.util.UUID;
 
-public class LoginView extends JDialog {
+public class LoginView extends JFrame {
         private String login;
         private String password;
-        private String lastUser;
+
         private JPasswordField passwordField = new JPasswordField();
         private JTextField loginField = new JTextField();
 
-        private HashMap<UUID,String> users;
+        private HashMap<UUID,String> usersModel;
 
         public LoginView(TasksController controller) throws ClassNotFoundException, UnsupportedLookAndFeelException, InstantiationException, IllegalAccessException {
             super();
@@ -33,7 +24,6 @@ public class LoginView extends JDialog {
             JLabel hello = new JLabel("Welcome, User!" );
             setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
             JFrame frame = new JFrame("Authorization");
-            JMenuItem menuItem = new JMenuItem("Exit");
             frame.setVisible(true);
             frame.setSize(450, 120);
 
@@ -58,9 +48,9 @@ public class LoginView extends JDialog {
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     try {
-                        onOK(controller);
+                        onLog(controller);
                     } catch (ClassNotFoundException | UnsupportedLookAndFeelException | InstantiationException | IllegalAccessException ex) {
-                        ex.printStackTrace();
+                        new ErrorDialog((JFrame)getParent(),ErrorType.SOME_SYSTEM_ERROR);
                     }
                 }
             });
@@ -70,6 +60,19 @@ public class LoginView extends JDialog {
                     onCancel();
                 }
             });
+            JButton reg = new JButton("Registration");
+            reg.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    try {
+                        Registration regView = new Registration(controller);
+                        setEnabled(false);
+                    } catch (ClassNotFoundException | UnsupportedLookAndFeelException | InstantiationException | IllegalAccessException ex) {
+                        new ErrorDialog((JFrame)getParent(),ErrorType.SOME_SYSTEM_ERROR);                    }
+                }
+            });
+            box3.add(Box.createHorizontalGlue());
+            box3.add(reg);
             box3.add(Box.createHorizontalGlue());
             box3.add(logIn);
             box3.add(Box.createHorizontalStrut(20));
@@ -93,27 +96,22 @@ public class LoginView extends JDialog {
 
 
         }
+
     private void onCancel() {
         dispose();
+        System.exit(0);
     }
-    private void onOK(TasksController controller) throws ClassNotFoundException, UnsupportedLookAndFeelException, InstantiationException, IllegalAccessException {
+    private void onLog(TasksController controller) throws ClassNotFoundException, UnsupportedLookAndFeelException, InstantiationException, IllegalAccessException {
         LoginView.this.login = loginField.getText();
         LoginView.this.password = new String(passwordField.getPassword());
-        lastUser = login + " " + password;
         System.out.println("Login: " + LoginView.this.login + "\tPassword: " + LoginView.this.password);
         if(login.length() == 0 || login.length() > 24)
             new ErrorDialog((JFrame)getParent(), ErrorType.WRONG_LOGIN_INPUT);
         else if(password.length() > 24 || password.length() == 0)
             new ErrorDialog((JFrame)getParent(), ErrorType.PASSWORD_LENGTH);
         else {
-            for(String call : users.values()){
-                if(lastUser.equals(call))
-                    new ErrorDialog((JFrame)getParent(),ErrorType.USERNAME_ALREADY_TAKEN);
-                else
-                    users.put(UUID.fromString(lastUser),lastUser);
                 TasksView view = new TasksView(controller);
                 view.setVisible(true);
-            }
         }
     }
 //    public String[] read(){

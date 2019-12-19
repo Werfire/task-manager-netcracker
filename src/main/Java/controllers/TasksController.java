@@ -17,6 +17,7 @@ import java.util.*;
 public class TasksController {
     @Nonnull private TasksModel model;
     @Nonnull public JFrame mainFrame = new JFrame();
+    private HashMap<UUID,String> users;
 
     public TasksController() {
         this.model = new TasksModel();
@@ -91,5 +92,23 @@ public class TasksController {
             new ErrorDialog(mainFrame, ErrorType.CLASS_NOT_FOUND_EXCEPTION);
         }
         return model;
+
+    }
+    public HashMap<UUID,String> getUsers(){
+        return users;
+    }
+
+    public HashMap<UUID,String> readUsers(){
+        try {
+//            DataInputStream dataIn = new DataInputStream(input);
+            boolean flag = false;
+            FileReader input = new FileReader("users.txt");
+            StreamTokenizer tokenizer = new StreamTokenizer(input);
+
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }

@@ -11,7 +11,8 @@ public enum ErrorType {
     USERNAME_ALREADY_TAKEN(7),
     USERNAME_LENGTH(8),
     PASSWORD_LENGTH(9),
-    PASSWORD_CONFIRMATION(10);
+    PASSWORD_CONFIRMATION(10),
+    SOME_SYSTEM_ERROR(11);
 
     private final int errNumber;
     private ErrorType(int errNumber) {

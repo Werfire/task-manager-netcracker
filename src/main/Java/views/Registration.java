@@ -8,7 +8,7 @@ import java.awt.event.ActionListener;
 import java.util.HashMap;
 import java.util.UUID;
 
-public class Registration extends JDialog {
+public class Registration extends JFrame {
 
         private String login;
         private String password;
@@ -21,11 +21,10 @@ public class Registration extends JDialog {
         public Registration(TasksController controller) throws ClassNotFoundException, UnsupportedLookAndFeelException, InstantiationException, IllegalAccessException {
             super();
             UIManager.setLookAndFeel("javax.swing.plaf.nimbus.NimbusLookAndFeel");
-            JLabel hello = new JLabel("Welcome, User!" );
-            setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+            JLabel hello = new JLabel("Input your login and password: " );
             JFrame frame = new JFrame("Registration");
-            JMenuItem menuItem = new JMenuItem("Exit");
             frame.setVisible(true);
+            setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
             frame.setSize(450, 120);
 
             frame.setResizable(false);
@@ -55,15 +54,11 @@ public class Registration extends JDialog {
             logIn.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    try {
-                        onOK(controller);
-                    } catch (ClassNotFoundException | UnsupportedLookAndFeelException | InstantiationException | IllegalAccessException ex) {
-                        ex.printStackTrace();
-                    }
+                    onOK(controller);
                 }
             });
-            JButton exit = new JButton("Exit");
-            exit.addActionListener(new ActionListener() {
+            JButton cancel = new JButton("Cancel");
+            cancel.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent e) {
                     onCancel();
                 }
@@ -71,7 +66,7 @@ public class Registration extends JDialog {
             box3.add(Box.createHorizontalGlue());
             box3.add(logIn);
             box3.add(Box.createHorizontalStrut(20));
-            box3.add(exit);
+            box3.add(cancel);
 
             username.setPreferredSize(passLabel.getPreferredSize());
             Box mainBox = Box.createVerticalBox();
@@ -92,23 +87,24 @@ public class Registration extends JDialog {
 
         }
         private void onCancel() {
+            this.setVisible(false);
             dispose();
         }
-        private void onOK(TasksController controller) throws ClassNotFoundException, UnsupportedLookAndFeelException, InstantiationException, IllegalAccessException {
+        private void onOK(TasksController controller) {
             this.login = loginField.getText();
-            this.password = new String(passwordField.getText());
+            this.password = passwordField.getText();
             lastUser = login + " " + password;
             System.out.println("Login: " + login + "\tPassword: " + this.password);
             if(login.length() == 0 || login.length() > 24)
-                new ErrorDialog((JFrame)getParent(), ErrorType.WRONG_LOGIN_INPUT);
+                new ErrorDialog(new JFrame(), ErrorType.WRONG_LOGIN_INPUT);
             else if(password.length() > 24 || password.length() == 0)
-                new ErrorDialog((JFrame)getParent(), ErrorType.PASSWORD_LENGTH);
-//            else if (!password.equals(confirm.getText()))
-//                new ErrorDialog((JFrame)getParent(),ErrorType.)
+                new ErrorDialog(new JFrame(), ErrorType.PASSWORD_LENGTH);
+            else if (!password.equals(confirm.getText()))
+                new ErrorDialog(new JFrame(),ErrorType.PASSWORD_CONFIRMATION);
             else {
                 for(String call : users.values()){
                     if(lastUser.equals(call))
-                        new ErrorDialog((JFrame)getParent(),ErrorType.USERNAME_ALREADY_TAKEN);
+                        new ErrorDialog(new JFrame(),ErrorType.USERNAME_ALREADY_TAKEN);
                     else
                         users.put(UUID.fromString(lastUser),lastUser);
                     TasksView view = new TasksView(controller);
