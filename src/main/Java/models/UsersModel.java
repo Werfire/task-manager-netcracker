@@ -31,7 +31,7 @@ public class UsersModel implements Serializable, UsersObservable {
         return users.get(id);
     }
 
-    public void deleteTask(UUID id) {
+    public void deleteUser(UUID id) {
         users.remove(id);
         notifyObservers();
     }

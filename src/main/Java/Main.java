@@ -10,8 +10,8 @@ import java.util.UUID;
 
 public class Main {
     public static void main(String[] args) throws IOException, ClassNotFoundException, InstantiationException, IllegalAccessException, UnsupportedLookAndFeelException {
-        JFrame.setDefaultLookAndFeelDecorated(true);
-        JDialog.setDefaultLookAndFeelDecorated(true);
+//        JFrame.setDefaultLookAndFeelDecorated(true);
+//        JDialog.setDefaultLookAndFeelDecorated(true);
 
         UsersController usersController = new UsersController();
         TasksController tasksController = new TasksController();
