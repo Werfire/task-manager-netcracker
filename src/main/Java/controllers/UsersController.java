@@ -31,13 +31,13 @@ public class UsersController implements Serializable {
     }
 
     public void read() throws IOException, ClassNotFoundException {
-        FileInputStream in = new FileInputStream("C:\\Users\\dmitry\\Desktop\\MANAGER\\task-manager\\users.txt");
+        FileInputStream in = new FileInputStream("users.txt");
         ObjectInputStream input = new ObjectInputStream(in);
         model = new UsersModel((UsersModel) input.readObject());
         in.close();
     }
     public void write() throws IOException {
-        FileOutputStream out = new FileOutputStream("C:\\Users\\dmitry\\Desktop\\MANAGER\\task-manager\\users.txt");
+        FileOutputStream out = new FileOutputStream("users.txt");
         ObjectOutputStream output = new ObjectOutputStream(out);
         output.writeObject(model);
         out.close();
