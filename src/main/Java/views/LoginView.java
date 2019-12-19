@@ -72,10 +72,9 @@ public class LoginView extends JFrame {
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     try {
-                        Registration regView = new Registration(LoginView.this,usersController,tasksController);
-                        setVisible(false);
-                        frame.setVisible(false);
-                    } catch (ClassNotFoundException | UnsupportedLookAndFeelException | InstantiationException | IllegalAccessException | IOException ex) {
+                        Registration regView = new Registration(LoginView.this);
+                        dispose();
+                    } catch (ClassNotFoundException | UnsupportedLookAndFeelException | InstantiationException | IllegalAccessException ex) {
                         new ErrorDialog((JFrame)getParent(),ErrorType.SOME_SYSTEM_ERROR);                    }
                 }
             });
@@ -123,6 +122,7 @@ public class LoginView extends JFrame {
         if(user == null)
             new ErrorDialog(new JFrame(),ErrorType.WRONG_LOGIN_INPUT);
         else {
+            dispose();
             new TasksView(usersController, tasksController, user);
         }
     }
