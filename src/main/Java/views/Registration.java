@@ -17,12 +17,12 @@ public class Registration extends JFrame {
         private JTextField loginField = new JTextField();
         private JTextField confirm = new JTextField();
         private HashMap<UUID,String> users;
+        private JFrame frame = new JFrame("Registration");
 
-        public Registration(TasksController controller) throws ClassNotFoundException, UnsupportedLookAndFeelException, InstantiationException, IllegalAccessException {
+        public Registration(LoginView view) throws ClassNotFoundException, UnsupportedLookAndFeelException, InstantiationException, IllegalAccessException {
             super();
             UIManager.setLookAndFeel("javax.swing.plaf.nimbus.NimbusLookAndFeel");
             JLabel hello = new JLabel("Input your login and password: " );
-            JFrame frame = new JFrame("Registration");
             frame.setVisible(true);
             setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
             frame.setSize(450, 120);
@@ -54,13 +54,15 @@ public class Registration extends JFrame {
             logIn.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    onOK(controller);
+                    onOK(view);
                 }
             });
             JButton cancel = new JButton("Cancel");
             cancel.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent e) {
+                    view.setVisible(true);
                     onCancel();
+
                 }
             });
             box3.add(Box.createHorizontalGlue());
@@ -87,10 +89,10 @@ public class Registration extends JFrame {
 
         }
         private void onCancel() {
-            this.setVisible(false);
+            frame.setVisible(false);
             dispose();
         }
-        private void onOK(TasksController controller) {
+        private void onOK(LoginView view) {
             this.login = loginField.getText();
             this.password = passwordField.getText();
             lastUser = login + " " + password;
@@ -107,8 +109,7 @@ public class Registration extends JFrame {
                         new ErrorDialog(new JFrame(),ErrorType.USERNAME_ALREADY_TAKEN);
                     else
                         users.put(UUID.fromString(lastUser),lastUser);
-                    //TasksView view = new TasksView(controller);
-                    //view.setVisible(true);
+                    view.setVisible(true);
                 }
             }
         }

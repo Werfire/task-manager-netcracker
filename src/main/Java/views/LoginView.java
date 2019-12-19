@@ -2,13 +2,18 @@ package views;
 
 import controllers.TasksController;
 import models.User;
-
+import models.UsersModel;
+import  controllers.UsersController;
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.UUID;
+
+import static org.graalvm.compiler.options.OptionType.User;
 
 public class LoginView extends JFrame {
         private String login;
@@ -17,9 +22,9 @@ public class LoginView extends JFrame {
         private JPasswordField passwordField = new JPasswordField();
         private JTextField loginField = new JTextField();
 
-        private HashMap<UUID,String> usersModel;
+        private UsersModel usersModel;
 
-        public LoginView(TasksController controller) throws ClassNotFoundException, UnsupportedLookAndFeelException, InstantiationException, IllegalAccessException {
+        public LoginView(TasksController controller) throws ClassNotFoundException, UnsupportedLookAndFeelException, InstantiationException, IllegalAccessException, IOException {
             super();
             UIManager.setLookAndFeel("javax.swing.plaf.nimbus.NimbusLookAndFeel");
             JLabel hello = new JLabel("Welcome, User!" );
@@ -27,7 +32,8 @@ public class LoginView extends JFrame {
             JFrame frame = new JFrame("Authorization");
             frame.setVisible(true);
             frame.setSize(450, 120);
-
+            UsersController usersController = new UsersController();
+            usersModel = usersController.getModel();
             frame.setResizable(false);
             Box box1 = Box.createHorizontalBox();
             JLabel loginLabel = new JLabel("Login:");
@@ -50,7 +56,7 @@ public class LoginView extends JFrame {
                 public void actionPerformed(ActionEvent e) {
                     try {
                         onLog(controller);
-                    } catch (ClassNotFoundException | UnsupportedLookAndFeelException | InstantiationException | IllegalAccessException ex) {
+                    } catch (ClassNotFoundException | UnsupportedLookAndFeelException | InstantiationException | IllegalAccessException | IOException ex) {
                         new ErrorDialog((JFrame)getParent(),ErrorType.SOME_SYSTEM_ERROR);
                     }
                 }
@@ -66,8 +72,9 @@ public class LoginView extends JFrame {
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     try {
-                        Registration regView = new Registration(controller);
-                        setEnabled(false);
+                        Registration regView = new Registration(LoginView.this);
+                        setVisible(false);
+                        frame.setVisible(false);
                     } catch (ClassNotFoundException | UnsupportedLookAndFeelException | InstantiationException | IllegalAccessException ex) {
                         new ErrorDialog((JFrame)getParent(),ErrorType.SOME_SYSTEM_ERROR);                    }
                 }
@@ -102,17 +109,23 @@ public class LoginView extends JFrame {
         dispose();
         System.exit(0);
     }
-    private void onLog(TasksController controller) throws ClassNotFoundException, UnsupportedLookAndFeelException, InstantiationException, IllegalAccessException {
+    private void onLog(TasksController controller) throws ClassNotFoundException, UnsupportedLookAndFeelException, InstantiationException, IllegalAccessException, IOException {
         LoginView.this.login = loginField.getText();
         LoginView.this.password = new String(passwordField.getPassword());
+        models.User newUser = new User(UUID.randomUUID(),login,password);
         System.out.println("Login: " + LoginView.this.login + "\tPassword: " + LoginView.this.password);
         if(login.length() == 0 || login.length() > 24)
             new ErrorDialog((JFrame)getParent(), ErrorType.WRONG_LOGIN_INPUT);
         else if(password.length() > 24 || password.length() == 0)
             new ErrorDialog((JFrame)getParent(), ErrorType.PASSWORD_LENGTH);
         else {
-                TasksView view = new TasksView(controller, new User(UUID.randomUUID(), "User", "qwerty"));
-                view.setVisible(true);
+            for(User us : usersModel.getUsers().values())
+            {
+                if (!(newUser.getUsername().equals(us.getUsername()) && newUser.getPassword().equals(us.getPassword())))
+                    new ErrorDialog(new JFrame(),ErrorType.WRONG_LOGIN_INPUT);
+            }
+//                TasksView view = new TasksView(controller);
+//                view.setVisible(true);
         }
     }
 //    public String[] read(){
