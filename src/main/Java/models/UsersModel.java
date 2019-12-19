@@ -14,12 +14,14 @@ import java.util.UUID;
 
 public class UsersModel implements Serializable, UsersObservable {
     private HashMap<UUID, User> users = new HashMap<>();
-    // This field must be preserved in serialization-deserialization cycle
-    public List<UsersObserver> observers = new ArrayList<>();
+    public transient List<UsersObserver> observers = new ArrayList<>();
+
     public UsersModel() {}
+
     public UsersModel(UsersModel model) {
         this.users = new HashMap<>(model.users);
     }
+
     public void addUser(@Nonnull User user) {
         users.put(user.getId(),user);
         notifyObservers();
@@ -33,6 +35,7 @@ public class UsersModel implements Serializable, UsersObservable {
         users.remove(id);
         notifyObservers();
     }
+
     public HashMap<UUID, User> getUsers() {
         return users;
     }
@@ -45,6 +48,7 @@ public class UsersModel implements Serializable, UsersObservable {
     public void addObserver(UsersObserver observer) {
         observers.add(observer);
     }
+
     @Override
     public void removeObserver(UsersObserver observer) {
         observers.remove(observer);

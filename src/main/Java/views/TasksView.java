@@ -123,6 +123,7 @@ public class TasksView extends JFrame implements TasksObserver {
 
         controller.read();
         update(controller.getModel().getJournal());
+        setVisible(true);
     }
 
     @Override
