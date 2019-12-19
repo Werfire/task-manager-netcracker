@@ -117,8 +117,10 @@ public class LoginView extends JFrame {
                     break;
                 }
         }
-        else
-            new ErrorDialog(new JFrame(),ErrorType.WRONG_LOGIN_INPUT);
+        else {
+            new ErrorDialog(new JFrame(), ErrorType.USERNAME_LENGTH);
+            return;
+        }
 
         if(user == null)
             new ErrorDialog(new JFrame(),ErrorType.WRONG_LOGIN_INPUT);

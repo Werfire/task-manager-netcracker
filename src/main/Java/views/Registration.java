@@ -140,7 +140,7 @@ public class Registration extends JFrame {
             String password = passwordField.getText();
            User newUser = new User(UUID.randomUUID(),login,password);
             if(login.length() < 3 || login.length() > 12)
-                new ErrorDialog(new JFrame(), ErrorType.WRONG_LOGIN_INPUT);
+                new ErrorDialog(new JFrame(), ErrorType.USERNAME_LENGTH);
             else if(password.length() < 4 || password.length() > 18)
                 new ErrorDialog(new JFrame(), ErrorType.PASSWORD_LENGTH);
             else if (!password.equals(confirm.getText()))
