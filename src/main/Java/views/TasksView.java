@@ -43,7 +43,7 @@ public class TasksView extends JFrame implements TasksObserver {
     private int selectedColumn;
     private int selectedRow;
 
-    public TasksView(UsersController _usersController, TasksController _tasksController, User user) {
+    public TasksView(UsersController usersController, TasksController tasksController, User user) {
         add(mainPanel);
         setTitle("Task Manager");
         setSize( 600, 400);
@@ -52,8 +52,8 @@ public class TasksView extends JFrame implements TasksObserver {
         setLocationRelativeTo(null);
         getContentPane().setLayout(new BoxLayout(getContentPane(),BoxLayout.X_AXIS));
 
-        usersController = _usersController;
-        tasksController = _tasksController;
+        this.usersController = usersController;
+        this.tasksController = tasksController;
         tasksController.mainFrame = this;
         tasksController.getModel().addObserver(this);
 
@@ -67,7 +67,7 @@ public class TasksView extends JFrame implements TasksObserver {
         addButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                new TaskCreation(TasksView.this, tasksController);
+                new TaskCreation(TasksView.this, tasksController, user);
             }
         });
         completeButton.addActionListener(new ActionListener() {

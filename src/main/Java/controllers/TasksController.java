@@ -20,7 +20,6 @@ public class TasksController {
 
     public TasksController() {
         this.model = new TasksModel();
-        read();
     }
 
     public TasksController(@Nonnull TasksModel model) {

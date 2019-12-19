@@ -2,33 +2,30 @@ package views;
 
 import controllers.TasksController;
 import models.User;
-import models.UsersModel;
 import  controllers.UsersController;
 import javax.swing.*;
-import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.File;
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.UUID;
 
 public class LoginView extends JFrame {
         private JPasswordField passwordField = new JPasswordField();
         private JTextField loginField = new JTextField();
+        private JFrame frame;
 
         private UsersController usersController;
         private TasksController tasksController;
 
-        public LoginView(UsersController _usersController, TasksController _tasksController) throws ClassNotFoundException,
+        public LoginView(UsersController usersController, TasksController tasksController) throws ClassNotFoundException,
                 UnsupportedLookAndFeelException, InstantiationException, IllegalAccessException, IOException {
             super();
-            usersController = _usersController;
-            tasksController = _tasksController;
+            this.usersController = usersController;
+            this.tasksController = tasksController;
+            usersController.mainFrame = this;
             UIManager.setLookAndFeel("javax.swing.plaf.nimbus.NimbusLookAndFeel");
             JLabel hello = new JLabel("Welcome, User!" );
-            setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-            JFrame frame = new JFrame("Authorization");
+            setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            frame = new JFrame("Authorization");
             frame.setSize(450, 120);
             frame.setResizable(false);
             Box box1 = Box.createHorizontalBox();
@@ -62,7 +59,7 @@ public class LoginView extends JFrame {
 
             exit.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent e) {
-                    onCancel();
+                    onExit();
                 }
             });
 
@@ -72,9 +69,10 @@ public class LoginView extends JFrame {
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     try {
-                        Registration regView = new Registration(LoginView.this);
+                        Registration regView = new Registration(LoginView.this, usersController, tasksController);
+                        frame.setVisible(false);
                         dispose();
-                    } catch (ClassNotFoundException | UnsupportedLookAndFeelException | InstantiationException | IllegalAccessException ex) {
+                    } catch (ClassNotFoundException | UnsupportedLookAndFeelException | InstantiationException | IllegalAccessException | IOException ex) {
                         new ErrorDialog((JFrame)getParent(),ErrorType.SOME_SYSTEM_ERROR);                    }
                 }
             });
@@ -103,7 +101,7 @@ public class LoginView extends JFrame {
             frame.setVisible(true);
         }
 
-    private void onCancel() {
+    private void onExit() {
         dispose();
         System.exit(0);
     }
@@ -112,16 +110,20 @@ public class LoginView extends JFrame {
         String login = loginField.getText();
         String password = new String(passwordField.getPassword());
         User user = null;
-        if(login.length() > 0 && login.length() <=24 && password.length() > 0 && password.length() <=24)
+        if(login.length() > 2 && login.length() <= 12 && password.length() > 3 && password.length() <= 18) {
             for(User u : usersController.getModel().getUsers().values())
-                if (login.equals(u.getUsername()) && password.equals(u.getPassword()))
+                if (login.equals(u.getUsername()) && password.equals(u.getPassword())) {
                     user = u;
+                    break;
+                }
+        }
         else
             new ErrorDialog(new JFrame(),ErrorType.WRONG_LOGIN_INPUT);
 
         if(user == null)
             new ErrorDialog(new JFrame(),ErrorType.WRONG_LOGIN_INPUT);
         else {
+            frame.setVisible(false);
             dispose();
             new TasksView(usersController, tasksController, user);
         }

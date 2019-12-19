@@ -2,11 +2,12 @@ package models;
 
 import com.google.common.base.MoreObjects;
 
+import java.io.Serializable;
 import java.io.StreamTokenizer;
 import java.util.Objects;
 import java.util.UUID;
 
-public class User {
+public class User implements Serializable {
     private UUID id;
     private String username;
     private String password;

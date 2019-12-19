@@ -3,6 +3,7 @@ package views;
 import controllers.TasksController;
 import models.MutableTask;
 import models.Task;
+import models.User;
 
 import javax.swing.*;
 import java.awt.*;
@@ -22,11 +23,13 @@ public class TaskCreation extends JDialog {
 
     private JFrame frame;
     private TasksController controller;
+    private User user;
 
-    public TaskCreation(JFrame frame, TasksController controller) {
+    public TaskCreation(JFrame frame, TasksController controller, User user) {
         super(frame, "Task creation", true);
         this.frame = frame;
         this.controller = controller;
+        this.user = user;
         setSize(new Dimension(500, 350));
         setResizable(false);
         setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
@@ -91,7 +94,7 @@ public class TaskCreation extends JDialog {
             if(!dateError) {
                 controller.add(new MutableTask(UUID.randomUUID(), nameField.getText(), descriptionArea.getText(),
                         LocalDateTime.now(), LocalDateTime.parse(dateField.getText(), formatter),
-                        UUID.randomUUID(), 0));
+                        user.getId(), 0));
                 dispose();
             }
         }
