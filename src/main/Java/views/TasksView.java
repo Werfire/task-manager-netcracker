@@ -5,24 +5,22 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
-import javax.swing.table.DefaultTableModel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.*;
 import java.util.List;
 
+import controllers.UsersController;
 import interfaces.TasksObserver;
 import models.MutableTask;
 import models.TasksTableModel;
 import models.User;
 import util.NotificationsScheduler;
-import models.Task;
 import controllers.TasksController;
 
 
@@ -38,13 +36,14 @@ public class TasksView extends JFrame implements TasksObserver {
     private JPanel journal;
     private JLabel title;
 
-    private TasksController controller;
+    private UsersController usersController;
+    private TasksController tasksController;
     private List<UUID> tasksIDs = new ArrayList<>();
     private User user;
     private int selectedColumn;
     private int selectedRow;
 
-    public TasksView(TasksController _controller, User user) {
+    public TasksView(UsersController _usersController, TasksController _tasksController, User user) {
         add(mainPanel);
         setTitle("Task Manager");
         setSize( 600, 400);
@@ -52,32 +51,35 @@ public class TasksView extends JFrame implements TasksObserver {
         setResizable(true);
         setLocationRelativeTo(null);
         getContentPane().setLayout(new BoxLayout(getContentPane(),BoxLayout.X_AXIS));
-        controller = _controller;
-        controller.mainFrame = this;
-        controller.getModel().addObserver(this);
+
+        usersController = _usersController;
+        tasksController = _tasksController;
+        tasksController.mainFrame = this;
+        tasksController.getModel().addObserver(this);
 
         addWindowListener(new WindowAdapter() {
             public void windowClosing(WindowEvent e) {
-                controller.write();
+                tasksController.getModel().removeObserver(TasksView.this);
+                tasksController.write();
             }
         });
 
         addButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                new TaskCreation(TasksView.this, controller);
+                new TaskCreation(TasksView.this, tasksController);
             }
         });
         completeButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                controller.changeStatus(tasksIDs.get(tasksTable.convertRowIndexToModel(selectedRow)), 1);
+                tasksController.changeStatus(tasksIDs.get(tasksTable.convertRowIndexToModel(selectedRow)), 1);
             }
         });
         deleteButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                controller.delete(tasksIDs.get(tasksTable.convertRowIndexToModel(selectedRow)));
+                tasksController.delete(tasksIDs.get(tasksTable.convertRowIndexToModel(selectedRow)));
             }
         });
         deleteButton.setEnabled(false);
@@ -93,7 +95,7 @@ public class TasksView extends JFrame implements TasksObserver {
                 if(!selectionModel.isSelectionEmpty()) {
                     selectedColumn = tasksTable.getSelectedColumn();
                     selectedRow = tasksTable.getSelectedRow();
-                    if(controller.get(tasksIDs.get(tasksTable.convertRowIndexToModel(selectedRow))).getStatusId() != 1)
+                    if(tasksController.get(tasksIDs.get(tasksTable.convertRowIndexToModel(selectedRow))).getStatusId() != 1)
                         completeButton.setEnabled(true);
                     else
                         completeButton.setEnabled(false);
@@ -123,8 +125,8 @@ public class TasksView extends JFrame implements TasksObserver {
         getContentPane().add(journal);
 //        pack();
 
-        controller.read();
-        update(controller.getModel().getJournal());
+        tasksController.read();
+        update(tasksController.getModel().getJournal());
         setVisible(true);
     }
 
@@ -146,13 +148,13 @@ public class TasksView extends JFrame implements TasksObserver {
                 switch(selectedColumn) {
                     case 0:
                         if(value.length() == 0 || value.length() > 24 ||
-                                controller.getModel().getJournal().entrySet().stream().anyMatch(task ->
+                                tasksController.getModel().getJournal().entrySet().stream().anyMatch(task ->
                                         task.getValue().getName().toLowerCase().equals(value.toLowerCase()))) {
                             new ErrorDialog((JFrame) getParent(), ErrorType.NAME_UNIQUENESS_OR_LENGTH);
-                            update(controller.getModel().getJournal());
+                            update(tasksController.getModel().getJournal());
                         }
                         else
-                            controller.editName(tasksIDs.get(tasksTable.convertRowIndexToModel(selectedRow)), value);
+                            tasksController.editName(tasksIDs.get(tasksTable.convertRowIndexToModel(selectedRow)), value);
                         break;
                     case 1:
                         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy dd.MM HH:mm");
@@ -165,24 +167,24 @@ public class TasksView extends JFrame implements TasksObserver {
                         catch (DateTimeParseException exception) {
                             error = true;
                             new ErrorDialog(TasksView.this, ErrorType.DATE_FORMAT);
-                            update(controller.getModel().getJournal());
+                            update(tasksController.getModel().getJournal());
                         }
 
                         if(!error && LocalDateTime.now().compareTo(dueDate) >= 0) {
                             new ErrorDialog(TasksView.this, ErrorType.DATE_ALREADY_PAST);
-                            update(controller.getModel().getJournal());
+                            update(tasksController.getModel().getJournal());
                         }
 
                         if(!error)
-                            controller.editDueDate(tasksIDs.get(tasksTable.convertRowIndexToModel(selectedRow)), dueDate);
+                            tasksController.editDueDate(tasksIDs.get(tasksTable.convertRowIndexToModel(selectedRow)), dueDate);
                         break;
                     case 2:
                         if(value.length() > 256) {
                             new ErrorDialog(TasksView.this, ErrorType.DESCRIPTION_LENGTH);
-                            update(controller.getModel().getJournal());
+                            update(tasksController.getModel().getJournal());
                         }
                         else
-                            controller.editDescription(tasksIDs.get(tasksTable.convertRowIndexToModel(selectedRow)), value);
+                            tasksController.editDescription(tasksIDs.get(tasksTable.convertRowIndexToModel(selectedRow)), value);
                         break;
                 }
             }

@@ -1,4 +1,5 @@
 import controllers.TasksController;
+import controllers.UsersController;
 import views.LoginView;
 import views.TasksView;
 
@@ -10,13 +11,14 @@ public class Main {
         JFrame.setDefaultLookAndFeelDecorated(true);
         JDialog.setDefaultLookAndFeelDecorated(true);
 
-        TasksController controller = new TasksController();
+        UsersController usersController = new UsersController();
+        TasksController tasksController = new TasksController();
         //TasksView tasksView = new TasksView(controller);
-        LoginView log = new LoginView(controller);
+        LoginView log = new LoginView(usersController, tasksController);
 
         Runtime.getRuntime().addShutdownHook(new Thread(new Runnable() {
             public void run() {
-                controller.write();
+                tasksController.write();
             }
         }));
 

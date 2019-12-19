@@ -13,27 +13,23 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.UUID;
 
-
-
 public class LoginView extends JFrame {
-        private String login;
-        private String password;
-
         private JPasswordField passwordField = new JPasswordField();
         private JTextField loginField = new JTextField();
 
-        private UsersModel usersModel;
+        private UsersController usersController;
+        private TasksController tasksController;
 
-        public LoginView(TasksController controller) throws ClassNotFoundException, UnsupportedLookAndFeelException, InstantiationException, IllegalAccessException, IOException {
+        public LoginView(UsersController _usersController, TasksController _tasksController) throws ClassNotFoundException,
+                UnsupportedLookAndFeelException, InstantiationException, IllegalAccessException, IOException {
             super();
+            usersController = _usersController;
+            tasksController = _tasksController;
             UIManager.setLookAndFeel("javax.swing.plaf.nimbus.NimbusLookAndFeel");
             JLabel hello = new JLabel("Welcome, User!" );
             setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
             JFrame frame = new JFrame("Authorization");
-            frame.setVisible(true);
             frame.setSize(450, 120);
-            UsersController usersController = new UsersController();
-            usersModel = usersController.getModel();
             frame.setResizable(false);
             Box box1 = Box.createHorizontalBox();
             JLabel loginLabel = new JLabel("Login:");
@@ -55,19 +51,23 @@ public class LoginView extends JFrame {
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     try {
-                        onLog(controller);
+                        onLog(tasksController);
                     } catch (ClassNotFoundException | UnsupportedLookAndFeelException | InstantiationException | IllegalAccessException | IOException ex) {
                         new ErrorDialog((JFrame)getParent(),ErrorType.SOME_SYSTEM_ERROR);
                     }
                 }
             });
+
             JButton exit = new JButton("Exit");
+
             exit.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent e) {
                     onCancel();
                 }
             });
+
             JButton reg = new JButton("Registration");
+
             reg.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
@@ -75,10 +75,11 @@ public class LoginView extends JFrame {
                         Registration regView = new Registration(LoginView.this);
                         setVisible(false);
                         frame.setVisible(false);
-                    } catch (ClassNotFoundException | UnsupportedLookAndFeelException | InstantiationException | IllegalAccessException | IOException ex) {
+                    } catch (ClassNotFoundException | UnsupportedLookAndFeelException | InstantiationException | IllegalAccessException ex) {
                         new ErrorDialog((JFrame)getParent(),ErrorType.SOME_SYSTEM_ERROR);                    }
                 }
             });
+
             box3.add(Box.createHorizontalGlue());
             box3.add(reg);
             box3.add(Box.createHorizontalGlue());
@@ -100,46 +101,34 @@ public class LoginView extends JFrame {
             frame.setContentPane(mainBox);
             frame.setLocationRelativeTo(null);
             frame.pack();
-
-
-
+            frame.setVisible(true);
         }
 
     private void onCancel() {
         dispose();
         System.exit(0);
     }
+
     private void onLog(TasksController controller) throws ClassNotFoundException, UnsupportedLookAndFeelException, InstantiationException, IllegalAccessException, IOException {
-        LoginView.this.login = loginField.getText();
-        LoginView.this.password = new String(passwordField.getPassword());
-        models.User newUser = new User(UUID.randomUUID(),login,password);
-        System.out.println("Login: " + LoginView.this.login + "\tPassword: " + LoginView.this.password);
-        if(login.length() == 0 || login.length() > 24)
-            new ErrorDialog((JFrame)getParent(), ErrorType.WRONG_LOGIN_INPUT);
-        else if(password.length() > 24 || password.length() == 0)
-            new ErrorDialog((JFrame)getParent(), ErrorType.PASSWORD_LENGTH);
+        String login = loginField.getText();
+        String password = new String(passwordField.getPassword());
+        User user = null;
+        if(login.length() > 0 && login.length() <=24 && password.length() > 0 && password.length() <=24)
+            for(User u : usersController.getModel().getUsers().values())
+                if (login.equals(u.getUsername()) && password.equals(u.getPassword()))
+                    user = u;
+        else
+            new ErrorDialog(new JFrame(),ErrorType.WRONG_LOGIN_INPUT);
+
+        if(user == null)
+            new ErrorDialog(new JFrame(),ErrorType.WRONG_LOGIN_INPUT);
         else {
-            for(User us : usersModel.getUsers().values())
-            {
-                if (!(newUser.getUsername().equals(us.getUsername()) && newUser.getPassword().equals(us.getPassword())))
-                    new ErrorDialog(new JFrame(),ErrorType.WRONG_LOGIN_INPUT);
-            }
-//                TasksView view = new TasksView(controller);
-//                view.setVisible(true);
+            new TasksView(usersController, tasksController, user);
         }
     }
-//    public String[] read(){
-//        try (FileInputStream input = new FileInputStream("tasks.txt")) {
-//            ObjectInputStream dataIn = new ObjectInputStream(input);
-//
-////            users.values() = (Collection<String>) dataIn.readObject();
-//
-////            } catch (IOException | ClassNotFoundException e) {
-//            e.printStackTrace();
-//        }
-//    }
-
 }
+
+
 
 
 
