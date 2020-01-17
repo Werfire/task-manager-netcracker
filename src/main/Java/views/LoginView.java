@@ -6,6 +6,8 @@ import  controllers.UsersController;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.io.IOException;
 
 public class LoginView extends JFrame {
@@ -59,6 +61,12 @@ public class LoginView extends JFrame {
 
             exit.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent e) {
+                    onExit();
+                }
+            });
+            exit.addKeyListener(new KeyAdapter() {
+                @Override
+                public void keyPressed(KeyEvent e) {
                     onExit();
                 }
             });
