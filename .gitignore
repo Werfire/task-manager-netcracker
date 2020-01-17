@@ -1,4 +1,6 @@
 .idea
-users.txt
-tasks.txt
+usersLocal
+tasksLocal
+usersJson
+tasksJson
 

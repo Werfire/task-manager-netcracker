@@ -1,4 +1,5 @@
-package web;
+package net;
 
 public class REST {
+
 }

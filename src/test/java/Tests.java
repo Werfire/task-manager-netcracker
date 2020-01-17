@@ -1,6 +1,5 @@
 import controllers.TasksController;
 import models.MutableTask;
-import models.Task;
 import models.TasksModel;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -25,9 +24,9 @@ public class Tests {
                 LocalDateTime.of(2019, Month.DECEMBER, 1, 14, 5),
                 LocalDateTime.of(2019, Month.DECEMBER, 3, 22, 30),
                 UUID.randomUUID(), 0));
-        controller.write();
+        controller.writeToFile();
         TasksModel modelBefore = controller.getModel();
-        controller.read();
+        controller.readFromFile();
         Assertions.assertEquals(controller.getModel(), modelBefore);
     }
 

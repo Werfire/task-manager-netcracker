@@ -2,7 +2,6 @@ package views;
 
 import controllers.TasksController;
 import models.User;
-import models.UsersModel;
 import controllers.UsersController;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -157,7 +156,7 @@ public class Registration extends JFrame {
                     new ErrorDialog(new JFrame(),ErrorType.USERNAME_ALREADY_TAKEN);
                 else{
                     usersController.add(newUser);
-                    usersController.write();
+                    usersController.writeToFile();
                     onCancel();
                 }
             }

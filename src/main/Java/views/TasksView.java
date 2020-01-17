@@ -61,7 +61,7 @@ public class TasksView extends JFrame implements TasksObserver {
         addWindowListener(new WindowAdapter() {
             public void windowClosing(WindowEvent e) {
                 tasksController.getModel().removeObserver(TasksView.this);
-                tasksController.write();
+                tasksController.writeToFile();
             }
         });
 
@@ -126,7 +126,7 @@ public class TasksView extends JFrame implements TasksObserver {
         getContentPane().add(journal);
 //        pack();
 
-        tasksController.read();
+        tasksController.readFromFile();
         update(tasksController.getModel().getJournal());
         setVisible(true);
     }

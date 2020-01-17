@@ -1,9 +1,7 @@
 package controllers;
 
-import models.TasksModel;
 import models.User;
 import models.UsersModel;
-import org.checkerframework.checker.nullness.qual.NonNull;
 import views.ErrorDialog;
 import views.ErrorType;
 
@@ -17,7 +15,7 @@ public class UsersController implements Serializable {
 
     public UsersController() throws IOException, ClassNotFoundException {
         model = new UsersModel();
-        read();
+        readFromFile();
     }
 
     public UsersController(@Nonnull UsersModel model) {
@@ -38,8 +36,8 @@ public class UsersController implements Serializable {
         return mainFrame;
     }
 
-    public void read() throws IOException, ClassNotFoundException {
-        FileInputStream in = new FileInputStream("users.txt");
+    public void readFromFile() throws IOException, ClassNotFoundException {
+        FileInputStream in = new FileInputStream("usersLocal");
         try {
             ObjectInputStream input = new ObjectInputStream(in);
             model = new UsersModel((UsersModel) input.readObject());
@@ -47,15 +45,15 @@ public class UsersController implements Serializable {
         }
         catch (EOFException e){
             model = new UsersModel();
-            write();
+            writeToFile();
         }
         catch (IOException e){
             new ErrorDialog(mainFrame,ErrorType.IO_EXCEPTION);
         }
         in.close();
     }
-    public void write() throws IOException {
-        FileOutputStream out = new FileOutputStream("users.txt");
+    public void writeToFile() throws IOException {
+        FileOutputStream out = new FileOutputStream("usersLocal");
         ObjectOutputStream output = new ObjectOutputStream(out);
         output.writeObject(model);
         out.close();
