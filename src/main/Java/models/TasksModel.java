@@ -30,6 +30,9 @@ public class TasksModel implements Serializable, TasksObservable {
         journal.remove(id);
         notifyObservers();
     }
+
+    public void setJournal(HashMap<UUID, MutableTask> journal) { this.journal = journal; }
+
     public HashMap<UUID, MutableTask> getJournal() {
         return journal;
     }

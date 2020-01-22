@@ -2,8 +2,12 @@ package net;
 
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationConfig;
+import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.databind.util.JSONPObject;
+import models.MutableTask;
 import models.Task;
 import models.TasksModel;
 
@@ -11,19 +15,21 @@ import java.io.*;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.UUID;
 
 public class REST {
-    public static void readTasks() throws FileNotFoundException, JsonProcessingException {
+    public static HashMap<UUID, MutableTask> readTasks() throws FileNotFoundException, JsonProcessingException {
         ObjectMapper mapper = new ObjectMapper();
-        TasksModel journal = new TasksModel();
-        journal = mapper.readValue("tasks.json",TasksModel.class);
-    }
-    public static void writeTasks(TasksModel journal) throws IOException {
-        ObjectMapper mapper = new ObjectMapper();
-        FileOutputStream out = new FileOutputStream("tasks.json");
-        out.write(mapper.writeValueAsBytes(journal.getJournal()));
-        out.close();
+        TypeReference<HashMap<UUID, Task>> typeRef = new TypeReference<>() {};
+        HashMap<UUID, Task> journal = mapper.readValue("tasks.json", typeRef);
+        return TasksModel.hashMapToMutableTasks(journal);
     }
 
+    public static void writeTasks(HashMap<UUID, MutableTask> journal) throws IOException {
+        ObjectMapper mapper = new ObjectMapper();
+        FileWriter out = new FileWriter("tasks.json");
+        out.write(mapper.writerWithDefaultPrettyPrinter().writeValueAsString(TasksModel.hashMapToImmutableTasks(journal)));
+        out.close();
+    }
 
 }

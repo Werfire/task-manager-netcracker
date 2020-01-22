@@ -1,18 +1,19 @@
 import controllers.TasksController;
 import models.MutableTask;
 import models.TasksModel;
+import net.REST;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.Month;
 import java.util.UUID;
 
 public class Tests {
 
-    @Test
-    public void testModelSerialization() {
-        TasksController controller = new TasksController();
+    static TasksController controller = new TasksController();
+    static {
         controller.add(new MutableTask(UUID.randomUUID(), "Лаба", "Доделать шестую лабу.",
                 LocalDateTime.of(2019, Month.NOVEMBER, 25, 18, 45),
                 LocalDateTime.now().plusSeconds(80), UUID.randomUUID(), 0));
@@ -24,9 +25,21 @@ public class Tests {
                 LocalDateTime.of(2019, Month.DECEMBER, 1, 14, 5),
                 LocalDateTime.of(2019, Month.DECEMBER, 3, 22, 30),
                 UUID.randomUUID(), 0));
-        controller.writeToFile();
+    }
+
+    @Test
+    public void testModelSerialization() {
         TasksModel modelBefore = controller.getModel();
+        controller.writeToFile();
         controller.readFromFile();
+        Assertions.assertEquals(controller.getModel(), modelBefore);
+    }
+
+    @Test
+    public void testJsonIO() throws IOException {
+        TasksModel modelBefore = controller.getModel();
+        REST.writeTasks(controller.getModel().getJournal());
+        controller.getModel().setJournal(REST.readTasks());
         Assertions.assertEquals(controller.getModel(), modelBefore);
     }
 

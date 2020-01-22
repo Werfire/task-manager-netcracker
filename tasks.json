@@ -1,0 +1,119 @@
+{
+  "d8a0250a-9279-423a-91e1-d0f7d5247aaa" : {
+    "id" : "d8a0250a-9279-423a-91e1-d0f7d5247aaa",
+    "name" : "Магазин",
+    "description" : "Купить молоко и хлеб.",
+    "creationDate" : {
+      "nano" : 0,
+      "year" : 2019,
+      "monthValue" : 11,
+      "dayOfMonth" : 27,
+      "hour" : 7,
+      "minute" : 38,
+      "second" : 0,
+      "dayOfWeek" : "WEDNESDAY",
+      "dayOfYear" : 331,
+      "month" : "NOVEMBER",
+      "chronology" : {
+        "id" : "ISO",
+        "calendarType" : "iso8601"
+      }
+    },
+    "dueDate" : {
+      "nano" : 0,
+      "year" : 2019,
+      "monthValue" : 11,
+      "dayOfMonth" : 27,
+      "hour" : 18,
+      "minute" : 0,
+      "second" : 0,
+      "dayOfWeek" : "WEDNESDAY",
+      "dayOfYear" : 331,
+      "month" : "NOVEMBER",
+      "chronology" : {
+        "id" : "ISO",
+        "calendarType" : "iso8601"
+      }
+    },
+    "authorId" : "8b970f37-5a82-4f7d-be7f-49db1d1b808f",
+    "statusId" : 0
+  },
+  "d4efb89a-a8c9-45a2-a75b-968c31f64618" : {
+    "id" : "d4efb89a-a8c9-45a2-a75b-968c31f64618",
+    "name" : "День рождения",
+    "description" : "Купить подарок Ивану.",
+    "creationDate" : {
+      "nano" : 0,
+      "year" : 2019,
+      "monthValue" : 12,
+      "dayOfMonth" : 1,
+      "hour" : 14,
+      "minute" : 5,
+      "second" : 0,
+      "dayOfWeek" : "SUNDAY",
+      "dayOfYear" : 335,
+      "month" : "DECEMBER",
+      "chronology" : {
+        "id" : "ISO",
+        "calendarType" : "iso8601"
+      }
+    },
+    "dueDate" : {
+      "nano" : 0,
+      "year" : 2019,
+      "monthValue" : 12,
+      "dayOfMonth" : 3,
+      "hour" : 22,
+      "minute" : 30,
+      "second" : 0,
+      "dayOfWeek" : "TUESDAY",
+      "dayOfYear" : 337,
+      "month" : "DECEMBER",
+      "chronology" : {
+        "id" : "ISO",
+        "calendarType" : "iso8601"
+      }
+    },
+    "authorId" : "a3758408-b9a1-419b-a544-c83d4fe9d9e1",
+    "statusId" : 0
+  },
+  "640468a2-b00a-445f-b6d4-7a687de160d7" : {
+    "id" : "640468a2-b00a-445f-b6d4-7a687de160d7",
+    "name" : "Лаба",
+    "description" : "Доделать шестую лабу.",
+    "creationDate" : {
+      "nano" : 0,
+      "year" : 2019,
+      "monthValue" : 11,
+      "dayOfMonth" : 25,
+      "hour" : 18,
+      "minute" : 45,
+      "second" : 0,
+      "dayOfWeek" : "MONDAY",
+      "dayOfYear" : 329,
+      "month" : "NOVEMBER",
+      "chronology" : {
+        "id" : "ISO",
+        "calendarType" : "iso8601"
+      }
+    },
+    "dueDate" : {
+      "nano" : 279056100,
+      "year" : 2020,
+      "monthValue" : 1,
+      "dayOfMonth" : 22,
+      "hour" : 14,
+      "minute" : 3,
+      "second" : 50,
+      "dayOfWeek" : "WEDNESDAY",
+      "dayOfYear" : 22,
+      "month" : "JANUARY",
+      "chronology" : {
+        "id" : "ISO",
+        "calendarType" : "iso8601"
+      }
+    },
+    "authorId" : "ca26604e-0549-4be8-9913-bf911b9d20c4",
+    "statusId" : 0
+  }
+}
