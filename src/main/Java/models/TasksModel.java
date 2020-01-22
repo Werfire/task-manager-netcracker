@@ -5,10 +5,7 @@ import interfaces.TasksObserver;
 
 import javax.annotation.Nonnull;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 public class TasksModel implements Serializable, TasksObservable {
     private HashMap<UUID, MutableTask> journal = new HashMap<>();
@@ -39,6 +36,22 @@ public class TasksModel implements Serializable, TasksObservable {
 
     public int size() {
         return journal.size();
+    }
+
+    public static HashMap<UUID, Task> hashMapToImmutableTasks(HashMap<UUID, MutableTask> original) {
+        HashMap<UUID, Task> converted = new HashMap<>();
+        Collection<MutableTask> values = original.values();
+        for(MutableTask task : values)
+            converted.put(task.getId(), task);
+        return converted;
+    }
+
+    public static HashMap<UUID, MutableTask> hashMapToMutableTasks(HashMap<UUID, Task> original) {
+        HashMap<UUID, MutableTask> converted = new HashMap<>();
+        Collection<Task> values = original.values();
+        for(Task task : values)
+            converted.put(task.getId(), new MutableTask(task));
+        return converted;
     }
 
     @Override

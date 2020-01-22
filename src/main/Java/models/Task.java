@@ -27,6 +27,16 @@ public class Task implements Serializable {
         this.statusId = statusId;
     }
 
+    public Task(Task task) {
+        this.id = task.getId();
+        this.name = task.getName();
+        this.description = task.getDescription();
+        this.creationDate = task.getCreationDate();
+        this.dueDate = task.getDueDate();
+        this.authorId = task.getAuthorId();
+        this.statusId = task.getStatusId();
+    }
+
     public Task(){}
 
     public UUID getId() {

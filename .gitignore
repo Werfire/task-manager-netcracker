@@ -1,6 +1,6 @@
 .idea
 usersLocal
 tasksLocal
-usersJson
-tasksJson
+users.json
+tasks.json
 
