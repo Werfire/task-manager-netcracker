@@ -1,7 +1,7 @@
 import controllers.TasksController;
 import models.MutableTask;
 import models.TasksModel;
-import net.REST;
+import util.JsonIO;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -38,8 +38,8 @@ public class Tests {
     @Test
     public void testJsonIO() throws IOException {
         TasksModel modelBefore = controller.getModel();
-        REST.writeTasks(controller.getModel().getJournal());
-        controller.getModel().setJournal(REST.readTasks());
+        JsonIO.writeTasks(controller.getModel().getJournal());
+        controller.getModel().setJournal(JsonIO.readTasks());
         Assertions.assertEquals(controller.getModel(), modelBefore);
     }
 
