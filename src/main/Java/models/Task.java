@@ -1,5 +1,6 @@
 package models;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.google.common.base.MoreObjects;
 
 import java.io.Serializable;
@@ -12,7 +13,9 @@ public class Task implements Serializable {
     UUID id;
     String name;
     String description;
+    @JsonFormat(pattern = "yyyy dd.MM HH:mm")
     LocalDateTime creationDate;
+    @JsonFormat(pattern = "yyyy dd.MM HH:mm")
     LocalDateTime dueDate;
     UUID authorId;
     int statusId;
