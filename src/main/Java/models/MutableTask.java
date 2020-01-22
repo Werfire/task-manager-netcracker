@@ -16,8 +16,14 @@ public class MutableTask extends Task {
         this.statusId = statusId;
     }
 
-    public MutableTask(){
-
+    public MutableTask(Task task) {
+        this.id = task.getId();
+        this.name = task.getName();
+        this.description = task.getDescription();
+        this.creationDate = task.getCreationDate();
+        this.dueDate = task.getDueDate();
+        this.authorId = task.getAuthorId();
+        this.statusId = task.getStatusId();
     }
 
     public void setId(UUID id) {
