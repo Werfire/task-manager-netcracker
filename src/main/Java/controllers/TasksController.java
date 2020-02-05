@@ -33,6 +33,7 @@ public class TasksController {
 
     public void add (@Nonnull MutableTask newTask){
         model.addTask(newTask);
+
     }
 
     @Nonnull
@@ -59,7 +60,7 @@ public class TasksController {
         model.notifyObservers();
     }
 
-    public void changeStatus(UUID id, int statusId) {
+    public void changeStatus(UUID id, String statusId) {
         model.getTask(id).setStatusId(statusId);
         model.notifyObservers();
     }

@@ -74,7 +74,7 @@ public class TasksView extends JFrame implements TasksObserver {
         completeButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                tasksController.changeStatus(tasksIDs.get(tasksTable.convertRowIndexToModel(selectedRow)), 1);
+                tasksController.changeStatus(tasksIDs.get(tasksTable.convertRowIndexToModel(selectedRow)), "Completed");
             }
         });
         deleteButton.addActionListener(new ActionListener() {
@@ -96,7 +96,7 @@ public class TasksView extends JFrame implements TasksObserver {
                 if(!selectionModel.isSelectionEmpty()) {
                     selectedColumn = tasksTable.getSelectedColumn();
                     selectedRow = tasksTable.getSelectedRow();
-                    if(tasksController.get(tasksIDs.get(tasksTable.convertRowIndexToModel(selectedRow))).getStatusId() != 1)
+                    if(tasksController.get(tasksIDs.get(tasksTable.convertRowIndexToModel(selectedRow))).getStatusId() != "Completed")
                         completeButton.setEnabled(true);
                     else
                         completeButton.setEnabled(false);
@@ -140,6 +140,7 @@ public class TasksView extends JFrame implements TasksObserver {
             if(!entry.getValue().getAuthorId().equals(user.getId()))
                 continue;
             tasksIDs.add(entry.getValue().getId());
+
             tableModel.addRow(entry.getValue().toStringArray());
             NotificationsScheduler.scheduleNotifications(this, entry.getValue());
         }
@@ -161,7 +162,6 @@ public class TasksView extends JFrame implements TasksObserver {
                         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy dd.MM HH:mm");
                         LocalDateTime dueDate = LocalDateTime.now();
                         boolean error = false;
-
                         try {
                             dueDate = LocalDateTime.parse(value, formatter);
                         }
@@ -187,6 +187,7 @@ public class TasksView extends JFrame implements TasksObserver {
                         else
                             tasksController.editDescription(tasksIDs.get(tasksTable.convertRowIndexToModel(selectedRow)), value);
                         break;
+
                 }
             }
         });

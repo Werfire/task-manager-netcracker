@@ -1,29 +1,29 @@
 {
-  "8ebf6b09-7c3e-4b87-bcc9-219f9088c690" : {
-    "id" : "8ebf6b09-7c3e-4b87-bcc9-219f9088c690",
-    "name" : "Магазин",
-    "description" : "Купить молоко и хлеб.",
-    "creationDate" : "2019 27.11 07:38",
-    "dueDate" : "2019 27.11 18:00",
-    "authorId" : "d04af9e0-2405-411c-9244-f42433c604da",
+  "87996c2d-5506-4b65-b4e9-bf83eefe14e3" : {
+    "id" : "87996c2d-5506-4b65-b4e9-bf83eefe14e3",
+    "name" : "Лаба",
+    "description" : "Доделать шестую лабу.",
+    "creationDate" : "2019 25.11 18:45",
+    "dueDate" : "2020 03.02 15:14",
+    "authorId" : "86590ff4-8429-4098-867a-11b4c450380e",
     "statusId" : 0
   },
-  "2187ebfa-7b21-430b-a35f-e84eeca1d039" : {
-    "id" : "2187ebfa-7b21-430b-a35f-e84eeca1d039",
+  "cf5d25c4-a39b-4722-82c4-74196892d9a8" : {
+    "id" : "cf5d25c4-a39b-4722-82c4-74196892d9a8",
     "name" : "День рождения",
     "description" : "Купить подарок Ивану.",
     "creationDate" : "2019 01.12 14:05",
     "dueDate" : "2019 03.12 22:30",
-    "authorId" : "3be324b8-dea8-4558-8e25-ef2b843c2439",
+    "authorId" : "58133458-2995-4f3d-8607-43520df3fad3",
     "statusId" : 0
   },
-  "79ca9c3e-8ad7-4908-bf76-4432062decfd" : {
-    "id" : "79ca9c3e-8ad7-4908-bf76-4432062decfd",
-    "name" : "Лаба",
-    "description" : "Доделать шестую лабу.",
-    "creationDate" : "2019 25.11 18:45",
-    "dueDate" : "2020 23.01 14:36",
-    "authorId" : "faf4bbca-f5a6-41d7-b938-2b929cadcba0",
+  "fa3a7d2b-4517-45e6-84dd-18b5e8233aa7" : {
+    "id" : "fa3a7d2b-4517-45e6-84dd-18b5e8233aa7",
+    "name" : "Магазин",
+    "description" : "Купить молоко и хлеб.",
+    "creationDate" : "2019 27.11 07:38",
+    "dueDate" : "2019 27.11 18:00",
+    "authorId" : "a6e2c5da-d26e-4b55-b37e-10ad8c2dfa5e",
     "statusId" : 0
   }
 }

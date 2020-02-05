@@ -30,6 +30,9 @@ public class UsersModel implements Serializable, UsersObservable {
     public User getUser(UUID id) {
         return users.get(id);
     }
+    public HashMap<UUID, User> getJournal() {
+        return users;
+    }
 
     public void deleteUser(UUID id) {
         users.remove(id);

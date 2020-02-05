@@ -1,21 +1,10 @@
 package models;
 
-import views.ErrorDialog;
-import views.ErrorType;
-import views.TasksView;
-
-import javax.swing.*;
-import javax.swing.event.TableModelEvent;
-import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableModel;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeParseException;
 
 public class TasksTableModel extends DefaultTableModel {
     public TasksTableModel() {
-        super(new Object[][]{}, new String[] {"Name", "DueDate", "Description", "Author", "StatusID"});
+        super(new Object[][]{}, new String[] {"Name", "DueDate", "Description", "Author", "Status"});
     }
 
     @Override

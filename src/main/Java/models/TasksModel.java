@@ -22,6 +22,7 @@ public class TasksModel implements Serializable, TasksObservable {
         notifyObservers();
     }
 
+
     public MutableTask getTask(UUID id) {
         return journal.get(id);
     }

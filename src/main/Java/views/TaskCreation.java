@@ -94,7 +94,7 @@ public class TaskCreation extends JDialog {
             if(!dateError) {
                 controller.add(new MutableTask(UUID.randomUUID(), nameField.getText(), descriptionArea.getText(),
                         LocalDateTime.now(), LocalDateTime.parse(dateField.getText(), formatter),
-                        user.getId(), 0));
+                        user.getId(), "In process"));
                 dispose();
             }
         }

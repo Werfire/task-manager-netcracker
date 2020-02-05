@@ -18,9 +18,9 @@ public class Task implements Serializable {
     @JsonFormat(pattern = "yyyy dd.MM HH:mm")
     LocalDateTime dueDate;
     UUID authorId;
-    int statusId;
+    String statusId;
 
-    public Task(UUID idTask, String nameTask, String description, LocalDateTime creationDate, LocalDateTime dueDate, UUID authorId, int statusId) {
+    public Task(UUID idTask, String nameTask, String description, LocalDateTime creationDate, LocalDateTime dueDate, UUID authorId, String statusId) {
         this.id = idTask;
         this.name = nameTask;
         this.description = description;
@@ -66,7 +66,7 @@ public class Task implements Serializable {
         return authorId;
     }
 
-    public int getStatusId() {
+    public String getStatusId() {
         return statusId;
     }
 

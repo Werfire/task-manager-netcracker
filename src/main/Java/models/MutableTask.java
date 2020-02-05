@@ -6,7 +6,7 @@ import java.util.UUID;
 
 public class MutableTask extends Task {
     public MutableTask(UUID idTask, String nameTask, String description, LocalDateTime creationDate,
-                        LocalDateTime dueDate, UUID authorId, int statusId) {
+                        LocalDateTime dueDate, UUID authorId, String statusId) {
         this.id = idTask;
         this.name = nameTask;
         this.description = description;
@@ -50,7 +50,7 @@ public class MutableTask extends Task {
         this.authorId = authorId;
     }
 
-    public void setStatusId(int statusId) {
+    public void setStatusId(String  statusId) {
         this.statusId = statusId;
     }
 }
