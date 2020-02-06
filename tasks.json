@@ -1,29 +1,29 @@
 {
-  "87996c2d-5506-4b65-b4e9-bf83eefe14e3" : {
-    "id" : "87996c2d-5506-4b65-b4e9-bf83eefe14e3",
-    "name" : "Р›Р°Р±Р°",
-    "description" : "Р”РѕРґРµР»Р°С‚СЊ С€РµСЃС‚СѓСЋ Р»Р°Р±Сѓ.",
-    "creationDate" : "2019 25.11 18:45",
-    "dueDate" : "2020 03.02 15:14",
-    "authorId" : "86590ff4-8429-4098-867a-11b4c450380e",
-    "statusId" : 0
-  },
-  "cf5d25c4-a39b-4722-82c4-74196892d9a8" : {
-    "id" : "cf5d25c4-a39b-4722-82c4-74196892d9a8",
-    "name" : "Р”РµРЅСЊ СЂРѕР¶РґРµРЅРёСЏ",
-    "description" : "РљСѓРїРёС‚СЊ РїРѕРґР°СЂРѕРє РРІР°РЅСѓ.",
+  "98b3a441-5efd-474f-896e-3cc825dd7538" : {
+    "id" : "98b3a441-5efd-474f-896e-3cc825dd7538",
+    "name" : "День рождения",
+    "description" : "Купить подарок Ивану.",
     "creationDate" : "2019 01.12 14:05",
     "dueDate" : "2019 03.12 22:30",
-    "authorId" : "58133458-2995-4f3d-8607-43520df3fad3",
-    "statusId" : 0
+    "authorId" : "520036c5-1ae7-4848-88f7-576368c1ab02",
+    "statusId" : "In process"
   },
-  "fa3a7d2b-4517-45e6-84dd-18b5e8233aa7" : {
-    "id" : "fa3a7d2b-4517-45e6-84dd-18b5e8233aa7",
-    "name" : "РњР°РіР°Р·РёРЅ",
-    "description" : "РљСѓРїРёС‚СЊ РјРѕР»РѕРєРѕ Рё С…Р»РµР±.",
+  "5f3eaf63-466b-4a66-8019-96c77214a380" : {
+    "id" : "5f3eaf63-466b-4a66-8019-96c77214a380",
+    "name" : "Магазин",
+    "description" : "Купить молоко и хлеб.",
     "creationDate" : "2019 27.11 07:38",
     "dueDate" : "2019 27.11 18:00",
-    "authorId" : "a6e2c5da-d26e-4b55-b37e-10ad8c2dfa5e",
-    "statusId" : 0
+    "authorId" : "51b5a329-c117-42b7-b450-add88716356f",
+    "statusId" : "In process"
+  },
+  "5dc362a8-a45b-4d3e-9c69-f71e9a6fef0b" : {
+    "id" : "5dc362a8-a45b-4d3e-9c69-f71e9a6fef0b",
+    "name" : "Лаба",
+    "description" : "Доделать шестую лабу.",
+    "creationDate" : "2019 25.11 18:45",
+    "dueDate" : "2020 06.02 01:51",
+    "authorId" : "8f452c6a-da10-4e73-99fd-41af9eb04675",
+    "statusId" : "In process"
   }
 }
