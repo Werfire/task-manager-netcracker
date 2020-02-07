@@ -26,7 +26,6 @@ public class JsonIO {
         HashMap<UUID, Task> journal = mapper.readValue(new File("tasks.json"), typeRef);
         return TasksModel.hashMapToMutableTasks(journal);
     }
-
     public static void writeTasks(HashMap<UUID, MutableTask> journal) throws IOException {
         ObjectMapper mapper = new ObjectMapper();
         mapper.registerModule(new JavaTimeModule());
