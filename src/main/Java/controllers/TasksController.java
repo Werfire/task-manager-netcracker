@@ -66,7 +66,7 @@ public class TasksController {
     }
 
     public void writeToFile() {
-        try(OutputStream output = new FileOutputStream("tasksLocal")) {
+        try(OutputStream output = new FileOutputStream("tasksByte")) {
             ObjectOutputStream dataOut = new ObjectOutputStream(output);
             dataOut.writeObject(model);
             dataOut.flush();
@@ -78,7 +78,7 @@ public class TasksController {
     }
 
     public TasksModel readFromFile() {
-        try (FileInputStream input = new FileInputStream("tasksLocal")) {
+        try (FileInputStream input = new FileInputStream("tasksByte")) {
             ObjectInputStream dataIn = new ObjectInputStream(input);
             List<TasksObserver> observers = model.observers;
             model = (TasksModel) dataIn.readObject();

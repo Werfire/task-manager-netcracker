@@ -37,7 +37,7 @@ public class UsersController implements Serializable {
     }
 
     public void readFromFile() throws IOException, ClassNotFoundException {
-        FileInputStream in = new FileInputStream("usersLocal");
+        FileInputStream in = new FileInputStream("usersByte");
         try {
             ObjectInputStream input = new ObjectInputStream(in);
             model = new UsersModel((UsersModel) input.readObject());
@@ -53,7 +53,7 @@ public class UsersController implements Serializable {
         in.close();
     }
     public void writeToFile() throws IOException {
-        FileOutputStream out = new FileOutputStream("usersLocal");
+        FileOutputStream out = new FileOutputStream("usersByte");
         ObjectOutputStream output = new ObjectOutputStream(out);
         output.writeObject(model);
         out.close();
