@@ -1,23 +1,14 @@
 import controllers.TasksController;
 import controllers.UsersController;
-import models.MutableTask;
-import net.REST;
-import net.TasksApplication;
-import org.glassfish.jersey.client.ClientConfig;
-import org.glassfish.jersey.client.ClientResponse;
-import org.glassfish.jersey.server.model.Resource;
+import org.glassfish.jersey.server.ResourceConfig;
+import org.glassfish.jersey.servlet.ServletContainer;
 import views.LoginView;
 
 import javax.swing.*;
-import javax.ws.rs.client.Client;
-import javax.ws.rs.client.ClientBuilder;
-import javax.ws.rs.client.Invocation;
-import javax.ws.rs.client.WebTarget;
+import javax.ws.rs.client.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.UUID;
 
 public class Main {
     public static void main(String[] args) throws IOException, ClassNotFoundException, InstantiationException, IllegalAccessException, UnsupportedLookAndFeelException {
@@ -31,18 +22,15 @@ public class Main {
             }
         }));
 
+        Client client = ClientBuilder.newClient();
+        WebTarget target = client.target("http://localhost:8080").path("test");
+
+        Entity<String> entity = Entity.entity("*SomeString*", MediaType.TEXT_PLAIN);
+
+        Invocation.Builder ib = target.request(MediaType.TEXT_PLAIN);
 
 
-        Client client = ClientBuilder.newClient(new ClientConfig().register(REST.class));
-        WebTarget webTarget = client.target("http://localhost:8080").path("test");
-
-        Invocation.Builder invocationBuilder =  webTarget.request(MediaType.TEXT_PLAIN);
-        Response response = invocationBuilder.get();
-
-        String string = response.readEntity(String.class);
-        System.out.println(string);
-        //for(MutableTask task : journal.values())
-        //    System.out.println(task.toString());
-
+        Response response = ib.get();
+        System.out.println(response.readEntity(String.class));
     }
 }

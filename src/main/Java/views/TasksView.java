@@ -96,7 +96,8 @@ public class TasksView extends JFrame implements TasksObserver {
                 if(!selectionModel.isSelectionEmpty()) {
                     selectedColumn = tasksTable.getSelectedColumn();
                     selectedRow = tasksTable.getSelectedRow();
-                    if(tasksController.get(tasksIDs.get(tasksTable.convertRowIndexToModel(selectedRow))).getStatusId() != "Completed")
+                    if(!tasksController.get(tasksIDs.get(tasksTable.convertRowIndexToModel(selectedRow))).getStatusId()
+                            .equals("Completed"))
                         completeButton.setEnabled(true);
                     else
                         completeButton.setEnabled(false);
