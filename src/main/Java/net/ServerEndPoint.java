@@ -1,45 +1,30 @@
 package net;
-import java.io.IOException;
-
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Set;
+import javax.inject.Singleton;
 import javax.websocket.OnClose;
-import javax.websocket.OnError;
 import javax.websocket.OnMessage;
-import javax.websocket.OnOpen;
 import javax.websocket.Session;
+import javax.websocket.OnOpen;
 import javax.websocket.server.ServerEndpoint;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-@ServerEndpoint(value = "/task-manager")
-public class ServerEndPoint
-{
-    private static final Logger log = LoggerFactory.getLogger(ServerEndPoint.class);
-    @OnClose
-    public void onClose(Session session)
-    {
-        log.info("[Session {}] Session has been closed.", session.getId());
-    }
-    @OnError
-    public void onError(Session session, Throwable t)
-    {
-        log.info("[Session {}] An error has been detected: {}.", session.getId(), t.getMessage());
-    }
-
-    @OnMessage
-    public String onMessage(String message, Session session)
-    {
-        log.info("[Session {}] Sending message: {}", session.getId(), message);
-        return message; // echo back the message received
-    }
+@ServerEndpoint(value="/task-manager")
+@Singleton
+public class ServerEndPoint {
+    Set<Session> userSessions = Collections.synchronizedSet(new HashSet<Session>());
     @OnOpen
-    public void onOpen(Session session)
-    {
-        log.info("[Session {}] Session has been opened.", session.getId());
-        try {
-            session.getBasicRemote().sendText("Connection Established");
-        } catch (IOException ex) {
-            ex.printStackTrace();
-        }
+    public void onOpen(Session userSession) {
+        System.out.println("New request received. Id: " + userSession.getId());
+        userSessions.add(userSession);
+    }
+    @OnClose
+    public void onClose(Session userSession) {
+        System.out.println("Connection closed. Id: " + userSession.getId());
+        userSessions.remove(userSession);
+    }
+    @OnMessage
+    public void sendMessage(String message, Session userSession) {
+        userSession.getAsyncRemote().sendText(message);
     }
 }
