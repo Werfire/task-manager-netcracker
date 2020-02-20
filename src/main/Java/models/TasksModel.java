@@ -32,7 +32,7 @@ public class TasksModel implements Serializable, TasksObservable {
         notifyObservers();
     }
 
-    public void setJournal(HashMap<UUID, MutableTask> journal) { this.journal = journal; }
+    public void setJournal(Map<UUID, MutableTask> journal) { this.journal = new HashMap<>(journal); }
 
     public HashMap<UUID, MutableTask> getJournal() {
         return journal;
@@ -50,7 +50,7 @@ public class TasksModel implements Serializable, TasksObservable {
         return converted;
     }
 
-    public static HashMap<UUID, MutableTask> hashMapToMutableTasks(HashMap<UUID, Task> original) {
+    public static Map<UUID, MutableTask> hashMapToMutableTasks(Map<UUID, Task> original) {
         HashMap<UUID, MutableTask> converted = new HashMap<>();
         Collection<Task> values = original.values();
         for(Task task : values)

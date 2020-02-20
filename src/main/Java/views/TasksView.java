@@ -18,7 +18,6 @@ import java.util.List;
 import controllers.UsersController;
 import interfaces.TasksObserver;
 import models.MutableTask;
-import models.TasksTableModel;
 import models.User;
 import util.NotificationsScheduler;
 import controllers.TasksController;
@@ -138,8 +137,6 @@ public class TasksView extends JFrame implements TasksObserver {
         NotificationsScheduler.resetTimers();
         TasksTableModel tableModel = new TasksTableModel();
         for(HashMap.Entry<UUID, MutableTask> entry : journal.entrySet()) {
-            if(!entry.getValue().getAuthorId().equals(user.getId()))
-                continue;
             tasksIDs.add(entry.getValue().getId());
 
             tableModel.addRow(entry.getValue().toStringArray());

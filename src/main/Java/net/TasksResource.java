@@ -8,18 +8,23 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.UUID;
+import java.util.Collection;
 
+@Path("api")
 public class TasksResource {
-    @Path("tasks")
-    public static class Tasks {
-        @GET
-        @Produces(MediaType.APPLICATION_JSON)
-        public HashMap<UUID, MutableTask> getTasksJournal() throws IOException {
-            return JsonIO.readTasks();
-        }
+
+    public TasksResource() {
+        //System.out.println("TEST");
+        //throw new RuntimeException("dhgfjhfj");
     }
+
+    @Path("tasks")
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public Collection<MutableTask> getTasksJournal() throws IOException {
+        return JsonIO.readTasks().values();
+    }
+
 
     @Path("test")
     @GET
