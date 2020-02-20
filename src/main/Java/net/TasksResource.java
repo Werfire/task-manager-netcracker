@@ -9,20 +9,21 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import java.io.IOException;
 import java.util.Collection;
+import java.util.Map;
+import java.util.UUID;
 
 @Path("api")
 public class TasksResource {
 
     public TasksResource() {
         //System.out.println("TEST");
-        //throw new RuntimeException("dhgfjhfj");
     }
 
     @Path("tasks")
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public Collection<MutableTask> getTasksJournal() throws IOException {
-        return JsonIO.readTasks().values();
+    public Map<UUID, MutableTask> getTasksJournal() throws IOException {
+        return JsonIO.readTasks();
     }
 
 

@@ -1,29 +1,29 @@
 {
-  "c7998f6b-4991-4ac9-ab28-999397616597" : {
-    "id" : "c7998f6b-4991-4ac9-ab28-999397616597",
-    "name" : "Birthday",
-    "description" : "Buy a gift to Ivan.",
-    "creationDate" : "2019 01.12 14:05",
-    "dueDate" : "2019 03.12 22:30",
-    "authorId" : "30c66c84-99b1-463c-a3bd-becda17fc58d",
-    "statusId" : "In process"
-  },
-  "258e5fc4-a39e-4f20-92e0-1661777b76e6" : {
-    "id" : "258e5fc4-a39e-4f20-92e0-1661777b76e6",
-    "name" : "Lab",
-    "description" : "Finish 6th lab.",
-    "creationDate" : "2019 25.11 18:45",
-    "dueDate" : "2020 14.02 16:56",
-    "authorId" : "bdf58dbb-70ae-4d4c-b658-1191e8324022",
-    "statusId" : "In process"
-  },
-  "09a13473-cdcd-4d3f-b27c-6ee0e5f6d667" : {
-    "id" : "09a13473-cdcd-4d3f-b27c-6ee0e5f6d667",
+  "0306cfa7-3c44-43c8-9265-a30ac1b871af" : {
+    "id" : "0306cfa7-3c44-43c8-9265-a30ac1b871af",
     "name" : "Shopping",
     "description" : "Buy milk and bread",
     "creationDate" : "2019 27.11 07:38",
     "dueDate" : "2019 27.11 18:00",
-    "authorId" : "c9e6abea-4fb4-4100-916c-70631543a475",
+    "authorId" : "d6d00d4b-4f67-47f9-9da9-9190e3ad4411",
+    "statusId" : "In process"
+  },
+  "661a33c0-2b59-45a9-807e-ce64be270b7b" : {
+    "id" : "661a33c0-2b59-45a9-807e-ce64be270b7b",
+    "name" : "Lab",
+    "description" : "Finish 6th lab.",
+    "creationDate" : "2019 25.11 18:45",
+    "dueDate" : "2020 20.02 22:30",
+    "authorId" : "f40b4399-4358-415a-8c58-d525612833cd",
+    "statusId" : "In process"
+  },
+  "9cceff11-45d4-4bf8-b902-c963f99dc051" : {
+    "id" : "9cceff11-45d4-4bf8-b902-c963f99dc051",
+    "name" : "Birthday",
+    "description" : "Buy a gift to Ivan.",
+    "creationDate" : "2019 01.12 14:05",
+    "dueDate" : "2019 03.12 22:30",
+    "authorId" : "36584b95-4db5-493a-b9e3-c8a4a8d6a4d0",
     "statusId" : "In process"
   }
 }

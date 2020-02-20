@@ -9,6 +9,5 @@ import javax.ws.rs.ApplicationPath;
 //
 //    public TaskManagerConfig() {
 //        packages("net");
-//        register(TasksResource.class);
 //    }
 //}
