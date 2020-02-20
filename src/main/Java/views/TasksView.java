@@ -1,4 +1,5 @@
 package views;
+import javax.inject.Inject;
 import javax.swing.*;
 
 import javax.swing.event.ListSelectionEvent;
@@ -24,7 +25,6 @@ import controllers.TasksController;
 
 
 public class TasksView extends JFrame implements TasksObserver {
-
     private JPanel mainPanel;
     private JTable tasksTable;
     private JButton addButton;
@@ -43,7 +43,16 @@ public class TasksView extends JFrame implements TasksObserver {
     private int selectedRow;
 
     public TasksView(UsersController usersController, TasksController tasksController, User user) {
-        add(mainPanel);
+        // TODO check or refactor
+        while(true) {
+            try {
+                add(mainPanel);
+                break;
+            }
+            catch (NullPointerException ex) {
+                System.out.println("Null Pointer in TasksView constructor");
+            }
+        }
         setTitle("Task Manager");
         setSize( 600, 400);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -67,7 +76,7 @@ public class TasksView extends JFrame implements TasksObserver {
         addButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                new TaskCreation(TasksView.this, tasksController, user);
+                    new TaskCreation(TasksView.this, tasksController, user);
             }
         });
         completeButton.addActionListener(new ActionListener() {
@@ -127,6 +136,7 @@ public class TasksView extends JFrame implements TasksObserver {
 //        pack();
 
         tasksController.readFromFile();
+        //tasksController.updateJournalFromServer();
         update(tasksController.getModel().getJournal());
         setVisible(true);
     }

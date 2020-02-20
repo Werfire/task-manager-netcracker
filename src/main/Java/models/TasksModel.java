@@ -32,7 +32,10 @@ public class TasksModel implements Serializable, TasksObservable {
         notifyObservers();
     }
 
-    public void setJournal(Map<UUID, MutableTask> journal) { this.journal = new HashMap<>(journal); }
+    public void setJournal(Map<UUID, MutableTask> journal) {
+        this.journal = new HashMap<>(journal);
+        notifyObservers();
+    }
 
     public HashMap<UUID, MutableTask> getJournal() {
         return journal;

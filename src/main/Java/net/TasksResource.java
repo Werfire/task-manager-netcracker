@@ -7,6 +7,7 @@ import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 import java.io.IOException;
 import java.util.Collection;
 import java.util.Map;
@@ -16,16 +17,15 @@ import java.util.UUID;
 public class TasksResource {
 
     public TasksResource() {
-        //System.out.println("TEST");
+        //System.out.println("TASKS RESOURCE CALLED");
     }
 
     @Path("tasks")
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public Map<UUID, MutableTask> getTasksJournal() throws IOException {
-        return JsonIO.readTasks();
+    public Response getTasksJournal() throws IOException {
+        return Response.ok(JsonIO.readTasks()).build();
     }
-
 
     @Path("test")
     @GET

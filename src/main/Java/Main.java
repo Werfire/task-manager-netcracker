@@ -8,7 +8,8 @@ import javax.swing.*;
 import java.io.IOException;
 
 public class Main {
-    public static void main(String[] args) throws IOException, ClassNotFoundException, InstantiationException, IllegalAccessException, UnsupportedLookAndFeelException {
+    public static void main(String[] args) throws IOException, ClassNotFoundException, InstantiationException,
+            IllegalAccessException, UnsupportedLookAndFeelException {
         UsersController usersController = new UsersController();
         TasksController tasksController = new TasksController();
         LoginView loginView = new LoginView(usersController, tasksController);

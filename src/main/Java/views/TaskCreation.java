@@ -5,6 +5,7 @@ import models.MutableTask;
 import models.Task;
 import models.User;
 
+import javax.inject.Inject;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
@@ -34,8 +35,17 @@ public class TaskCreation extends JDialog {
         setResizable(false);
         setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
         getRootPane().setDefaultButton(buttonAdd);
-        setContentPane(contentPane);
 
+        // TODO check or refactor
+        while(true) {
+            try {
+                setContentPane(contentPane);
+                break;
+            }
+            catch (NullPointerException ex) {
+                System.out.println("Null Pointer in TaskCreation constructor");
+            }
+        }
         descriptionArea.setBorder(UIManager.getBorder("TextField.border"));
 
         buttonAdd.addActionListener(new ActionListener() {

@@ -4,12 +4,20 @@ import interfaces.TasksObserver;
 import models.MutableTask;
 import models.Task;
 import models.TasksModel;
+import org.glassfish.jersey.client.ClientConfig;
 import util.NotificationsScheduler;
 import views.ErrorDialog;
 import views.ErrorType;
 
 import javax.annotation.Nonnull;
 import javax.swing.*;
+import javax.ws.rs.client.Client;
+import javax.ws.rs.client.ClientBuilder;
+import javax.ws.rs.client.Invocation;
+import javax.ws.rs.client.WebTarget;
+import javax.ws.rs.core.GenericType;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 import java.io.*;
 import java.time.LocalDateTime;
 import java.util.*;
@@ -77,7 +85,7 @@ public class TasksController {
         }
     }
 
-    public TasksModel readFromFile() {
+    public void readFromFile() {
         try (FileInputStream input = new FileInputStream("tasksByte")) {
             ObjectInputStream dataIn = new ObjectInputStream(input);
             List<TasksObserver> observers = model.observers;
@@ -91,7 +99,13 @@ public class TasksController {
         catch (ClassNotFoundException e){
             new ErrorDialog(mainFrame, ErrorType.CLASS_NOT_FOUND_EXCEPTION);
         }
-        return model;
+    }
 
+    public void updateJournalFromServer() {
+        Client client = ClientBuilder.newClient();
+        WebTarget webTarget = client.target("http://localhost:8080/rest").path("api/tasks");
+        Response response = webTarget.request(MediaType.APPLICATION_JSON).get();
+
+        model.setJournal(response.readEntity(new GenericType<Map<UUID, MutableTask>>() {}));
     }
 }
