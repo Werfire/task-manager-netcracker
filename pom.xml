@@ -80,9 +80,10 @@
             <version>1.1</version>
         </dependency>
         <dependency>
-            <groupId>org.webswing</groupId>
-            <artifactId>webswing-api</artifactId>
-            <version>2.7.3</version>
-        </dependency>
+        <groupId>javax</groupId>
+        <artifactId>javaee-api</artifactId>
+        <version>7.0</version>
+        <scope>provided</scope>
+    </dependency>
     </dependencies>
 </project>

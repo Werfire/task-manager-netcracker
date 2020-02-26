@@ -1,30 +1,40 @@
 package net;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Set;
-import javax.inject.Singleton;
+import java.io.IOException;
+
 import javax.websocket.OnClose;
 import javax.websocket.OnMessage;
-import javax.websocket.Session;
 import javax.websocket.OnOpen;
+import javax.websocket.Session;
 import javax.websocket.server.ServerEndpoint;
 
-@ServerEndpoint(value="/task-manager")
-@Singleton
+@ServerEndpoint("/websocket")
 public class ServerEndPoint {
-    Set<Session> userSessions = Collections.synchronizedSet(new HashSet<Session>());
-    @OnOpen
-    public void onOpen(Session userSession) {
-        System.out.println("New request received. Id: " + userSession.getId());
-        userSessions.add(userSession);
-    }
-    @OnClose
-    public void onClose(Session userSession) {
-        System.out.println("Connection closed. Id: " + userSession.getId());
-        userSessions.remove(userSession);
-    }
     @OnMessage
-    public void sendMessage(String message, Session userSession) {
-        userSession.getAsyncRemote().sendText(message);
+    public void onMessage(String message, Session session)
+            throws IOException, InterruptedException {
+
+        System.out.println("Received: " + message);
+        session.getBasicRemote().sendText("This is the first server message");
+        int sentMessages = 0;
+        while(sentMessages < 3){
+            Thread.sleep(5000);
+            session.getBasicRemote().
+                    sendText("This is an intermediate server message. Count: "
+                            + sentMessages);
+            sentMessages++;
+        }
+
+        // Send a final message to the client
+        session.getBasicRemote().sendText("This is the last server message");
+    }
+
+    @OnOpen
+    public void onOpen() {
+        System.out.println("Client connected");
+    }
+
+    @OnClose
+    public void onClose() {
+        System.out.println("Connection closed");
     }
 }

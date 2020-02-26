@@ -1,8 +1,8 @@
 package util;
 
 import models.Task;
-import views.Notification;
 
+import views.Notification;
 import javax.annotation.Nonnull;
 import javax.swing.*;
 import java.time.LocalDateTime;
@@ -12,9 +12,9 @@ import java.util.Date;
 import java.util.Timer;
 import java.util.TimerTask;
 
+
 public class NotificationsScheduler {
     private static ArrayList<Timer> timers = new ArrayList<>();
-
     public static void resetTimers() {
         for(Timer timer : timers)
             timer.cancel();
@@ -22,12 +22,14 @@ public class NotificationsScheduler {
     }
 
     public static void scheduleNotifications(JFrame frame, Task task) {
+
         if(LocalDateTime.now().compareTo(task.getDueDate().minusMinutes(1)) < 0) {
             Timer timer = new Timer();
             timers.add(timer);
             timer.schedule(new TimerTask() {
                 @Override
                 public void run() {
+
                     new Notification(frame, task, true);
                     timers.remove(timer);
                 }
