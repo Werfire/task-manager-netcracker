@@ -1,4 +1,15 @@
 language: java
-jdk: oraclejdk11
+jdk: oraclejdk12
+
+addons:
+  apt:
+    packages:
+      - controllers
+      - interfaces
+      - models
+      - net
+      - util
+      - views
+
 script: mvn -B test
 
