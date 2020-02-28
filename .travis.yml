@@ -1,12 +1,4 @@
 language: java
 jdk: oraclejdk12
-stages:
-  - compile
-  - test
-jobs:
-  include:
-    - stage: compile
-      script: echo "No tests pls god"
-    - stage: test
-      script: mvn -B test
+script: mvn clean install -Dmaven.test.skip=true -Dmaven.site.skip=true -Dmaven.javadoc.skip=true
 
