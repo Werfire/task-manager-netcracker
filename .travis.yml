@@ -1,4 +1,10 @@
 language: java
 jdk: oraclejdk12
-script: mvn -B test -f task-manager
+
+addons:
+  apt:
+    packages:
+      - oracle-java12-installer
+
+script: mvn -B test
 
