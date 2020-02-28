@@ -1,4 +1,4 @@
 language: java
 jdk: oraclejdk12
-script: mvn -B clean test
+script: mvn -B test -f task-manager
 
