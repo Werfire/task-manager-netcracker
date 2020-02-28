@@ -1,9 +1,15 @@
 package controllers;
 
+import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import interfaces.TasksObserver;
 import models.MutableTask;
 import models.Task;
 import models.TasksModel;
+import net.TasksResource;
 import org.glassfish.jersey.client.ClientConfig;
 import util.NotificationsScheduler;
 import views.ErrorDialog;
@@ -106,6 +112,17 @@ public class TasksController {
         WebTarget webTarget = client.target("http://localhost:8080/rest").path("api/tasks");
         Response response = webTarget.request(MediaType.APPLICATION_JSON).get();
 
-        model.setJournal(response.readEntity(new GenericType<Map<UUID, MutableTask>>() {}));
+        try {
+            String json = response.readEntity(String.class);
+            ObjectMapper mapper = new ObjectMapper();
+            mapper.registerModule(new JavaTimeModule());
+            TypeReference<Map<UUID, Task>> typeRef = new TypeReference<>(){};
+            model.setJournal(TasksModel.hashMapToMutableTasks(mapper.readValue(json, typeRef)));
+        }
+        catch(IOException ex) {
+            ex.printStackTrace();
+        }
+        //model.setJournal(TasksModel.hashMapToMutableTasks(response.readEntity(new GenericType<Map<UUID, Task>>() {})));
+
     }
 }

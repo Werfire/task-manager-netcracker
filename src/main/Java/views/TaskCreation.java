@@ -35,17 +35,7 @@ public class TaskCreation extends JDialog {
         setResizable(false);
         setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
         getRootPane().setDefaultButton(buttonAdd);
-
-        // TODO check or refactor
-        while(true) {
-            try {
-                setContentPane(contentPane);
-                break;
-            }
-            catch (NullPointerException ex) {
-                System.out.println("Null Pointer in TaskCreation constructor");
-            }
-        }
+        setContentPane(contentPane);
         descriptionArea.setBorder(UIManager.getBorder("TextField.border"));
 
         buttonAdd.addActionListener(new ActionListener() {
