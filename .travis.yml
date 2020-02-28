@@ -1,5 +1,12 @@
 language: java
-jdk: openjdk12
-
-#script: mvn -B test
+jdk: oraclejdk12
+stages:
+  - compile
+  - test
+jobs:
+  include:
+    - stage: compile
+      script: mvn -B compile
+    - stage: test
+      script: mvn -B test
 
