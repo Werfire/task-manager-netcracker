@@ -43,16 +43,7 @@ public class TasksView extends JFrame implements TasksObserver {
     private int selectedRow;
 
     public TasksView(UsersController usersController, TasksController tasksController, User user) {
-        // TODO check or refactor
-        while(true) {
-            try {
-                add(mainPanel);
-                break;
-            }
-            catch (NullPointerException ex) {
-                System.out.println("Null Pointer in TasksView constructor");
-            }
-        }
+        add(mainPanel);
         setTitle("Task Manager");
         setSize( 600, 400);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -135,8 +126,8 @@ public class TasksView extends JFrame implements TasksObserver {
         getContentPane().add(journal);
 //        pack();
 
-        tasksController.readFromFile();
-        //tasksController.updateJournalFromServer();
+        //tasksController.readFromFile();
+        tasksController.updateJournalFromServer();
         update(tasksController.getModel().getJournal());
         setVisible(true);
     }
