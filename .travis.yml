@@ -6,7 +6,7 @@ stages:
 jobs:
   include:
     - stage: compile
-      script: mvn -B compile
+      script: mvn -B compile -DskipTests=true
     - stage: test
       script: mvn -B test
 
