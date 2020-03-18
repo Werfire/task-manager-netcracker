@@ -24,8 +24,19 @@ public class TasksResource {
     @Produces(MediaType.APPLICATION_JSON)
     public Response getTasksJournal() throws IOException {
         //return Response.ok(JsonIO.readTasks()).build();
-        return Response.ok(Files.readString(FileSystems.getDefault().getPath("tasks.json"),
-                StandardCharsets.US_ASCII)).build();
+        return Response
+                .status(200)
+                .header("Access-Control-Allow-Origin", "*")
+                .header("Access-Control-Allow-Credentials", "true")
+                .header("Access-Control-Allow-Headers",
+                        "origin, content-type, accept, authorization")
+                .header("Access-Control-Allow-Methods",
+                        "GET, POST, PUT, DELETE, OPTIONS, HEAD")
+                .entity(Files.readString(FileSystems.getDefault().getPath("tasks.json"),
+                    StandardCharsets.US_ASCII))
+                .build();
+//                .ok(Files.readString(FileSystems.getDefault().getPath("tasks.json"),
+//                StandardCharsets.US_ASCII)).build();
     }
 
     //@Path("tasks/{id}")

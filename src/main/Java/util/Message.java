@@ -1,24 +1,26 @@
 package util;
 
+import views.Notification;
+
 public class Message {
 
+    private Notification content;
     private String subject;
-    private String content;
 
-    public String getSubject() {
-        return subject;
-    }
-
-    public void setSubject(String subject) {
-        this.subject = subject;
-    }
-
-    public String getContent() {
+    public Notification getContent() {
         return content;
     }
 
-    public void setContent(String content) {
+    public void setContent(Notification content) {
         this.content = content;
+    }
+
+    public void setSubject(String subject) {
+        content.setName(subject);
+    }
+
+    public String getSubject() {
+        return subject;
     }
 
 }

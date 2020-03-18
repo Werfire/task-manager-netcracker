@@ -29,7 +29,6 @@ public class NotificationsScheduler {
             timer.schedule(new TimerTask() {
                 @Override
                 public void run() {
-
                     new Notification(frame, task, true);
                     timers.remove(timer);
                 }
