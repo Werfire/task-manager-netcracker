@@ -1,29 +1,35 @@
 package net;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.UUID;
 
 import javax.swing.*;
-import javax.websocket.OnClose;
-import javax.websocket.OnMessage;
-import javax.websocket.OnOpen;
-import javax.websocket.Session;
+import javax.websocket.*;
 import javax.websocket.server.ServerEndpoint;
 
+import models.MutableTask;
+import models.TasksModel;
+import util.JsonIO;
 import models.Task;
 import util.Message;
 import  util.NotificationsScheduler;
 
 @ServerEndpoint("/websocket")
 public class ServerEndPoint {
+    HashMap<UUID, MutableTask> journal = new TasksModel().getJournal();
     @OnMessage
-    public void onMessage(String message, Session session) throws IOException, InterruptedException {
+    public void onMessage(String message, Session session) throws IOException, InterruptedException, EncodeException {
 
-        System.out.println("Received: " + message);
-        session.getBasicRemote().sendText("This is the server message!");
+//        System.out.println("Received: " + message);
+//        session.getBasicRemote().sendText("This is the server message!");
     }
 
     @OnOpen
-    public void onOpen() {
+    public void onOpen(Session session) throws IOException, EncodeException {
         System.out.println("Connection is opened");
+        for(HashMap.Entry<UUID, MutableTask> entry : journal.entrySet()){
+            NotificationsScheduler.scheduleNotifications(entry.getValue(), session);
+        }
     }
 
     @OnClose

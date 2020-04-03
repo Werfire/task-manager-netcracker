@@ -5,6 +5,8 @@ import models.Task;
 import views.Notification;
 import javax.annotation.Nonnull;
 import javax.swing.*;
+import javax.websocket.Session;
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.ArrayList;
@@ -50,5 +52,26 @@ public class NotificationsScheduler {
                     .atZone(ZoneId.systemDefault())
                     .toInstant()));
         }
+    }
+
+    public static <session> void scheduleNotifications(Task task,Session session){
+//        if(LocalDateTime.now().compareTo(task.getDueDate()) < 0) {
+            Timer timer = new Timer();
+            timers.add(timer);
+            timer.schedule(new TimerTask() {
+                @Override
+                public void run() {
+//                    new Notification( task, false);
+                    try {
+                        session.getBasicRemote().sendText(String.format("The execution time for the \"%s\" task has come to an end.", task.getName()));
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    timers.remove(timer);
+                }
+            }, Date.from(task.getDueDate()
+                    .atZone(ZoneId.systemDefault())
+                    .toInstant()));
+//        }
     }
 }

@@ -126,7 +126,7 @@ public class TasksView extends JFrame implements TasksObserver {
         getContentPane().add(journal);
 //        pack();
 
-        //tasksController.readFromFile();
+//        tasksController.readFromFile();
         tasksController.updateJournalFromServer();
         update(tasksController.getModel().getJournal());
         setVisible(true);
