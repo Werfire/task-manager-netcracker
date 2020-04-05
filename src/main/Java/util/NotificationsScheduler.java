@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.concurrent.Future;
 
 
 public class NotificationsScheduler {
@@ -54,24 +55,22 @@ public class NotificationsScheduler {
         }
     }
 
-    public static <session> void scheduleNotifications(Task task,Session session){
-//        if(LocalDateTime.now().compareTo(task.getDueDate()) < 0) {
+    public static void scheduleNotifications(Task task, Session session){
+        if(LocalDateTime.now().compareTo(task.getDueDate()) < 0) {
             Timer timer = new Timer();
             timers.add(timer);
             timer.schedule(new TimerTask() {
                 @Override
                 public void run() {
 //                    new Notification( task, false);
-                    try {
-                        session.getBasicRemote().sendText(String.format("The execution time for the \"%s\" task has come to an end.", task.getName()));
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
+                    // session.getBasicRemote().sendText(String.format("Время выполнения задачи \"%s\" подошло к концу.", task.getName()));
+                    Future<Void> deliveryTracker = session.getAsyncRemote().sendText(String.format("Время выполнения задачи \"%s\" подошло к концу.", task.getName()));
+                    deliveryTracker.isDone();
                     timers.remove(timer);
                 }
             }, Date.from(task.getDueDate()
                     .atZone(ZoneId.systemDefault())
                     .toInstant()));
-//        }
+        }
     }
 }
