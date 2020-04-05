@@ -3,7 +3,7 @@ package controllers;
 import models.User;
 import models.UsersModel;
 import views.ErrorDialog;
-import views.ErrorType;
+import util.ErrorType;
 
 import javax.annotation.Nonnull;
 import javax.swing.*;

@@ -1,5 +1,7 @@
 package views;
 
+import util.ErrorType;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -12,7 +14,7 @@ public class ErrorDialog extends JDialog {
             "Task's description must not be longer than 256 characters.",
             "Due date's input format is incorrect (e.g. \"2019 31.12 12:30\").",
             "Due date is already in the past.",
-            "Something went wrong with writing/reading of file.",
+            "Something went wrong with writing/reading.",
             "This type of data is not supported.",
             "Wrong username or password.",
             "This username already taken.",
@@ -28,7 +30,7 @@ public class ErrorDialog extends JDialog {
         if(errorType.getErrNumber() <= 3)
             setTitle("User input error");
         else if(errorType.getErrNumber() <= 5)
-            setTitle("File IO error");
+            setTitle("IO error");
         else if(errorType.getErrNumber() <= 6)
             setTitle("Login error");
         else if(errorType.getErrNumber() <= 10)
