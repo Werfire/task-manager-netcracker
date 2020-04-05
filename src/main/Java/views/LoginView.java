@@ -3,6 +3,8 @@ package views;
 import controllers.TasksController;
 import models.User;
 import  controllers.UsersController;
+import util.ErrorType;
+
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -52,7 +54,7 @@ public class LoginView extends JFrame {
                     try {
                         onLog(tasksController);
                     } catch (ClassNotFoundException | UnsupportedLookAndFeelException | InstantiationException | IllegalAccessException | IOException ex) {
-                        new ErrorDialog((JFrame)getParent(),ErrorType.SOME_SYSTEM_ERROR);
+                        new ErrorDialog((JFrame)getParent(), ErrorType.SOME_SYSTEM_ERROR);
                     }
                 }
             });

@@ -1,4 +1,4 @@
-package views;
+package util;
 
 public enum ErrorType {
     NAME_UNIQUENESS_OR_LENGTH(0),

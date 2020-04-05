@@ -3,6 +3,8 @@ package views;
 import controllers.TasksController;
 import models.User;
 import controllers.UsersController;
+import util.ErrorType;
+
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;

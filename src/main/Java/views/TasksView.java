@@ -1,11 +1,17 @@
 package views;
-import javax.inject.Inject;
 import javax.swing.*;
 
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
+import javax.ws.rs.client.Client;
+import javax.ws.rs.client.ClientBuilder;
+import javax.ws.rs.client.Entity;
+import javax.ws.rs.client.WebTarget;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
@@ -20,6 +26,7 @@ import controllers.UsersController;
 import interfaces.TasksObserver;
 import models.MutableTask;
 import models.User;
+import util.ErrorType;
 import util.NotificationsScheduler;
 import controllers.TasksController;
 
@@ -73,13 +80,20 @@ public class TasksView extends JFrame implements TasksObserver {
         completeButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                tasksController.changeStatus(tasksIDs.get(tasksTable.convertRowIndexToModel(selectedRow)), "Completed");
+                UUID id = tasksIDs.get(tasksTable.convertRowIndexToModel(selectedRow));
+                tasksController.changeStatus(id, "Completed");
+                makePutRequest(tasksController.get(id));
             }
         });
         deleteButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                tasksController.delete(tasksIDs.get(tasksTable.convertRowIndexToModel(selectedRow)));
+                UUID id = tasksIDs.get(tasksTable.convertRowIndexToModel(selectedRow));
+                tasksController.delete(id);
+                Client client = ClientBuilder.newClient();
+                WebTarget webTarget = client.target("http://localhost:8080/rest").path(
+                        String.format("api/tasks/%s", id));
+                webTarget.request(MediaType.TEXT_PLAIN).delete();
             }
         });
         deleteButton.setEnabled(false);
@@ -145,7 +159,9 @@ public class TasksView extends JFrame implements TasksObserver {
         }
         tableModel.addTableModelListener(new TableModelListener() {
             public void tableChanged(TableModelEvent e) {
+                UUID id = tasksIDs.get(tasksTable.convertRowIndexToModel(selectedRow));
                 String value = tasksTable.getModel().getValueAt(selectedRow, selectedColumn).toString();
+
                 switch(selectedColumn) {
                     case 0:
                         if(value.length() == 0 || value.length() > 24 ||
@@ -154,8 +170,10 @@ public class TasksView extends JFrame implements TasksObserver {
                             new ErrorDialog((JFrame) getParent(), ErrorType.NAME_UNIQUENESS_OR_LENGTH);
                             update(tasksController.getModel().getJournal());
                         }
-                        else
-                            tasksController.editName(tasksIDs.get(tasksTable.convertRowIndexToModel(selectedRow)), value);
+                        else {
+                            tasksController.editName(id, value);
+                            makePutRequest(tasksController.get(id));
+                        }
                         break;
                     case 1:
                         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy dd.MM HH:mm");
@@ -175,22 +193,33 @@ public class TasksView extends JFrame implements TasksObserver {
                             update(tasksController.getModel().getJournal());
                         }
 
-                        if(!error)
-                            tasksController.editDueDate(tasksIDs.get(tasksTable.convertRowIndexToModel(selectedRow)), dueDate);
+                        if(!error) {
+                            tasksController.editDueDate(id, dueDate);
+                            makePutRequest(tasksController.get(id));
+                        }
                         break;
                     case 2:
                         if(value.length() > 256) {
                             new ErrorDialog(TasksView.this, ErrorType.DESCRIPTION_LENGTH);
                             update(tasksController.getModel().getJournal());
                         }
-                        else
-                            tasksController.editDescription(tasksIDs.get(tasksTable.convertRowIndexToModel(selectedRow)), value);
+                        else {
+                            tasksController.editDescription(id, value);
+                            makePutRequest(tasksController.get(id));
+                        }
                         break;
 
                 }
             }
         });
         tasksTable.setModel(tableModel);
+    }
+
+    public void makePutRequest(MutableTask task) {
+        Client client = ClientBuilder.newClient();
+        WebTarget webTarget = client.target("http://localhost:8080/rest").path(
+                String.format("api/tasks/%s", task.getId()));
+        webTarget.request(MediaType.TEXT_PLAIN).put(Entity.json(task));
     }
 }
 

@@ -2,11 +2,16 @@ package views;
 
 import controllers.TasksController;
 import models.MutableTask;
-import models.Task;
 import models.User;
+import util.ErrorType;
 
-import javax.inject.Inject;
 import javax.swing.*;
+import javax.ws.rs.client.Client;
+import javax.ws.rs.client.ClientBuilder;
+import javax.ws.rs.client.Entity;
+import javax.ws.rs.client.WebTarget;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 import java.awt.*;
 import java.awt.event.*;
 import java.time.LocalDateTime;
@@ -28,6 +33,7 @@ public class TaskCreation extends JDialog {
 
     public TaskCreation(JFrame frame, TasksController controller, User user) {
         super(frame, "Task creation", true);
+        //contentPane.setLayout(new GridBagLayout());
         this.frame = frame;
         this.controller = controller;
         this.user = user;
@@ -92,9 +98,13 @@ public class TaskCreation extends JDialog {
             }
 
             if(!dateError) {
-                controller.add(new MutableTask(UUID.randomUUID(), nameField.getText(), descriptionArea.getText(),
+                MutableTask task = new MutableTask(UUID.randomUUID(), nameField.getText(), descriptionArea.getText(),
                         LocalDateTime.now(), LocalDateTime.parse(dateField.getText(), formatter),
-                        user.getId(), "In process"));
+                        user.getId(), "In process");
+                controller.add(task);
+                Client client = ClientBuilder.newClient();
+                WebTarget webTarget = client.target("http://localhost:8080/rest").path("api/tasks");
+                webTarget.request(MediaType.TEXT_PLAIN).post(Entity.json(task));
                 dispose();
             }
         }
