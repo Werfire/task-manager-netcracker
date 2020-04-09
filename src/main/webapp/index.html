@@ -80,7 +80,8 @@
     };
 
     webSocket.onopen = function(event) {
-        onOpen(event)
+        onOpen(event);
+        // setInterval(onOpen,1000)
     };
 
     webSocket.onmessage = function(event) {
@@ -89,9 +90,9 @@
 
     function onMessage(event) {
         Push.create('Диспетчер задач', {
-            body: event.data.toString(),
-            icon: 'http://imapo.ru/img/blockquote_bg.png',
-            timeout: 15000,
+            body: event.data,
+            icon: '/favicon.ico',
+            timeout: 20000,
             // tag: 'notice',
             onClick: function () {
                 window.focus();
@@ -101,11 +102,15 @@
     }
 
     function onOpen(event) {
+        // webSocket.send('checker');
+        // Push.Permission.has();
         // alert("Connection established");
+
     }
 
     function onError(event) {
         alert(event.data);
+        Push.clear();
     }
 </script>
 <script src="/static/js/2.dcc88a02.chunk.js"></script>

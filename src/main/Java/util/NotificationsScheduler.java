@@ -56,21 +56,22 @@ public class NotificationsScheduler {
     }
 
     public static void scheduleNotifications(Task task, Session session){
-        if(LocalDateTime.now().compareTo(task.getDueDate()) < 0) {
+//        if(LocalDateTime.now().compareTo(task.getDueDate()) < 0) {
             Timer timer = new Timer();
             timers.add(timer);
+//                    System.out.println("CHECKPOINT");
             timer.schedule(new TimerTask() {
                 @Override
                 public void run() {
 //                    new Notification( task, false);
-                    // session.getBasicRemote().sendText(String.format("Время выполнения задачи \"%s\" подошло к концу.", task.getName()));
-                    Future<Void> deliveryTracker = session.getAsyncRemote().sendText(String.format("Время выполнения задачи \"%s\" подошло к концу.", task.getName()));
-                    deliveryTracker.isDone();
+                    session.getAsyncRemote().sendText(String.format("Время выполнения задачи \"%s\" подошло к концу.", task.getName()));
+                    //                    Future<Void> deliveryTracker = session.getAsyncRemote().sendText(String.format("Время выполнения задачи \"%s\" подошло к концу.", task.getName()));
+//                    deliveryTracker.isDone();
                     timers.remove(timer);
                 }
             }, Date.from(task.getDueDate()
                     .atZone(ZoneId.systemDefault())
                     .toInstant()));
         }
-    }
+//    }
 }
