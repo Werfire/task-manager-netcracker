@@ -23,7 +23,7 @@ public class JsonIO {
     public static Map<UUID, MutableTask> readTasks() throws FileNotFoundException, JsonProcessingException, IOException {
         ObjectMapper mapper = new ObjectMapper();
         mapper.registerModule(new JavaTimeModule());
-        TypeReference<Map<UUID, Task>> typeRef = new TypeReference<>() {};
+        TypeReference<Map<UUID, Task>> typeRef = new TypeReference<Map<UUID, Task>>() {};
         Map<UUID, Task> journal = mapper.readValue(new File("tasks.json"), typeRef);
         return TasksModel.hashMapToMutableTasks(journal);
     }

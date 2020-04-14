@@ -28,6 +28,7 @@ public class TasksModel implements Serializable, TasksObservable {
     }
 
     public void deleteTask(UUID id) {
+        //todo check id
         journal.remove(id);
         notifyObservers();
     }
