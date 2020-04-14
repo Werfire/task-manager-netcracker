@@ -109,7 +109,7 @@ public class TasksController {
             String json = response.readEntity(String.class);
             ObjectMapper mapper = new ObjectMapper();
             mapper.registerModule(new JavaTimeModule());
-            TypeReference<Map<UUID, Task>> typeRef = new TypeReference<>(){};
+            TypeReference<Map<UUID, Task>> typeRef = new TypeReference<Map<UUID, Task>>(){};
             model.setJournal(TasksModel.hashMapToMutableTasks(mapper.readValue(json, typeRef)));
         }
         catch(IOException ex) {

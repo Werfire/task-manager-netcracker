@@ -34,7 +34,7 @@ public class ServerTasksModelManager implements TasksObserver {
             JsonIO.writeTasks(journal);
         }
         catch(IOException e) {
-            System.out.println("Error occurred while saving TasksModel data.");
+            throw new RuntimeException("Error occurred while saving TasksModel data.", e);
         }
     }
 }
