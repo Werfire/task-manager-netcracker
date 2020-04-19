@@ -1,10 +1,14 @@
 package net;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import controllers.TasksController;
 import models.MutableTask;
+import models.TasksModel;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
+import java.io.IOException;
 import java.util.*;
 
 @Path("api")
@@ -27,8 +31,12 @@ public class TasksResource {
     @Path("tasks")
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public HashMap<UUID, MutableTask> getTasksJournal() {
-        return tasksController.getModel().getJournal();
+    public String getTasksJournal() throws IOException {
+        System.out.println("Get method called.");
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.registerModule(new JavaTimeModule());
+        return mapper.writerWithDefaultPrettyPrinter().writeValueAsString(
+                TasksModel.hashMapToImmutableTasks(tasksController.getModel().getJournal()));
     }
 
     @Path("tasks/{id}")
