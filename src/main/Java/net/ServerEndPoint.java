@@ -39,13 +39,12 @@ public class ServerEndPoint {
 
 //        System.out.println("Received: " + message);
 //        session.getBasicRemote().sendText("This is the server message!");
+
     }
 
     @OnOpen
     public void onOpen(Session session) throws IOException, EncodeException, ParseException {
         System.out.println("Connection is opened");
-
-
 //        String url = "http://localhost:8080/rest/api/tasks";
 //        HttpURLConnection connection = (HttpURLConnection) new URL(url).openConnection();
 //        connection.setRequestMethod("GET");
@@ -57,33 +56,15 @@ public class ServerEndPoint {
 //            journal.put((UUID)temp.get("id"), curTask);
 //        }
 //        journal = (HashMap<UUID, MutableTask>) new TasksResource().getTasksJournal().getEntity();
+//        session.getBasicRemote().sendText("Check");
         for (HashMap.Entry<UUID, MutableTask> entry : journal.entrySet()) {
             NotificationsScheduler.scheduleNotifications(entry.getValue(), session);
         }
-
-//        run.start();
-
-
-
     }
 
     @OnClose
     public void onClose() {
         System.out.println("Connection is closed");
     }
-//    Thread run = new Thread( new Runnable() {
-//        @Override
-//        public void run() {
-//            while (true){
-//                for (HashMap.Entry<UUID, MutableTask> entry : journal.entrySet()) {
-////                    NotificationsScheduler.scheduleNotifications(entry.getValue(), session);
-//                }
-//                try {
-//                    Thread.sleep(1000);
-//                } catch (InterruptedException e) {
-//                    e.printStackTrace();
-//                }
-//            }
-//        }
-//    });
+
 }
