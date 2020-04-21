@@ -2,14 +2,13 @@
 <html lang="en">
 <head>
     <meta charset="utf-8"/>
-    <link rel="icon" href="/src/front/build/favicon.ico"/>
+    <link rel="icon" href="/favicon.ico"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <meta name="theme-color" content="#000000"/>
     <meta name="description" content="Web site created using create-react-app"/>
-<!--    <meta http-equiv="Content-Type" content="text/html; Charset=UTF-8">-->
-    <link rel="apple-touch-icon" href="/src/front/build/logo192.pnguild/logo192.png"/>
-    <link rel="manifest" href="/src/front/build/manifest.jsonld/manifest.json"/>
-    <title>Task Manager - NetCracker</title>
+    <link rel="apple-touch-icon" href="/logo192.png"/>
+    <link rel="manifest" href="/manifest.json"/>
+    <title>React App</title>
     <link href="/static/css/main.5f361e03.chunk.css" rel="stylesheet">
 </head>
 <body>
@@ -73,49 +72,7 @@
     var p = l;
     t()
 }([])</script>
-<script type="text/javascript">
-    var webSocket = new WebSocket('ws://localhost:8080/websocket');
-
-    webSocket.onerror = function(event) {
-        onError(event)
-    };
-
-    webSocket.onopen = function(event) {
-        onOpen(event);
-        // setInterval(onOpen,1000)
-    };
-
-    webSocket.onmessage = function(event) {
-        onMessage(event)
-    };
-
-    function onMessage(event) {
-        Push.create('Диспетчер задач', {
-            body: event.data,
-            icon: '/favicon.ico',
-            timeout: 20000,
-            // tag: 'notice',
-            onClick: function () {
-                window.focus();
-                this.close();
-            }
-        });
-    }
-
-    function onOpen(event) {
-        // webSocket.send('checker');
-        // Push.Permission.has();
-        // alert("Connection established");
-
-    }
-
-    function onError(event) {
-        alert(event.data);
-        Push.clear();
-    }
-</script>
 <script src="/static/js/2.dcc88a02.chunk.js"></script>
-<script src="/static/js/main.da993e5c.chunk.js"></script>
-<script src="/static/js/push.min.js"></script>
+<script src="/static/js/main.4086372d.chunk.js"></script>
 </body>
 </html>
