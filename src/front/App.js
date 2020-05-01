@@ -41,8 +41,20 @@ const tableIcons = {
 };
 
 class App extends React.Component {
-    state = { data: []}
-
+    // state = { data: []}
+    constructor(props) {
+        super(props);
+        this.state = {
+            columns: [
+                {title: "Название", field: "name"},
+                {title: "Описание", field: "description", initialEditValue: 'initial edit value'},
+                {title: "Дата создания", field: "creationDate", type: "date"},
+                {title: "Дата выполнения", field: "dueDate", type: "date"},
+                {title: "Статус", field: "statusId"}
+            ],
+            data: []
+        }
+    }
     componentDidMount() {
         const URL = 'http://localhost:8080/rest/api/tasks'
         fetch(URL)
@@ -54,7 +66,6 @@ class App extends React.Component {
                     arr.push(value);
                 }
                 this.setState({data: arr});
-
             });
     }
 
@@ -62,16 +73,47 @@ class App extends React.Component {
         return (
             <div style={{maxWidth: "100%"}}>
                 <MaterialTable
-                    columns={[
-                        {title: "Название", field: "name"},
-                        {title: "Описание", field: "description"},
-                        {title: "Дата создания", field: "creationDate", type: "date"},
-                        {title: "Дата выполнения", field: "dueDate", type: "date"},
-                        {title: "Статус", field: "statusId"}
-                    ]}
-                    data={this.state.data}
                     title="Диспетчер задач"
+                    columns={this.state.columns}
+                    data={this.state.data}
                     icons={tableIcons}
+                    editable={{
+                        onRowAdd: newData =>
+                            new Promise((resolve, reject) => {
+                                setTimeout(() => {
+                                    {
+                                        const data = this.state.data;
+                                        data.push(newData);
+                                        this.setState({ data }, () => resolve());
+                                    }
+                                    resolve()
+                                }, 1000)
+                            }),
+                        onRowUpdate: (newData, oldData) =>
+                            new Promise((resolve, reject) => {
+                                setTimeout(() => {
+                                    {
+                                        const data = this.state.data;
+                                        const index = data.indexOf(oldData);
+                                        data[index] = newData;
+                                        this.setState({ data }, () => resolve());
+                                    }
+                                    resolve()
+                                }, 1000)
+                            }),
+                        onRowDelete: oldData =>
+                            new Promise((resolve, reject) => {
+                                setTimeout(() => {
+                                    {
+                                        let data = this.state.data;
+                                        const index = data.indexOf(oldData);
+                                        data.splice(index, 1);
+                                        this.setState({ data }, () => resolve());
+                                    }
+                                    resolve()
+                                }, 1000)
+                            }),
+                    }}
                 />
             </div>
         );
