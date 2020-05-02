@@ -114,6 +114,18 @@ class App extends React.Component {
                                 }, 1000)
                             }),
                     }}
+                    actions={[
+                        {
+                            icon: tableIcons.Edit,
+                            tooltip: 'Редактировать',
+                            onClick: (event, rowData) => alert("Вы изменили " + rowData.name)
+                        },
+                        {
+                            icon: tableIcons.Delete,
+                            tooltip: 'Удалить',
+                            onClick: (event, rowData) => confirm("Вы хотите удалить " + rowData.name)
+                        }
+                    ]}
                 />
             </div>
         );
