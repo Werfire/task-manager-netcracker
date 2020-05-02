@@ -52,7 +52,9 @@ class App extends React.Component {
                 {title: "Дата выполнения", field: "dueDate", type: "date"},
                 {title: "Статус", field: "statusId"}
             ],
-            data: [this.componentDidMount()]
+            data: [],
+            actions:[],
+
         }
     }
     componentDidMount() {
