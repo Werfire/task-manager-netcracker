@@ -72,7 +72,49 @@
     var p = l;
     t()
 }([])</script>
+<script type="text/javascript">
+    var webSocket = new WebSocket('ws://localhost:8080/websocket');
+
+    webSocket.onerror = function(event) {
+        onError(event)
+    };
+
+    webSocket.onopen = function(event) {
+        onOpen(event);
+        // setInterval(onOpen,1000)
+    };
+
+    webSocket.onmessage = function(event) {
+        onMessage(event)
+    };
+
+    function onMessage(event) {
+        Push.create('Диспетчер задач', {
+            body: event.data,
+            icon: '/favicon.ico',
+            timeout: 20000,
+            // tag: 'notice',
+            onClick: function () {
+                window.focus();
+                this.close();
+            }
+        });
+    }
+
+    function onOpen(event) {
+        // webSocket.send('checker');
+        // Push.Permission.has();
+        // alert("Connection established");
+
+    }
+
+    function onError(event) {
+        alert(event.data);
+        Push.clear();
+    }
+</script>
 <script src="/static/js/2.dcc88a02.chunk.js"></script>
 <script src="/static/js/main.4086372d.chunk.js"></script>
+<script src="/static/js/push.min.js"></script>
 </body>
 </html>

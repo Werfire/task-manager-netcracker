@@ -52,7 +52,7 @@ class App extends React.Component {
                 {title: "Дата выполнения", field: "dueDate", type: "date"},
                 {title: "Статус", field: "statusId"}
             ],
-            data: []
+            data: [this.componentDidMount()]
         }
     }
     componentDidMount() {
@@ -123,7 +123,7 @@ class App extends React.Component {
                         {
                             icon: tableIcons.Delete,
                             tooltip: 'Удалить',
-                            onClick: (event, rowData) => confirm("Вы хотите удалить " + rowData.name)
+                            onClick: (event, rowData) => window.confirm("Вы хотите удалить " + rowData.name)
                         }
                     ]}
                 />
