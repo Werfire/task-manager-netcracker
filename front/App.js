@@ -46,24 +46,24 @@ class App extends React.Component {
         super(props);
         this.state = {
             columns: [
+                {title: "Actions" , field: tableIcons.Edit },
                 {title: "Название", field: "name"},
-                {title: "Описание", field: "description", initialEditValue: 'initial edit value'},
+                {title: "Описание", field: "description", initialEditValue: 'Initial edit value'},
                 {title: "Дата создания", field: "creationDate", type: "date"},
                 {title: "Дата выполнения", field: "dueDate", type: "date"},
                 {title: "Статус", field: "statusId"}
             ],
-            data: [],
-            actions:[],
-
+            data: []
         }
     }
+r
     componentDidMount() {
         const URL = 'http://localhost:8080/rest/api/tasks'
         fetch(URL)
             .then(response => response.json())
             .then(data => {
                 console.log(data);
-                let arr = []
+                let arr = [];
                 for (let [key, value] of Object.entries(data)) {
                     arr.push(value);
                 }
@@ -72,6 +72,7 @@ class App extends React.Component {
     }
 
     render() {
+            console.log("CHECKPOINT");
         return (
             <div style={{maxWidth: "100%"}}>
                 <MaterialTable
@@ -85,7 +86,7 @@ class App extends React.Component {
                                 setTimeout(() => {
                                     {
                                         const data = this.state.data;
-                                        data.push(newData);
+                                        data.push(newData.value);
                                         this.setState({ data }, () => resolve());
                                     }
                                     resolve()
@@ -97,7 +98,7 @@ class App extends React.Component {
                                     {
                                         const data = this.state.data;
                                         const index = data.indexOf(oldData);
-                                        data[index] = newData;
+                                        data[index] = newData.value;
                                         this.setState({ data }, () => resolve());
                                     }
                                     resolve()
@@ -108,7 +109,7 @@ class App extends React.Component {
                                 setTimeout(() => {
                                     {
                                         let data = this.state.data;
-                                        const index = data.indexOf(oldData);
+                                        const index = data.indexOf(oldData.value);
                                         data.splice(index, 1);
                                         this.setState({ data }, () => resolve());
                                     }
