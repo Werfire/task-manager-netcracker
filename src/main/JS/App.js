@@ -46,7 +46,6 @@ class App extends React.Component {
         super(props);
         this.state = {
             columns: [
-                {title: "Actions" , field: tableIcons.Edit },
                 {title: "Название", field: "name"},
                 {title: "Описание", field: "description", initialEditValue: 'Initial edit value'},
                 {title: "Дата создания", field: "creationDate", type: "date"},
@@ -72,7 +71,6 @@ r
     }
 
     render() {
-            console.log("CHECKPOINT");
         return (
             <div style={{maxWidth: "100%"}}>
                 <MaterialTable
@@ -117,18 +115,6 @@ r
                                 }, 1000)
                             }),
                     }}
-                    actions={[
-                        {
-                            icon: tableIcons.Edit,
-                            tooltip: 'Редактировать',
-                            onClick: (event, rowData) => alert("Вы изменили " + rowData.name)
-                        },
-                        {
-                            icon: tableIcons.Delete,
-                            tooltip: 'Удалить',
-                            onClick: (event, rowData) => window.confirm("Вы хотите удалить " + rowData.name)
-                        }
-                    ]}
                 />
             </div>
         );
