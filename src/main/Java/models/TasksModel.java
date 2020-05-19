@@ -18,6 +18,7 @@ public class TasksModel implements Serializable, TasksObservable {
     }
 
     public void addTask(@Nonnull MutableTask task) {
+        task.setStatusId("In process");
         journal.put(task.getId(), task);
         notifyObservers();
     }

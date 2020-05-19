@@ -39,7 +39,6 @@ const tableIcons = {
     ThirdStateCheck: forwardRef((props, ref) => <Remove {...props} ref={ref}/>),
     ViewColumn: forwardRef((props, ref) => <ViewColumn {...props} ref={ref}/>)
 };
-
 class App extends React.Component {
     // state = { data: []}
     constructor(props) {
@@ -54,22 +53,24 @@ class App extends React.Component {
             ],
             data: []
         }
+        this.getTasks = this.getTasks.bind(this)
     }
-r
+   getTasks() {
+     const URL = 'http://localhost:8080/rest/api/tasks';
+     fetch(URL)
+         .then(response => response.json())
+         .then(data => {
+             console.log(data);
+             let arr = [];
+             for (let [key, value] of Object.entries(data)) {
+                 arr.push(value);
+             }
+             this.setState({data: arr});
+         });
+ }
     componentDidMount() {
-        const URL = 'http://localhost:8080/rest/api/tasks'
-        fetch(URL)
-            .then(response => response.json())
-            .then(data => {
-                console.log(data);
-                let arr = [];
-                for (let [key, value] of Object.entries(data)) {
-                    arr.push(value);
-                }
-                this.setState({data: arr});
-            });
+    this.getTasks();
     }
-
     render() {
         return (
             <div style={{maxWidth: "100%"}}>
@@ -80,40 +81,33 @@ r
                     icons={tableIcons}
                     editable={{
                         onRowAdd: newData =>
-                            new Promise((resolve, reject) => {
-                                setTimeout(() => {
-                                    {
-                                        const data = this.state.data;
-                                        data.push(newData.value);
-                                        this.setState({ data }, () => resolve());
-                                    }
-                                    resolve()
-                                }, 1000)
-                            }),
-                        onRowUpdate: (newData, oldData) =>
-                            new Promise((resolve, reject) => {
-                                setTimeout(() => {
-                                    {
-                                        const data = this.state.data;
-                                        const index = data.indexOf(oldData);
-                                        data[index] = newData.value;
-                                        this.setState({ data }, () => resolve());
-                                    }
-                                    resolve()
-                                }, 1000)
-                            }),
+                            fetch('http://localhost:8080/rest/api/tasks', {method: 'POST', body: newData.value})
+                                .then(response => response.json())
+                                .then(() => {
+                                    console.log("A new task has been added")
+                                    this.getTasks()
+                                }),
+                        onRowUpdate: (newData) =>
+                            fetch('http://localhost:8080/rest/api/tasks', {
+                                method: 'PUT',
+                                body: newData.value.id,
+                                newData
+                            })
+                                .then(response => response.json())
+                                .then(() => {
+                                    console.log("This task has been edited")
+                                    this.getTasks()
+                                }),
                         onRowDelete: oldData =>
-                            new Promise((resolve, reject) => {
-                                setTimeout(() => {
-                                    {
-                                        let data = this.state.data;
-                                        const index = data.indexOf(oldData.value);
-                                        data.splice(index, 1);
-                                        this.setState({ data }, () => resolve());
-                                    }
-                                    resolve()
-                                }, 1000)
-                            }),
+                            fetch('http://localhost:8080/rest/api/tasks', {
+                                method: 'DELETE',
+                                body: oldData.value.id
+                            })
+                                .then(response => response.json())
+                                .then(() => {
+                                    console.log("This task has been deleted")
+                                    this.getTasks()
+                                })
                     }}
                 />
             </div>
