@@ -16,7 +16,6 @@ public class ServerTasksModelManager implements TasksObserver {
     public static TasksController getTasksController() {
         if(tasksController != null)
             return tasksController;
-
         try {
             tasksController = new TasksController();
             tasksController.getModel().setJournal(JsonIO.readTasksFromDB());

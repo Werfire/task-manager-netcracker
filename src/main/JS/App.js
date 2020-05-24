@@ -3,6 +3,7 @@ import logo from './logo.svg';
 import './App.css';
 import MaterialTable from "material-table";
 import {forwardRef} from 'react';
+// import {Performance as LocalDateTime} from 'perf_hooks';
 
 import AddBox from '@material-ui/icons/AddBox';
 import ArrowDownward from '@material-ui/icons/ArrowDownward';
@@ -39,6 +40,20 @@ const tableIcons = {
     ThirdStateCheck: forwardRef((props, ref) => <Remove {...props} ref={ref}/>),
     ViewColumn: forwardRef((props, ref) => <ViewColumn {...props} ref={ref}/>)
 };
+
+function dateCast(dateStr) {
+    let a = new Date();
+    let arr = dateStr.split(' ');
+    a.setFullYear(arr[0], arr[1].split('.')[1], arr[1].split('.')[0]);
+    a.setHours(arr[2].split(':')[0], arr[2].split(':')[1]);
+    return a
+}
+
+function dateCastToString(dateO) {
+    if(typeof dateO === "string") dateO = new Date(dateO);
+    return `${dateO.getFullYear()} ${("0" + dateO.getDate()).slice(-2)}.${("0" + (dateO.getMonth() + 1)).slice(-2)} ${("0" + dateO.getHours()).slice(-2)}:${("0" + dateO.getMinutes()).slice(-2)}`;
+}
+
 class App extends React.Component {
     // state = { data: []}
     constructor(props) {
@@ -46,31 +61,37 @@ class App extends React.Component {
         this.state = {
             columns: [
                 {title: "Название", field: "name"},
-                {title: "Описание", field: "description", initialEditValue: 'Initial edit value'},
-                {title: "Дата создания", field: "creationDate", type: "date"},
-                {title: "Дата выполнения", field: "dueDate", type: "date"},
-                {title: "Статус", field: "statusId"}
+                {title: "Описание", field: "description"},
+                {title: "Дата создания", field: "creationDate", type: "datetime", initialEditValue: new Date()},
+                {title: "Дата выполнения", field: "dueDate", type: "datetime"},
+                {title: "Статус", field: "statusId", initialEditValue: 'In process'}
             ],
             data: []
         }
         this.getTasks = this.getTasks.bind(this)
     }
-   getTasks() {
-     const URL = 'http://localhost:8080/rest/api/tasks';
-     fetch(URL)
-         .then(response => response.json())
-         .then(data => {
-             console.log(data);
-             let arr = [];
-             for (let [key, value] of Object.entries(data)) {
-                 arr.push(value);
-             }
-             this.setState({data: arr});
-         });
- }
-    componentDidMount() {
-    this.getTasks();
+
+    getTasks() {
+        const URL = 'http://localhost:8080/rest/api/tasks';
+        fetch(URL)
+            .then(response => response.json())
+            .then(data => {
+                console.log(data);
+                let arr = [];
+                for (let [key, value] of Object.entries(data)) {
+                    value.creationDate = dateCast(value.creationDate);
+                    value.dueDate = dateCast(value.dueDate);
+
+                    arr.push(value);
+                }
+                this.setState({data: arr});
+            });
     }
+
+    componentDidMount() {
+        this.getTasks();
+    }
+
     render() {
         return (
             <div style={{maxWidth: "100%"}}>
@@ -80,30 +101,54 @@ class App extends React.Component {
                     data={this.state.data}
                     icons={tableIcons}
                     editable={{
-                        onRowAdd: newData =>
-                            fetch('http://localhost:8080/rest/api/tasks', {method: 'POST', body: newData.value})
-                                .then(response => response.json())
+                        onRowAdd: newData => {
+                            let body = {...newData};
+
+                            body.dueDate = dateCastToString(body.dueDate);
+                            body.creationDate = dateCastToString(body.creationDate);
+
+                            return fetch('http://localhost:8080/rest/api/tasks', {
+                                method: 'POST',
+                                // mode: 'no-cors',
+                                headers: {
+                                    'Content-Type': 'application/json'
+                                    // 'Content-Type': 'text/plain'
+                                },
+                                body: JSON.stringify(body)
+                            })
+                                // .then(response => response.json())
                                 .then(() => {
                                     console.log("A new task has been added")
                                     this.getTasks()
-                                }),
-                        onRowUpdate: (newData) =>
-                            fetch('http://localhost:8080/rest/api/tasks', {
+                                })
+                        },
+                        onRowUpdate: newData => {
+                            let body = {...newData};
+
+                            body.dueDate = dateCastToString(body.dueDate);
+                            body.creationDate = dateCastToString(body.creationDate);
+
+                            return fetch('http://localhost:8080/rest/api/tasks/' + newData.id, {
                                 method: 'PUT',
-                                body: newData.value.id,
-                                newData
+
+                                headers: {
+                                    'Content-Type': 'application/json'
+
+                                },
+                                body: JSON.stringify(body)
                             })
-                                .then(response => response.json())
                                 .then(() => {
                                     console.log("This task has been edited")
                                     this.getTasks()
-                                }),
+                                })
+                        },
                         onRowDelete: oldData =>
-                            fetch('http://localhost:8080/rest/api/tasks', {
+                            fetch('http://localhost:8080/rest/api/tasks/' + oldData.id, {
                                 method: 'DELETE',
-                                body: oldData.value.id
+                                // mode: 'no-cors',
+                                // body: oldData.id
                             })
-                                .then(response => response.json())
+                                // .then(response => response.json())
                                 .then(() => {
                                     console.log("This task has been deleted")
                                     this.getTasks()
