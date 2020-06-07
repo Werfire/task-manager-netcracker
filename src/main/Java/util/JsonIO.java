@@ -17,6 +17,7 @@ import com.mongodb.client.MongoCollection;
 import models.MutableTask;
 import models.Task;
 import models.TasksModel;
+import models.User;
 import org.bson.Document;
 
 import java.io.*;
@@ -41,6 +42,21 @@ public class JsonIO {
         out.write(mapper.writerWithDefaultPrettyPrinter().writeValueAsString(TasksModel.hashMapToImmutableTasks(journal)));
         out.close();
     }
+
+    public static void writeUsers(HashMap<UUID, User> users) throws IOException {
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.registerModule(new JavaTimeModule());
+        FileWriter out = new FileWriter("users.json");
+        out.write(mapper.writerWithDefaultPrettyPrinter().writeValueAsString(users));
+        out.close();
+    }
+    public static Map<UUID, User> readUsers() throws IOException {
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.registerModule(new JavaTimeModule());
+        TypeReference<Map<UUID, User>> typeRef = new TypeReference<Map<UUID, User>>() {};
+        return mapper.readValue(new File("users.json"), typeRef);
+    }
+
     public static Map<UUID, MutableTask> readTasksFromDB() throws IOException {
         final String uriString = "mongodb://localhost:27017/?readPreference=primary&appname=MongoDB%20Compass%20Community&ssl=false";
         MongoClient mongoClient = MongoClients.create(uriString);

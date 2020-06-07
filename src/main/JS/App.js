@@ -3,8 +3,7 @@ import logo from './logo.svg';
 import './App.css';
 import MaterialTable from "material-table";
 import {forwardRef} from 'react';
-// import {Performance as LocalDateTime} from 'perf_hooks';
-
+import { authenticationService } from './services/authentification.service';
 import AddBox from '@material-ui/icons/AddBox';
 import ArrowDownward from '@material-ui/icons/ArrowDownward';
 import Check from '@material-ui/icons/Check';
@@ -54,6 +53,7 @@ function dateCastToString(dateO) {
     return `${dateO.getFullYear()} ${("0" + dateO.getDate()).slice(-2)}.${("0" + (dateO.getMonth() + 1)).slice(-2)} ${("0" + dateO.getHours()).slice(-2)}:${("0" + dateO.getMinutes()).slice(-2)}`;
 }
 
+
 class App extends React.Component {
     // state = { data: []}
     constructor(props) {
@@ -68,6 +68,11 @@ class App extends React.Component {
             ],
             data: []
         }
+
+        this.state = {
+            currentUser: authenticationService.currentUserValue,
+            userFromApi: null
+        };
         this.getTasks = this.getTasks.bind(this)
     }
 
@@ -90,6 +95,18 @@ class App extends React.Component {
 
     componentDidMount() {
         this.getTasks();
+        const { currentUser } = this.state;
+
+        // function getById(id) {
+        //     const requestOptions = { method: 'GET', headers: authHeader() };
+        //     return fetch(`/users/${id}`, requestOptions);
+        // }
+        //
+        // getById(currentUser.id).then(userFromApi => this.setState({ userFromApi }));
+    }
+    logout() {
+        authenticationService.logout();
+        localStorage.push('/login');
     }
 
     render() {
@@ -111,7 +128,8 @@ class App extends React.Component {
                                 method: 'POST',
                                 // mode: 'no-cors',
                                 headers: {
-                                    'Content-Type': 'application/json'
+                                    'Content-Type': 'application/json',
+                                    // 'Authorization': authHeader()
                                     // 'Content-Type': 'text/plain'
                                 },
                                 body: JSON.stringify(body)
@@ -132,8 +150,8 @@ class App extends React.Component {
                                 method: 'PUT',
 
                                 headers: {
-                                    'Content-Type': 'application/json'
-
+                                    'Content-Type': 'application/json',
+                                    // 'Authorization': authHeader()
                                 },
                                 body: JSON.stringify(body)
                             })
@@ -145,6 +163,9 @@ class App extends React.Component {
                         onRowDelete: oldData =>
                             fetch('http://localhost:8080/rest/api/tasks/' + oldData.id, {
                                 method: 'DELETE',
+                                headers: {
+                                    // 'Authorization': authHeader()
+                                }
                                 // mode: 'no-cors',
                                 // body: oldData.id
                             })

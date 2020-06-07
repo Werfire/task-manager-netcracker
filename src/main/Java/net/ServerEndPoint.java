@@ -30,7 +30,7 @@ import  util.NotificationsScheduler;
 
 @ServerEndpoint("/websocket")
 public class ServerEndPoint {
-    HashMap<UUID, MutableTask> journal = (HashMap<UUID, MutableTask>) JsonIO.readTasks();
+    HashMap<UUID, MutableTask> journal = (HashMap<UUID, MutableTask>) JsonIO.readTasksFromDB();
     public ServerEndPoint() throws IOException {
     }
 

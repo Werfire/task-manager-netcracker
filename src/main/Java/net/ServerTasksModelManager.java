@@ -18,7 +18,8 @@ public class ServerTasksModelManager implements TasksObserver {
             return tasksController;
         try {
             tasksController = new TasksController();
-            tasksController.getModel().setJournal(JsonIO.readTasksFromDB());
+//            tasksController.getModel().setJournal(JsonIO.readTasksFromDB());
+            tasksController.getModel().setJournal(JsonIO.readTasks());
         }
         catch(IOException e) {
             System.out.println("Error occurred while reading TasksModel data.");
