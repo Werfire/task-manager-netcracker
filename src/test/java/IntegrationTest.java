@@ -1,5 +1,5 @@
 import models.MutableTask;
-import net.TasksResource;
+import net.RestResource;
 import org.glassfish.jersey.server.ResourceConfig;
 import org.glassfish.jersey.test.JerseyTest;
 import org.json.simple.JSONObject;
@@ -26,7 +26,7 @@ public class IntegrationTest extends JerseyTest {
 
     @Override
     protected Application configure() {
-        return new ResourceConfig(TasksResource.class);
+        return new ResourceConfig(RestResource.class);
     }
 
     @BeforeEach
@@ -107,7 +107,7 @@ public class IntegrationTest extends JerseyTest {
         }
     }
 
-        @Test
+    @Test
     public void TestDeleteRequest(){
             Collection<MutableTask> tasks = journal.values();
             Optional<MutableTask> mutableTask = tasks.stream().findFirst();

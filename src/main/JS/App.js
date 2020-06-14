@@ -175,6 +175,18 @@ class App extends React.Component {
                                     this.getTasks()
                                 })
                     }}
+                    localization={{
+                        header: {
+                            actions: "Действия"
+                        },
+                        body:{
+                            emptyDataSourceMessage: "Нет задач для отображения",
+                            addTooltip: "Добавить задачу",
+                            deleteTooltip: "Удалить задачу",
+                            editTooltip: "Изменить задачу"
+                        }
+                    }
+                    }
                 />
             </div>
         );

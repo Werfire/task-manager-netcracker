@@ -8,14 +8,14 @@ import util.ErrorType;
 import javax.annotation.Nonnull;
 import javax.swing.*;
 import java.io.*;
+import java.util.UUID;
 
 public class UsersController implements Serializable {
     @Nonnull private UsersModel model;
     @Nonnull public JFrame mainFrame = new JFrame();
 
-    public UsersController() throws IOException, ClassNotFoundException {
+    public UsersController() {
         model = new UsersModel();
-        readFromFile();
     }
 
     public UsersController(@Nonnull UsersModel model) {
@@ -24,6 +24,12 @@ public class UsersController implements Serializable {
 
     public void add(User user) {
         model.addUser(user);
+    }
+
+    public User get(UUID id) { return model.getUser(id); }
+
+    public void delete (UUID id) {
+        model.deleteUser(id);
     }
 
     @Nonnull

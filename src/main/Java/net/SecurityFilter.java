@@ -21,7 +21,6 @@ public class SecurityFilter implements ContainerRequestFilter {
     @Override
     public void filter(ContainerRequestContext requestContext) throws IOException {
         if (requestContext.getUriInfo().getPath().contains(SECURED_URL_PREFIX)) {
-            // TODO Auto-generated method stub
             List<String> authHeader = requestContext.getHeaders().get(AUTHORIZATION_HEADER_KEY);
             if ( authHeader != null && authHeader.size() > 0) {
                 String authToken = authHeader.get(0);

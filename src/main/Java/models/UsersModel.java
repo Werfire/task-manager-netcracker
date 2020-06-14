@@ -7,10 +7,7 @@ import interfaces.UsersObserver;
 
 import javax.annotation.Nonnull;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 public class UsersModel implements Serializable, UsersObservable {
     private HashMap<UUID, User> users = new HashMap<>();
@@ -22,6 +19,15 @@ public class UsersModel implements Serializable, UsersObservable {
         this.users = new HashMap<>(model.users);
     }
 
+    public HashMap<UUID, User> getMap() {
+        return users;
+    }
+
+    public void setMap(Map<UUID, User> map) {
+        this.users = new HashMap<>(map);
+        notifyObservers();
+    }
+
     public void addUser(@Nonnull User user) {
         users.put(user.getId(),user);
         notifyObservers();
@@ -29,9 +35,6 @@ public class UsersModel implements Serializable, UsersObservable {
 
     public User getUser(UUID id) {
         return users.get(id);
-    }
-    public HashMap<UUID, User> getJournal() {
-        return users;
     }
 
     public void deleteUser(UUID id) {

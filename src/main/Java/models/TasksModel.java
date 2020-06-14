@@ -17,11 +17,19 @@ public class TasksModel implements Serializable, TasksObservable {
         this.journal = new HashMap<>(model.journal);
     }
 
+    public HashMap<UUID, MutableTask> getJournal() {
+        return journal;
+    }
+
+    public void setJournal(Map<UUID, MutableTask> journal) {
+        this.journal = new HashMap<>(journal);
+        notifyObservers();
+    }
+
     public void addTask(@Nonnull MutableTask task) {
         journal.put(task.getId(), task);
         notifyObservers();
     }
-
 
     public MutableTask getTask(UUID id) {
         return journal.get(id);
@@ -31,15 +39,6 @@ public class TasksModel implements Serializable, TasksObservable {
         //todo check id
         journal.remove(id);
         notifyObservers();
-    }
-
-    public void setJournal(Map<UUID, MutableTask> journal) {
-        this.journal = new HashMap<>(journal);
-        notifyObservers();
-    }
-
-    public HashMap<UUID, MutableTask> getJournal() {
-        return journal;
     }
 
     public int size() {
