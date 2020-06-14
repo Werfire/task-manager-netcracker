@@ -1,5 +1,6 @@
 package models;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.google.common.base.MoreObjects;
 
 import java.io.Serializable;
@@ -7,6 +8,7 @@ import java.io.StreamTokenizer;
 import java.util.Objects;
 import java.util.UUID;
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class User implements Serializable {
     private UUID id;
     private String username;
