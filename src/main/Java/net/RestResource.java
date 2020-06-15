@@ -25,6 +25,8 @@ import static com.mongodb.client.model.Filters.eq;
 @Path("api")
 public class RestResource {
 
+    final static String uriString = "mongodb://localhost:27017/?readPreference=primary&appname=MongoDB%20Compass%20Community&ssl=false";
+
     TasksController tasksController = ServerTasksModelManager.getTasksController();
     UsersController usersController = ServerUsersModelManager.getUsersController();
 
@@ -44,7 +46,6 @@ public class RestResource {
         System.out.println("Post method called.");
         tasksController.add(task);
 
-        final String uriString = "mongodb://localhost:27017/?readPreference=primary&appname=MongoDB%20Compass%20Community&ssl=false";
         MongoClient mongoClient = MongoClients.create(uriString);
         MongoCollection<Document> tasksCollection = mongoClient.getDatabase("taskManager").getCollection("tasks");
         ObjectMapper mapper = new ObjectMapper();
@@ -95,7 +96,6 @@ public class RestResource {
         task.setId(id);
         tasksController.add(task);
 
-        final String uriString = "mongodb://localhost:27017/?readPreference=primary&appname=MongoDB%20Compass%20Community&ssl=false";
         MongoClient mongoClient = MongoClients.create(uriString);
         MongoCollection<Document> tasksCollection = mongoClient.getDatabase("taskManager").getCollection("tasks");
         ObjectMapper mapper = new ObjectMapper();
@@ -110,7 +110,6 @@ public class RestResource {
         System.out.println("Delete method called.");
         tasksController.delete(id);
 
-        final String uriString = "mongodb://localhost:27017/?readPreference=primary&appname=MongoDB%20Compass%20Community&ssl=false";
         MongoClient mongoClient = MongoClients.create(uriString);
         MongoCollection<Document> tasksCollection = mongoClient.getDatabase("taskManager").getCollection("tasks");
         tasksCollection.deleteOne(eq("id", id.toString()));
@@ -135,7 +134,6 @@ public class RestResource {
         System.out.println("Post method called.");
         usersController.add(user);
 
-        final String uriString = "mongodb://localhost:27017/?readPreference=primary&appname=MongoDB%20Compass%20Community&ssl=false";
         MongoClient mongoClient = MongoClients.create(uriString);
         MongoCollection<Document> usersCollection = mongoClient.getDatabase("taskManager").getCollection("users");
         ObjectMapper mapper = new ObjectMapper();
@@ -184,7 +182,6 @@ public class RestResource {
         user.setId(id);
         usersController.add(user);
 
-        final String uriString = "mongodb://localhost:27017/?readPreference=primary&appname=MongoDB%20Compass%20Community&ssl=false";
         MongoClient mongoClient = MongoClients.create(uriString);
         MongoCollection<Document> usersCollection = mongoClient.getDatabase("taskManager").getCollection("users");
         ObjectMapper mapper = new ObjectMapper();
@@ -198,7 +195,6 @@ public class RestResource {
         System.out.println("Delete method called.");
         usersController.delete(id);
 
-        final String uriString = "mongodb://localhost:27017/?readPreference=primary&appname=MongoDB%20Compass%20Community&ssl=false";
         MongoClient mongoClient = MongoClients.create(uriString);
         MongoCollection<Document> tasksCollection = mongoClient.getDatabase("taskManager").getCollection("users");
         tasksCollection.deleteOne(eq("id", id.toString()));

@@ -23,6 +23,9 @@ import java.text.ParseException;
 import java.util.*;
 
 public class JsonIO {
+
+    final static String uriString = "mongodb://localhost:27017/?readPreference=primary&appname=MongoDB%20Compass%20Community&ssl=false";
+
     public static Map<UUID, MutableTask> readTasks() throws IOException {
         ObjectMapper mapper = new ObjectMapper();
         mapper.registerModule(new JavaTimeModule());
@@ -53,7 +56,6 @@ public class JsonIO {
     }
 
     public static Map<UUID, MutableTask> readTasksFromDB() throws IOException {
-        final String uriString = "mongodb://localhost:27017/?readPreference=primary&appname=MongoDB%20Compass%20Community&ssl=false";
         MongoClient mongoClient = MongoClients.create(uriString);
         MongoCollection<Document> tasksCollection = mongoClient.getDatabase("taskManager").getCollection("tasks");
 
@@ -80,7 +82,6 @@ public class JsonIO {
     }
 
     public static void writeTasksToDB(HashMap<UUID, MutableTask> journal) throws IOException {
-        final String uriString = "mongodb://localhost:27017/?readPreference=primary&appname=MongoDB%20Compass%20Community&ssl=false";
         MongoClient mongoClient = MongoClients.create(uriString);
         MongoCollection<Document> tasksCollection = mongoClient.getDatabase("taskManager").getCollection("tasks");
 
@@ -100,7 +101,6 @@ public class JsonIO {
     }
 
     public static Map<UUID, User> readUsersFromDB() throws IOException {
-        final String uriString = "mongodb://localhost:27017/?readPreference=primary&appname=MongoDB%20Compass%20Community&ssl=false";
         MongoClient mongoClient = MongoClients.create(uriString);
         MongoCollection<Document> tasksCollection = mongoClient.getDatabase("taskManager").getCollection("users");
 
